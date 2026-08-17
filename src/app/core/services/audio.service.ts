@@ -95,6 +95,30 @@ export class AudioService {
     } catch {}
   }
 
+  // Synthesizes a crisp paper/leaf cutting blade slice
+  playBladeSlice(): void {
+    if (this.isMuted) return;
+    try {
+      const ctx = this.initContext();
+      const now = ctx.currentTime;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(1800, now);
+      osc.frequency.exponentialRampToValueAtTime(300, now + 0.08);
+
+      gain.gain.setValueAtTime(0.35, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.09);
+    } catch {}
+  }
+
   // Synthesizes heavy blunt hit impact
   playHit(): void {
     if (this.isMuted) return;

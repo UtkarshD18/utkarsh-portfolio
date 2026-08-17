@@ -166,9 +166,9 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       width: 100vw;
       height: 100vh;
       position: relative;
-      background: #0a0a0c;
+      background: radial-gradient(circle at 50% 50%, #1a1612 0%, #0c0b0a 70%, #050506 100%);
       overflow: hidden;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     }
     .hud-overlay {
       position: absolute;
@@ -177,7 +177,7 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 1.5rem 2rem;
+      padding: 1.8rem 2.5rem;
       z-index: 20;
     }
     .hud-header {
@@ -187,145 +187,170 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       pointer-events: auto;
     }
     .return-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: rgba(255, 255, 255, 0.85);
-      padding: 0.5rem 1rem;
+      background: rgba(22, 20, 18, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 163, 89, 0.3);
+      color: #f0c375;
+      padding: 0.55rem 1.2rem;
       border-radius: 6px;
       cursor: pointer;
+      font-family: 'Cinzel', serif;
       font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      transition: all 0.2s ease;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      transition: all 0.25s ease;
     }
     .return-btn:hover {
-      background: rgba(255, 255, 255, 0.18);
+      background: rgba(212, 163, 89, 0.2);
+      border-color: #f0c375;
+      box-shadow: 0 0 15px rgba(212, 163, 89, 0.4);
+      color: #fff;
     }
     .matchup-selector {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      gap: 1rem;
     }
     .char-select {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      padding: 0.4rem 0.8rem;
+      background: rgba(18, 16, 14, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 163, 89, 0.35);
+      color: #f3ede2;
+      padding: 0.45rem 1rem;
       border-radius: 6px;
+      font-family: 'Cinzel', serif;
       font-size: 0.85rem;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       outline: none;
+      letter-spacing: 0.05em;
     }
     .char-select option {
-      background: #121216;
-      color: #fff;
+      background: #110f0d;
+      color: #f3ede2;
     }
     .p1-select {
-      border-color: rgba(79, 172, 254, 0.5);
-      color: #4facfe;
+      border-color: rgba(212, 163, 89, 0.6);
+      color: #f0c375;
     }
     .p2-select {
-      border-color: rgba(255, 65, 108, 0.5);
-      color: #ff416c;
+      border-color: rgba(194, 54, 43, 0.6);
+      color: #e63946;
     }
     .vs-text {
-      color: rgba(255, 255, 255, 0.35);
-      font-size: 0.8rem;
-      font-weight: 800;
+      color: rgba(212, 163, 89, 0.5);
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
     }
     .mode-toggle-group {
       display: flex;
-      background: rgba(255, 255, 255, 0.06);
-      padding: 3px;
+      background: rgba(18, 16, 14, 0.8);
+      padding: 4px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(212, 163, 89, 0.25);
     }
     .mode-pill {
       background: transparent;
       border: none;
-      color: rgba(255, 255, 255, 0.5);
-      padding: 0.35rem 0.9rem;
+      color: rgba(243, 237, 226, 0.6);
+      padding: 0.4rem 1rem;
       border-radius: 999px;
+      font-family: 'Cinzel', serif;
       font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
+      font-weight: 800;
+      letter-spacing: 0.15em;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
     .mode-pill.active {
-      background: #4facfe;
-      color: #000;
-      box-shadow: 0 0 12px rgba(79, 172, 254, 0.5);
+      background: linear-gradient(135deg, #d4a359, #b58038);
+      color: #0c0b0a;
+      box-shadow: 0 0 14px rgba(212, 163, 89, 0.4);
     }
     .status-grid {
       display: grid;
-      grid-template-columns: 320px 1fr 320px;
-      gap: 1rem;
+      grid-template-columns: 340px 1fr 340px;
+      gap: 1.5rem;
       pointer-events: auto;
     }
     .opp-panel {
       grid-column: 3;
     }
     .fighter-card {
-      background: rgba(14, 14, 18, 0.75);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(18, 16, 14, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 163, 89, 0.25);
       border-radius: 12px;
-      padding: 1rem;
+      padding: 1.2rem 1.4rem;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.6rem;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
     }
     .card-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.9);
+      align-items: center;
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: #f3ede2;
+    }
+    .hp-num {
+      color: #f0c375;
+      font-weight: 900;
     }
     .bar-track {
       width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.08);
+      height: 9px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(212, 163, 89, 0.2);
       border-radius: 4px;
       overflow: hidden;
     }
     .stamina-track {
-      height: 4px;
+      height: 5px;
+      border-color: rgba(255, 255, 255, 0.1);
     }
     .bar-fill {
       height: 100%;
       transition: width 0.15s ease-out;
     }
     .hp-fill {
-      background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+      background: linear-gradient(90deg, #f0c375 0%, #d4a359 100%);
+      box-shadow: 0 0 10px rgba(212, 163, 89, 0.5);
     }
     .opp-hp {
-      background: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%);
+      background: linear-gradient(90deg, #e63946 0%, #c2362b 100%);
+      box-shadow: 0 0 10px rgba(194, 54, 43, 0.5);
     }
     .stamina-fill {
-      background: #00e676;
+      background: #e08b34;
     }
     .ult-btn {
       width: 100%;
       margin-top: 0.4rem;
-      padding: 0.4rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.4);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
+      padding: 0.5rem;
+      background: rgba(212, 163, 89, 0.08);
+      border: 1px solid rgba(212, 163, 89, 0.2);
+      color: rgba(212, 163, 89, 0.4);
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
       border-radius: 6px;
       cursor: not-allowed;
       transition: all 0.3s ease;
     }
     .ult-btn.ready {
-      background: linear-gradient(90deg, #00f2fe, #4facfe);
-      color: #000;
+      background: linear-gradient(135deg, #f0c375, #d4a359);
+      color: #0c0b0a;
       border: none;
       cursor: pointer;
-      box-shadow: 0 0 16px rgba(0, 242, 254, 0.6);
+      box-shadow: 0 0 20px rgba(240, 195, 117, 0.7);
       animation: pulse 1.2s infinite;
     }
     @keyframes pulse {
@@ -333,18 +358,19 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       50% { transform: scale(1.02); }
     }
     .opp-state-badge {
-      font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.4);
-      letter-spacing: 0.1em;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      color: rgba(212, 163, 89, 0.6);
+      letter-spacing: 0.15em;
     }
     .parry-banner {
       align-self: center;
-      background: rgba(0, 0, 0, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      padding: 1.2rem 2.5rem;
+      background: rgba(12, 10, 8, 0.92);
+      border: 2px solid #f0c375;
+      padding: 1.5rem 3.5rem;
       border-radius: 12px;
       text-align: center;
-      box-shadow: 0 0 32px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 50px rgba(212, 163, 89, 0.6);
       animation: popIn 0.1s ease-out;
     }
     @keyframes popIn {
@@ -352,69 +378,88 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       to { transform: scale(1); opacity: 1; }
     }
     .parry-title {
-      font-size: 1.4rem;
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
       font-weight: 900;
-      letter-spacing: 0.2em;
-      color: #fff;
+      letter-spacing: 0.25em;
+      color: #f0c375;
+      text-shadow: 0 0 15px rgba(212, 163, 89, 0.8);
     }
     .parry-timer {
-      font-size: 2rem;
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
       font-weight: 900;
-      color: #00f2fe;
+      color: #f3ede2;
+      margin-top: 0.2rem;
     }
     .parry-quote {
-      font-size: 0.8rem;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.85rem;
       font-style: italic;
-      color: rgba(255, 255, 255, 0.6);
-      margin-top: 0.3rem;
+      color: rgba(212, 163, 89, 0.8);
+      margin-top: 0.4rem;
     }
     .victory-modal {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(12px);
+      background: rgba(5, 5, 6, 0.88);
+      backdrop-filter: blur(16px);
       display: flex;
       align-items: center;
       justify-content: center;
       pointer-events: auto;
     }
     .modal-content {
-      background: #121216;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 2.5rem 3.5rem;
+      background: #151310;
+      border: 2px solid rgba(212, 163, 89, 0.4);
+      padding: 3rem 4rem;
       border-radius: 16px;
       text-align: center;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 163, 89, 0.2);
     }
     .modal-content h2 {
-      font-size: 2.5rem;
-      letter-spacing: 0.2em;
-      margin-bottom: 0.5rem;
-      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 2.8rem;
+      letter-spacing: 0.25em;
+      margin-bottom: 0.6rem;
+      color: #f0c375;
     }
     .modal-sub {
-      color: rgba(255, 255, 255, 0.5);
-      margin-bottom: 2rem;
+      font-family: 'Shippori Mincho', serif;
+      color: rgba(243, 237, 226, 0.7);
+      margin-bottom: 2.2rem;
+      font-size: 1.05rem;
     }
     .modal-actions {
       display: flex;
-      gap: 1rem;
+      gap: 1.2rem;
       justify-content: center;
     }
     .action-btn {
-      padding: 0.8rem 1.6rem;
-      border-radius: 8px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
+      padding: 0.85rem 1.8rem;
+      border-radius: 6px;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      letter-spacing: 0.15em;
       cursor: pointer;
-      background: #fff;
-      color: #000;
+      background: linear-gradient(135deg, #f0c375, #d4a359);
+      color: #0c0b0a;
       border: none;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 15px rgba(212, 163, 89, 0.3);
+    }
+    .action-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(212, 163, 89, 0.6);
     }
     .action-btn.outline {
       background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: #fff;
+      border: 1px solid rgba(212, 163, 89, 0.4);
+      color: #f3ede2;
+    }
+    .action-btn.outline:hover {
+      border-color: #f0c375;
+      background: rgba(212, 163, 89, 0.1);
     }
     .hud-footer {
       display: flex;
@@ -429,36 +474,39 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       gap: 0.6rem;
     }
     .ctrl-label {
-      font-size: 0.75rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
       font-weight: 800;
-      color: #4facfe;
+      color: #f0c375;
       letter-spacing: 0.1em;
     }
     .control-badge {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 0.35rem 0.7rem;
+      background: rgba(18, 16, 14, 0.7);
+      border: 1px solid rgba(212, 163, 89, 0.2);
+      padding: 0.35rem 0.75rem;
       border-radius: 6px;
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(243, 237, 226, 0.75);
       display: flex;
       align-items: center;
       gap: 0.4rem;
     }
     .control-badge.highlight {
-      border-color: rgba(0, 242, 254, 0.4);
-      color: #00f2fe;
+      border-color: rgba(212, 163, 89, 0.6);
+      color: #f0c375;
     }
     .control-badge.ult-badge {
-      border-color: rgba(255, 65, 108, 0.4);
-      color: #ff416c;
+      border-color: rgba(194, 54, 43, 0.6);
+      color: #e63946;
     }
     kbd {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 0.1rem 0.35rem;
+      background: rgba(212, 163, 89, 0.15);
+      border: 1px solid rgba(212, 163, 89, 0.3);
+      padding: 0.1rem 0.4rem;
       border-radius: 4px;
       font-family: monospace;
       font-size: 0.75rem;
+      color: #f0c375;
     }
   `]
 })

@@ -82,6 +82,8 @@ export class ArenaCanvasComponent implements OnInit, OnDestroy {
   private crackMaterial!: THREE.ShaderMaterial;
   private sparkParticles!: THREE.Points;
   private sparkGeometry!: THREE.BufferGeometry;
+  private leavesParticleGeo!: THREE.BufferGeometry;
+  private leavesPositions!: Float32Array;
 
   whiteFlash = this.wasmEngine.hitStopActive;
 
@@ -128,53 +130,58 @@ export class ArenaCanvasComponent implements OnInit, OnDestroy {
   }
 
   private initThree(): void {
-    const width = this.containerRef.nativeElement.clientWidth || window.innerWidth;
-    const height = this.containerRef.nativeElement.clientHeight || window.innerHeight;
+    const el = this.containerRef.nativeElement;
+    const width = el.clientWidth || window.innerWidth;
+    const height = el.clientHeight || window.innerHeight;
 
+    // 1. Scene with Ghost of Tsushima Warm Twilight Fog
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x0a0a0c);
-    this.scene.fog = new THREE.FogExp2(0x0a0a0c, 0.035);
+    this.scene.background = new THREE.Color(0x0a0908);
+    this.scene.fog = new THREE.FogExp2(0x0e0c0a, 0.032);
 
-    this.camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 100);
-    this.camera.position.set(0, 7, 13);
-    this.camera.lookAt(0, 1, 0);
+    // 2. Camera Setup
+    this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+    this.camera.position.set(0, 4.2, 10.5);
+    this.camera.lookAt(0, 1.2, 0);
 
-    this.renderer = new THREE.WebGLRenderer({
-      canvas: this.canvasRef.nativeElement,
-      antialias: true,
-      powerPreference: 'high-performance'
-    });
+    // 3. Renderer
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvasRef.nativeElement, antialias: true, alpha: false });
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    // 4. Ghost of Tsushima Twilight Lighting (Warm Golden Moon + Crimson Accent)
+    const ambientLight = new THREE.AmbientLight(0xffecd2, 0.65);
     this.scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    dirLight.position.set(10, 20, 10);
-    dirLight.castShadow = true;
-    this.scene.add(dirLight);
+    const goldenMoonLight = new THREE.DirectionalLight(0xf0c375, 1.8);
+    goldenMoonLight.position.set(6, 14, 8);
+    goldenMoonLight.castShadow = true;
+    goldenMoonLight.shadow.mapSize.width = 1024;
+    goldenMoonLight.shadow.mapSize.height = 1024;
+    this.scene.add(goldenMoonLight);
 
-    const pointLight = new THREE.PointLight(0x4facfe, 2, 20);
-    pointLight.position.set(0, 4, 0);
-    this.scene.add(pointLight);
+    const crimsonRimLight = new THREE.DirectionalLight(0xc2362b, 1.2);
+    crimsonRimLight.position.set(-8, 6, -6);
+    this.scene.add(crimsonRimLight);
 
+    // 5. Environment & Particles
     this.createArena();
     this.createCharacters();
     this.createSparkSystem();
+    this.createSwirlingLeavesSystem();
   }
 
   private createArena(): void {
     const radius = this.wasmEngine.arenaRadius;
 
-    // 1. Multi-layered circular stone floor
-    const floorGeo = new THREE.CylinderGeometry(radius, radius * 1.05, 0.6, 64);
+    // 1. Multi-layered circular weathered dark stone floor
+    const floorGeo = new THREE.CylinderGeometry(radius * 1.15, radius * 1.2, 0.6, 64);
     const floorMat = new THREE.MeshStandardMaterial({
-      color: 0x121216,
-      roughness: 0.7,
-      metalness: 0.2
+      color: 0x110f0d,
+      roughness: 0.85,
+      metalness: 0.15
     });
     const floor = new THREE.Mesh(floorGeo, floorMat);
     floor.position.y = -0.3;
@@ -182,10 +189,10 @@ export class ArenaCanvasComponent implements OnInit, OnDestroy {
     this.scene.add(floor);
 
     // Inner tatami / combat ring
-    const innerRingGeo = new THREE.CylinderGeometry(radius * 0.85, radius * 0.85, 0.05, 64);
+    const innerRingGeo = new THREE.CylinderGeometry(radius * 0.9, radius * 0.9, 0.05, 64);
     const innerMat = new THREE.MeshStandardMaterial({
-      color: 0x1a1a22,
-      roughness: 0.85,
+      color: 0x181512,
+      roughness: 0.9,
       metalness: 0.1
     });
     const innerRing = new THREE.Mesh(innerRingGeo, innerMat);
@@ -193,12 +200,12 @@ export class ArenaCanvasComponent implements OnInit, OnDestroy {
     innerRing.receiveShadow = true;
     this.scene.add(innerRing);
 
-    // Glowing perimeter ink boundary
-    const ringGeo = new THREE.TorusGeometry(radius, 0.12, 16, 100);
+    // Glowing Golden Kintsugi perimeter ring
+    const ringGeo = new THREE.TorusGeometry(radius, 0.1, 16, 100);
     const ringMat = new THREE.MeshStandardMaterial({
-      color: 0x00f2fe,
-      emissive: 0x00f2fe,
-      emissiveIntensity: 0.6,
+      color: 0xd4a359,
+      emissive: 0xd4a359,
+      emissiveIntensity: 0.9,
       roughness: 0.2
     });
     this.arenaRingMesh = new THREE.Mesh(ringGeo, ringMat);
@@ -206,27 +213,27 @@ export class ArenaCanvasComponent implements OnInit, OnDestroy {
     this.arenaRingMesh.position.y = 0.04;
     this.scene.add(this.arenaRingMesh);
 
-    // 2. Surrounding Ancient Stone Lanterns / Pillars
+    // 2. Surrounding Ancient Japanese Stone Lanterns with warm flame glow
     const lanternCount = 8;
     for (let i = 0; i < lanternCount; i++) {
       const angle = (i / lanternCount) * Math.PI * 2;
       const lantern = this.createStoneLantern();
       lantern.position.set(
-        Math.cos(angle) * (radius + 2.2),
+        Math.cos(angle) * (radius + 2.4),
         0,
-        Math.sin(angle) * (radius + 2.2)
+        Math.sin(angle) * (radius + 2.4)
       );
       this.scene.add(lantern);
     }
 
-    // 3. Dynamic procedural crack floor
-    const crackGeo = new THREE.PlaneGeometry(20, 20, 32, 32);
+    // 3. Dynamic procedural golden crack floor
+    const crackGeo = new THREE.PlaneGeometry(22, 22, 32, 32);
     this.crackMaterial = new THREE.ShaderMaterial({
       transparent: true,
       uniforms: {
         uProgress: { value: 0.0 },
         uOrigin: { value: new THREE.Vector2(0, 0) },
-        uColor: { value: new THREE.Color(0x00f2fe) }
+        uColor: { value: new THREE.Color(0xf0c375) }
       },
       vertexShader: `
         varying vec2 vUv;
@@ -241,8 +248,8 @@ export class ArenaCanvasComponent implements OnInit, OnDestroy {
         uniform vec3 uColor;
         varying vec2 vUv;
         void main() {
-          float d = distance(vUv * 20.0 - 10.0, uOrigin);
-          float ring = smoothstep(uProgress * 12.0, (uProgress * 12.0) - 2.0, d);
+          float d = distance(vUv * 22.0 - 11.0, uOrigin);
+          float ring = smoothstep(uProgress * 14.0, (uProgress * 14.0) - 2.2, d);
           float glow = (1.0 - uProgress) * ring;
           if (glow <= 0.05) discard;
           gl_FragColor = vec4(uColor, glow * 0.95);
@@ -259,31 +266,70 @@ export class ArenaCanvasComponent implements OnInit, OnDestroy {
     const group = new THREE.Group();
 
     // Pillar base
-    const baseGeo = new THREE.CylinderGeometry(0.3, 0.45, 1.4, 8);
-    const stoneMat = new THREE.MeshStandardMaterial({ color: 0x22222a, roughness: 0.9 });
+    const baseGeo = new THREE.CylinderGeometry(0.3, 0.45, 1.5, 8);
+    const stoneMat = new THREE.MeshStandardMaterial({ color: 0x1f1b17, roughness: 0.9 });
     const base = new THREE.Mesh(baseGeo, stoneMat);
-    base.position.y = 0.7;
+    base.position.y = 0.75;
     group.add(base);
 
-    // Glowing lantern core
+    // Glowing warm fire core
     const coreGeo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
     const coreMat = new THREE.MeshStandardMaterial({
-      color: 0x4facfe,
-      emissive: 0x4facfe,
-      emissiveIntensity: 1.5
+      color: 0xffaa33,
+      emissive: 0xff6600,
+      emissiveIntensity: 2.2
     });
     const core = new THREE.Mesh(coreGeo, coreMat);
-    core.position.y = 1.6;
+    core.position.y = 1.7;
     group.add(core);
 
     // Lantern Roof
-    const roofGeo = new THREE.ConeGeometry(0.6, 0.35, 4);
+    const roofGeo = new THREE.ConeGeometry(0.65, 0.4, 4);
     const roof = new THREE.Mesh(roofGeo, stoneMat);
-    roof.position.y = 2.0;
+    roof.position.y = 2.15;
     roof.rotation.y = Math.PI / 4;
     group.add(roof);
 
     return group;
+  }
+
+  private createSwirlingLeavesSystem(): void {
+    const count = 180;
+    this.leavesPositions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+
+    const goldColor = new THREE.Color(0xd4a359);
+    const crimsonColor = new THREE.Color(0xc2362b);
+    const emberColor = new THREE.Color(0xff8822);
+
+    for (let i = 0; i < count; i++) {
+      const idx = i * 3;
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * 9 + 1;
+      this.leavesPositions[idx] = Math.cos(angle) * dist;
+      this.leavesPositions[idx + 1] = Math.random() * 5 + 0.2;
+      this.leavesPositions[idx + 2] = Math.sin(angle) * dist;
+
+      const choice = Math.random();
+      const col = choice < 0.5 ? goldColor : choice < 0.8 ? crimsonColor : emberColor;
+      colors[idx] = col.r;
+      colors[idx + 1] = col.g;
+      colors[idx + 2] = col.b;
+    }
+
+    this.leavesParticleGeo = new THREE.BufferGeometry();
+    this.leavesParticleGeo.setAttribute('position', new THREE.BufferAttribute(this.leavesPositions, 3));
+    this.leavesParticleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const mat = new THREE.PointsMaterial({
+      size: 0.22,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.85
+    });
+
+    const leafPoints = new THREE.Points(this.leavesParticleGeo, mat);
+    this.scene.add(leafPoints);
   }
 
   private createCharacters(): void {
@@ -687,6 +733,28 @@ export class ArenaCanvasComponent implements OnInit, OnDestroy {
       this.crackMaterial.uniforms['uOrigin'].value.set(this.wasmEngine.ultOriginX, this.wasmEngine.ultOriginZ);
     } else {
       this.crackMaterial.uniforms['uProgress'].value = 0.0;
+    }
+
+    // 4. Animate Swirling 3D Leaves
+    if (this.leavesParticleGeo && this.leavesPositions) {
+      const count = this.leavesPositions.length / 3;
+      for (let i = 0; i < count; i++) {
+        const idx = i * 3;
+        // Swirl around origin in a spiral
+        const x = this.leavesPositions[idx];
+        const z = this.leavesPositions[idx + 2];
+        const angle = Math.atan2(z, x) + 0.015;
+        const dist = Math.sqrt(x * x + z * z);
+
+        this.leavesPositions[idx] = Math.cos(angle) * dist;
+        this.leavesPositions[idx + 1] -= 0.015;
+        this.leavesPositions[idx + 2] = Math.sin(angle) * dist;
+
+        if (this.leavesPositions[idx + 1] < 0.1) {
+          this.leavesPositions[idx + 1] = 5.0;
+        }
+      }
+      this.leavesParticleGeo.attributes['position'].needsUpdate = true;
     }
 
     // Smooth combat camera tracking

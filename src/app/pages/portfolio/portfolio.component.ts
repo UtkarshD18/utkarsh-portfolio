@@ -1,102 +1,187 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MoonFooterComponent } from '../../components/moon-footer/moon-footer.component';
+import { WindLeavesComponent } from '../../components/wind-leaves/wind-leaves.component';
+import { WordPropsComponent } from '../../components/word-props/word-props.component';
+import { LandscapeHorizonComponent } from '../../components/landscape-horizon/landscape-horizon.component';
 import { AudioService } from '../../core/services/audio.service';
 import { CharacterConfigService } from '../../core/services/character-config.service';
 
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule, MoonFooterComponent],
+  imports: [CommonModule, MoonFooterComponent, WindLeavesComponent, WordPropsComponent, LandscapeHorizonComponent],
   template: `
-    <div class="portfolio-container">
-      <!-- Minimalist Navigation Bar -->
+    <div class="portfolio-container sumi-monochrome">
+      <!-- Dynamic IST Time-Synced Japanese Mountain Landscape & Dawn Horizon -->
+      <app-landscape-horizon></app-landscape-horizon>
+
+      <!-- Real-Time Blade Slicing & Falling Monochrome Leaves Layer -->
+      <app-wind-leaves></app-wind-leaves>
+
+      <!-- Interactive Word Props Layer (Touch / Pin Detection) -->
+      <app-word-props></app-word-props>
+
+      <!-- Background Kanji Watermarks & Blade Vignette -->
+      <div class="blade-slash-hint">
+        <span>⚔ SWIPE CURSOR RAPIDLY TO SLICE FALLING LEAVES IN REAL-TIME</span>
+      </div>
+      <div class="kanji-watermark hero-kanji">切断</div>
+
+      <!-- Minimalist Monochrome Samurai Navbar -->
       <nav class="nav-bar">
         <div class="brand-logo">
-          <span class="enso-icon">○</span>
-          <span class="brand-name">UTKARSH</span>
+          <span class="mon-seal">○</span>
+          <div class="brand-text">
+            <span class="brand-name">UTKARSH</span>
+            <span class="brand-kanji">黒白 · KUROSHIRO</span>
+          </div>
         </div>
         <div class="nav-links">
-          <a href="#build" class="nav-link">BUILD</a>
-          <a href="#observe" class="nav-link">OBSERVE</a>
-          <a href="#compete" class="nav-link">COMPETE</a>
-          <a href="/admin" class="nav-link admin-link">STUDIO</a>
+          <a href="#stances" class="nav-link"><span>01</span> STANCES</a>
+          <a href="#build" class="nav-link"><span>02</span> FORGE</a>
+          <a href="#compete" class="nav-link"><span>03</span> COMBAT</a>
+          <a href="#observe" class="nav-link"><span>04</span> OBSERVATION</a>
+          <a href="/admin" class="nav-link studio-link">STUDIO</a>
         </div>
       </nav>
 
-      <!-- Hero Section -->
+      <!-- Hero Section (Monochrome Kurosawa Samurai) -->
       <header class="hero-section">
-        <div class="hero-tagline">SOFTWARE / SYSTEMS / ATHLETE</div>
+        <div class="hero-haiku-kicker">
+          <span class="kicker-line"></span>
+          <span class="kicker-text">LOW-LATENCY · SYSTEMS · COMPOSURE</span>
+          <span class="kicker-kanji">無刀流</span>
+        </div>
         <h1 class="hero-title">
-          I build systems.<br />
-          I compete.<br />
-          I observe.
+          Forge <span class="white-text">Systems</span>.<br />
+          Sever the <span class="silver-text">Blade</span>.<br />
+          Observe the <span class="white-outline">Void</span>.
         </h1>
         <p class="hero-subtitle">
-          Engineered around low-level systems, real-time distributed WebGL architectures, and Zen composure.
+          Built with low-level C++ architectures, deterministic WebGL combat physics, and unyielding focus.
         </p>
+
+        <!-- Stance Selector Switcher -->
+        <div class="stance-selector" id="stances">
+          <span class="stance-label">ACTIVE STANCE:</span>
+          <div class="stance-pills">
+            <button
+              class="stance-pill"
+              [class.active]="activeStance() === 'stone'"
+              (click)="setStance('stone')"
+            >
+              <span class="stance-kanji">岩</span>
+              <span>STONE (C++)</span>
+            </button>
+            <button
+              class="stance-pill"
+              [class.active]="activeStance() === 'water'"
+              (click)="setStance('water')"
+            >
+              <span class="stance-kanji">水</span>
+              <span>WATER (WASM)</span>
+            </button>
+            <button
+              class="stance-pill"
+              [class.active]="activeStance() === 'wind'"
+              (click)="setStance('wind')"
+            >
+              <span class="stance-kanji">風</span>
+              <span>WIND (ATHLETE)</span>
+            </button>
+            <button
+              class="stance-pill"
+              [class.active]="activeStance() === 'moon'"
+              (click)="setStance('moon')"
+            >
+              <span class="stance-kanji">月</span>
+              <span>MOON (ZEN)</span>
+            </button>
+          </div>
+        </div>
       </header>
 
-      <!-- Bento Grid Section -->
+      <!-- Bento Grid (Monochrome Sumi-E Dossiers) -->
       <section class="bento-grid" id="build">
         <!-- 1. Systems & Core Engineering Dossier -->
-        <div class="bento-card bento-wide">
-          <div class="card-tag">SYSTEMS / LOW-LATENCY</div>
+        <div class="bento-card bento-wide washi-card">
+          <div class="kanji-bg-card">斬</div>
+          <div class="card-header">
+            <span class="card-tag">FORGE / LOW-LATENCY</span>
+            <span class="seal-stamp">極</span>
+          </div>
           <h3>C++ WebAssembly & 3D WebGL Combat Engine</h3>
           <p>
-            Deterministic collision detection, sub-60ms parry windows, and zero-copy linear memory buffer streaming directly to Three.js shaders.
+            Deterministic collision detection, 70ms parry detection frames, and zero-copy 32-float linear memory buffer streaming directly to Three.js vertex shaders at zero garbage-collection latency.
           </p>
           <div class="tech-pills">
             <span class="pill">C++ 20</span>
             <span class="pill">WebAssembly (WASM)</span>
-            <span class="pill">Three.js</span>
+            <span class="pill">Three.js Shaders</span>
             <span class="pill">Angular 18 Signals</span>
           </div>
+          <div class="ink-line"></div>
         </div>
 
-        <!-- 2. Interactive Meme Soundboard Card -->
-        <div class="bento-card soundboard-card">
-          <div class="card-tag">AUDIO LAB</div>
-          <h3>Viral Soundboard</h3>
-          <p>Interactive Web Audio API synthesis and configured viral voice lines.</p>
+        <!-- 2. Interactive Soundboard Card -->
+        <div class="bento-card soundboard-card washi-card">
+          <div class="kanji-bg-card">音</div>
+          <div class="card-header">
+            <span class="card-tag">AUDIO LAB</span>
+            <span class="seal-stamp">響</span>
+          </div>
+          <h3>Echoes of the Blade</h3>
+          <p>Web Audio API synthesis for metallic parry harmonics, sword swooshes, and viral character dialogues.</p>
           <div class="sound-controls">
             <button class="sound-btn" (click)="playRandomSound()">
-              <span class="play-icon">▶</span>
-              <span>{{ isPlayingSound() ? 'PLAYING...' : 'TRIGGER SOUND' }}</span>
+              <span class="play-icon">⚔</span>
+              <span>{{ isPlayingSound() ? 'STRIKING...' : 'CLASH BLADE' }}</span>
             </button>
             <div class="sound-wave" [class.active]="isPlayingSound()">
               <span></span><span></span><span></span><span></span><span></span>
             </div>
           </div>
+          <div class="ink-line"></div>
         </div>
 
         <!-- 3. National Level Athlete & Competitive Composure -->
-        <div class="bento-card" id="compete">
-          <div class="card-tag">COMPETITIVE METRICS</div>
+        <div class="bento-card washi-card" id="compete">
+          <div class="kanji-bg-card">速</div>
+          <div class="card-header">
+            <span class="card-tag">COMPETITIVE METRICS</span>
+            <span class="seal-stamp">武</span>
+          </div>
           <h3>National Table Tennis</h3>
-          <p>Engineering taught me to decompose problems. Competition taught me to remain composed while solving them.</p>
+          <p>Engineering taught me to decompose problems. High-speed competition taught me to remain completely still while reacting.</p>
           <div class="stats-list">
             <div class="stat-row">
-              <span>Reaction Speed</span>
+              <span>Reaction Reflex</span>
               <span class="stat-val">120 ms</span>
             </div>
             <div class="stat-row">
-              <span>Mental Composure</span>
+              <span>Combat Composure</span>
               <span class="stat-val">99.8%</span>
             </div>
           </div>
+          <div class="ink-line"></div>
         </div>
 
         <!-- 4. Philosophy & Observe -->
-        <div class="bento-card bento-wide" id="observe">
-          <div class="card-tag">OBSERVE / PHILOSOPHY</div>
-          <h3>The Distance Between Reaction & Awareness</h3>
+        <div class="bento-card bento-wide washi-card" id="observe">
+          <div class="kanji-bg-card">心</div>
+          <div class="card-header">
+            <span class="card-tag">WAY OF THE OBSERVER</span>
+            <span class="seal-stamp">道</span>
+          </div>
+          <h3>The Space Between Reaction & Awareness</h3>
           <blockquote class="zen-quote">
-            "The observer is separate from the observed. Remain still enough to see."
+            "The warrior is not one who never feels fear, but one who observes the blade without trembling. Look inward before striking outward."
           </blockquote>
           <div class="influences">
-            <span>Zen</span> · <span>Jain Thought</span> · <span>Sufism</span> · <span>Stoicism</span>
+            <span>Bushido</span> · <span>Zen Stillness</span> · <span>Jain Anekantavada</span> · <span>Stoic Reason</span>
           </div>
+          <div class="ink-line"></div>
         </div>
       </section>
 
@@ -107,108 +192,312 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
   styles: [`
     .portfolio-container {
       min-height: 100vh;
-      background: #08080a;
-      color: #fff;
-      font-family: system-ui, -apple-system, sans-serif;
+      background: #000000;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     }
+
+    .blade-slash-hint {
+      position: absolute;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      background: rgba(10, 10, 10, 0.6);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .kanji-watermark {
+      position: absolute;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 26rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.025);
+      top: 30px;
+      right: 30px;
+      user-select: none;
+      pointer-events: none;
+      z-index: 0;
+      line-height: 1;
+    }
+
+    /* Navbar */
     .nav-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 2rem 4rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 2.2rem 4.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      position: relative;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(0, 0, 0, 0.6);
     }
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 0.2em;
+      gap: 1rem;
     }
-    .enso-icon {
+    .mon-seal {
       font-size: 1.4rem;
-      color: #4facfe;
+      color: #ffffff;
+      background: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 0.25rem 0.55rem;
+      border-radius: 4px;
+    }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-name {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      font-size: 1.1rem;
+      color: #ffffff;
+    }
+    .brand-kanji {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.6);
+      letter-spacing: 0.3em;
     }
     .nav-links {
       display: flex;
-      gap: 2rem;
+      gap: 2.5rem;
+      align-items: center;
     }
     .nav-link {
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.65);
       text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.15em;
-      transition: color 0.2s ease;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .nav-link span {
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 700;
     }
     .nav-link:hover {
-      color: #fff;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
     }
-    .admin-link {
-      color: #00f2fe;
+    .studio-link {
+      color: #000000;
+      background: #ffffff;
+      border: 1px solid #ffffff;
+      padding: 0.35rem 0.9rem;
+      border-radius: 4px;
+      font-weight: 700;
     }
+    .studio-link:hover {
+      background: transparent;
+      color: #ffffff;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Hero Section */
     .hero-section {
-      padding: 6rem 4rem 4rem;
-      max-width: 900px;
+      padding: 5.5rem 4.5rem 3.5rem;
+      max-width: 1050px;
+      position: relative;
+      z-index: 2;
     }
-    .hero-tagline {
-      font-size: 0.85rem;
-      letter-spacing: 0.25em;
-      color: #4facfe;
-      margin-bottom: 1.5rem;
+    .hero-haiku-kicker {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+    }
+    .kicker-line {
+      width: 32px;
+      height: 1px;
+      background: #ffffff;
+    }
+    .kicker-text {
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .kicker-kanji {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
     }
     .hero-title {
-      font-size: 4.5rem;
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
+      font-family: 'Cinzel', serif;
+      font-size: 4.8rem;
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
       margin-bottom: 2rem;
+      color: #ffffff;
+    }
+    .white-text {
+      color: #ffffff;
+      text-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+    }
+    .silver-text {
+      color: #c0c0c0;
+    }
+    .white-outline {
+      color: transparent;
+      -webkit-text-stroke: 1.5px #ffffff;
     }
     .hero-subtitle {
       font-size: 1.25rem;
-      color: rgba(255, 255, 255, 0.6);
-      line-height: 1.6;
-      max-width: 650px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.7;
+      max-width: 720px;
+      margin-bottom: 2.8rem;
     }
+
+    /* Stance Selector */
+    .stance-selector {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .stance-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 700;
+    }
+    .stance-pills {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .stance-pill {
+      background: rgba(18, 18, 18, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.75);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.25s ease;
+    }
+    .stance-kanji {
+      font-family: 'Shippori Mincho', serif;
+      color: #ffffff;
+      font-size: 0.95rem;
+    }
+    .stance-pill:hover {
+      border-color: #ffffff;
+      color: #fff;
+      background: rgba(30, 30, 30, 0.95);
+    }
+    .stance-pill.active {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+    .stance-pill.active .stance-kanji {
+      color: #000000;
+    }
+
+    /* Bento Grid */
     .bento-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      padding: 2rem 4rem 6rem;
-      max-width: 1400px;
+      gap: 1.8rem;
+      padding: 2rem 4.5rem 6rem;
+      max-width: 1440px;
+      position: relative;
+      z-index: 2;
     }
-    .bento-card {
-      background: rgba(18, 18, 22, 0.7);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 2.5rem;
+    .washi-card {
+      background: rgba(12, 12, 12, 0.85);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      padding: 2.8rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.3s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
     }
-    .bento-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255, 255, 255, 0.2);
+    .washi-card:hover {
+      transform: translateY(-5px);
+      border-color: #ffffff;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 255, 255, 0.2);
     }
-    .bento-wide {
-      grid-column: span 2;
+    .kanji-bg-card {
+      position: absolute;
+      right: 1.5rem;
+      bottom: 1.5rem;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 6rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.04);
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
     }
     .card-tag {
       font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      color: rgba(255, 255, 255, 0.4);
-      margin-bottom: 1rem;
+      letter-spacing: 0.25em;
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .seal-stamp {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.75rem;
+      color: #ffffff;
+      border: 1px solid #ffffff;
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.1);
     }
     .bento-card h3 {
-      font-size: 1.6rem;
+      font-family: 'Cinzel', serif;
+      font-size: 1.75rem;
       font-weight: 700;
-      margin-bottom: 0.8rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
     }
     .bento-card p {
-      color: rgba(255, 255, 255, 0.65);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.7;
+      margin-bottom: 1.8rem;
+      font-size: 0.95rem;
+    }
+    .bento-wide {
+      grid-column: span 2;
     }
     .tech-pills {
       display: flex;
@@ -216,31 +505,49 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       gap: 0.6rem;
     }
     .pill {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 0.35rem 0.8rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.4rem 0.9rem;
       border-radius: 999px;
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 0.05em;
+      color: #ffffff;
     }
+    .ink-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    }
+
+    /* Soundboard */
     .sound-controls {
       display: flex;
       align-items: center;
       gap: 1.2rem;
     }
     .sound-btn {
-      background: linear-gradient(90deg, #00f2fe, #4facfe);
+      background: #ffffff;
       border: none;
-      color: #000;
-      font-weight: 700;
-      padding: 0.7rem 1.4rem;
-      border-radius: 8px;
+      color: #000000;
+      font-weight: 900;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
       font-size: 0.85rem;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
+      transition: all 0.25s ease;
+    }
+    .sound-btn:hover {
+      background: #f0f0f0;
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.5);
     }
     .sound-wave {
       display: flex;
@@ -251,7 +558,7 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
     .sound-wave span {
       width: 3px;
       height: 6px;
-      background: #00f2fe;
+      background: #ffffff;
       border-radius: 2px;
       transition: height 0.1s ease;
     }
@@ -266,34 +573,48 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       from { height: 4px; }
       to { height: 22px; }
     }
+
+    /* Stats List */
     .stats-list {
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 1rem;
     }
     .stat-row {
       display: flex;
       justify-content: space-between;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      color: rgba(255, 255, 255, 0.75);
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
     }
     .stat-val {
-      font-weight: 700;
-      color: #4facfe;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      color: #ffffff;
     }
     .zen-quote {
-      font-size: 1.25rem;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.35rem;
       font-style: italic;
-      color: rgba(255, 255, 255, 0.9);
-      border-left: 2px solid #fff;
-      padding-left: 1.2rem;
-      margin: 1rem 0 1.5rem;
+      color: #ffffff;
+      border-left: 2px solid #ffffff;
+      padding-left: 1.5rem;
+      margin: 1.2rem 0 1.8rem;
+      line-height: 1.7;
     }
     .influences {
       font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.4);
-      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.6);
+      letter-spacing: 0.15em;
+    }
+
+    @media (max-width: 1024px) {
+      .bento-grid { grid-template-columns: 1fr; padding: 2rem; }
+      .bento-wide { grid-column: span 1; }
+      .hero-title { font-size: 3.2rem; }
+      .nav-bar { padding: 1.5rem 2rem; }
+      .hero-section { padding: 3rem 2rem; }
     }
   `]
 })
@@ -302,6 +623,12 @@ export class PortfolioComponent {
   private charConfig = inject(CharacterConfigService);
 
   readonly isPlayingSound = signal<boolean>(false);
+  readonly activeStance = signal<'stone' | 'water' | 'wind' | 'moon'>('stone');
+
+  setStance(stance: 'stone' | 'water' | 'wind' | 'moon'): void {
+    this.activeStance.set(stance);
+    this.audio.playParry();
+  }
 
   playRandomSound(): void {
     if (this.isPlayingSound()) return;
@@ -313,3 +640,4 @@ export class PortfolioComponent {
     }, 600);
   }
 }
+

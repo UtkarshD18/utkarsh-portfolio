@@ -1,12 +1,23 @@
-/* Global Resets and Dark Theme Variables */
+/* High-Contrast Pure Black & White (Kurosawa Sumi-E Cinema) Design System */
 :root {
-  --bg-primary: #08080a;
-  --bg-secondary: #121216;
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.65);
-  --accent-cyan: #00f2fe;
-  --accent-blue: #4facfe;
-  --accent-red: #ff416c;
+  --bg-void: #000000;
+  --bg-sumi: #0a0a0a;
+  --bg-card: rgba(14, 14, 14, 0.85);
+  --bg-card-hover: rgba(22, 22, 22, 0.95);
+  
+  --monochrome-white: #ffffff;
+  --monochrome-paper: #f2f2f2;
+  --monochrome-silver: #d0d0d0;
+  --monochrome-slate: #888888;
+  --monochrome-dark: #161616;
+  
+  --border-white: rgba(255, 255, 255, 0.25);
+  --border-white-bright: rgba(255, 255, 255, 0.85);
+  --border-white-glow: rgba(255, 255, 255, 0.4);
+
+  --font-serif: 'Cinzel', 'Shippori Mincho', serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-kanji: 'Shippori Mincho', 'Noto Serif JP', serif;
 }
 
 * {
@@ -18,33 +29,33 @@
 html, body {
   width: 100%;
   min-height: 100%;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: #000000;
+  color: #ffffff;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
+/* Custom Japanese Monochrome Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #08080a;
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: #ffffff;
 }
 
 ::selection {
-  background: #4facfe;
-  color: #000;
+  background: #ffffff;
+  color: #000000;
 }
