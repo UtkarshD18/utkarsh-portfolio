@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CharacterConfigService, MemeCharacter, MemeDialogue } from '../../core/services/character-config.service';
+import { AudioService } from '../../core/services/audio.service';
 
 @Component({
   selector: 'app-admin',
@@ -19,7 +20,37 @@ import { CharacterConfigService, MemeCharacter, MemeDialogue } from '../../core/
       </header>
 
       <div class="admin-grid">
-        <!-- Character List -->
+        <!-- 1. Duck Hunt & Headshot Audio Settings Panel -->
+        <section class="hunt-audio-section">
+          <h2>🎯 DUCK HUNT & WEAPON AUDIO CONFIG</h2>
+          <div class="hunt-config-card">
+            <div class="form-group">
+              <label>Weapon Audio Fire Mode</label>
+              <select [(ngModel)]="huntSettings.gunSound" (change)="saveHuntSettings()">
+                <option value="akm">AKM 7.62mm (Heavy Sub-Bass Punch & Bolt Crack)</option>
+                <option value="kar98k">Kar98k Sniper (High-Velocity Crack)</option>
+                <option value="awm">AWM 300 Magnum (Sub-Sonic Boom)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Kill / Headshot Dialogue Text (Web Speech Voice)</label>
+              <input type="text" [(ngModel)]="huntSettings.killDialogueText" placeholder="Patt Se Headshot!" (change)="saveHuntSettings()" />
+            </div>
+
+            <div class="form-group">
+              <label>Custom Headshot Audio MP3 URL (Optional Dynamo Clip URL)</label>
+              <input type="url" [(ngModel)]="huntSettings.killSoundUrl" placeholder="https://.../patt-se-headshot.mp3" (change)="saveHuntSettings()" />
+            </div>
+
+            <div class="audio-test-bar">
+              <button class="test-btn shot-test" (click)="testGunshot()">🔥 TEST AKM GUNSHOT</button>
+              <button class="test-btn voice-test" (click)="testKillVoice()">🎯 TEST "PATT SE HEADSHOT!"</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Character List -->
         <section class="character-section">
           <h2>CONFIGURED MEME ICONS</h2>
           <div class="cards-list">
@@ -310,6 +341,51 @@ import { CharacterConfigService, MemeCharacter, MemeDialogue } from '../../core/
       cursor: pointer;
       font-weight: 700;
     }
+    .hunt-audio-section {
+      grid-column: 1 / -1;
+      margin-bottom: 1.5rem;
+    }
+    .hunt-config-card {
+      background: rgba(14, 14, 18, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    }
+    .audio-test-bar {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .test-btn {
+      padding: 0.7rem 1.4rem;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: none;
+      letter-spacing: 0.1em;
+      transition: all 0.25s ease;
+    }
+    .shot-test {
+      background: #ffffff;
+      color: #000000;
+    }
+    .shot-test:hover {
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+      transform: scale(1.02);
+    }
+    .voice-test {
+      background: #ff416c;
+      color: #ffffff;
+    }
+    .voice-test:hover {
+      box-shadow: 0 0 20px rgba(255, 65, 108, 0.6);
+      transform: scale(1.02);
+    }
     .form-actions {
       display: flex;
       gap: 1rem;
@@ -317,7 +393,7 @@ import { CharacterConfigService, MemeCharacter, MemeDialogue } from '../../core/
     }
     .save-btn {
       flex: 1;
-      background: linear-gradient(90deg, #00f2fe, #4facfe);
+      background: #ffffff;
       border: none;
       color: #000;
       font-weight: 700;
@@ -337,10 +413,25 @@ import { CharacterConfigService, MemeCharacter, MemeDialogue } from '../../core/
 })
 export class AdminComponent {
   charService = inject(CharacterConfigService);
+  private audio = inject(AudioService);
   private router = inject(Router);
 
   readonly activeChar = signal<MemeCharacter | null>(null);
   readonly isEditing = signal<boolean>(false);
+
+  huntSettings = JSON.parse(JSON.stringify(this.charService.huntConfig()));
+
+  saveHuntSettings(): void {
+    this.charService.saveHuntConfig(this.huntSettings);
+  }
+
+  testGunshot(): void {
+    this.audio.playAkmShot();
+  }
+
+  testKillVoice(): void {
+    this.audio.playHeadshotDialogue(this.huntSettings.killSoundUrl, this.huntSettings.killDialogueText || 'Patt Se Headshot!');
+  }
 
   returnToPortfolio(): void {
     this.router.navigate(['/']);

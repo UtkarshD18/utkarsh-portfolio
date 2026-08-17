@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AudioService } from '../../core/services/audio.service';
+import { CharacterConfigService } from '../../core/services/character-config.service';
 
 interface Bird {
   id: number;
@@ -59,15 +60,18 @@ interface ShotFlash {
   imports: [CommonModule],
   template: `
     <div class="bird-hunt-layer">
-      <!-- Fullscreen Game Canvas for Flying Birds, Crosshairs, Feathers & Flash -->
-      <canvas #huntCanvas class="hunt-canvas" (click)="onShoot($event)"></canvas>
+      <!-- Game Canvas for Flying Birds, AKM Muzzle Flash, Feathers & Combat Effects -->
+      <canvas #huntCanvas class="hunt-canvas"></canvas>
 
-      <!-- Duck Hunt Arcade HUD (Top Left) -->
+      <!-- Tactical Duck Hunt HUD (Top Left, Glassmorphism with Sleek Micro-Interactions) -->
       <div class="hunt-hud">
         <div class="hud-card">
           <div class="hud-header">
-            <span class="hud-badge">HUNT ARCADE</span>
-            <span class="hud-mode">CLICK SCREEN TO SHOOT</span>
+            <div class="hud-badge-group">
+              <span class="weapon-icon">⚡</span>
+              <span class="hud-badge">AKM 7.62mm</span>
+            </div>
+            <span class="hud-mode">CLICK ANYWHERE TO FIRE</span>
           </div>
           <div class="hud-stats">
             <div class="stat-box">
@@ -87,6 +91,11 @@ interface ShotFlash {
               <span class="stat-num">{{ accuracy() }}%</span>
             </div>
           </div>
+          @if (lastPraise()) {
+            <div class="kill-callout">
+              <span class="dynamo-quote">{{ lastPraise() }}</span>
+            </div>
+          }
         </div>
       </div>
     </div>
@@ -109,8 +118,7 @@ interface ShotFlash {
       width: 100vw;
       height: 100vh;
       display: block;
-      pointer-events: auto;
-      cursor: crosshair;
+      pointer-events: none;
     }
     .hunt-hud {
       position: absolute;
@@ -120,26 +128,40 @@ interface ShotFlash {
       z-index: 20;
     }
     .hud-card {
-      background: rgba(10, 10, 10, 0.85);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 8px;
-      padding: 0.65rem 1.1rem;
+      background: rgba(10, 10, 10, 0.88);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 10px;
+      padding: 0.75rem 1.2rem;
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+      gap: 0.5rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 255, 255, 0.05);
       user-select: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hud-card:hover {
+      border-color: #ffffff;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
     }
     .hud-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      font-size: 0.65rem;
+      gap: 1.2rem;
+      font-size: 0.7rem;
       letter-spacing: 0.15em;
       border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      padding-bottom: 0.3rem;
+      padding-bottom: 0.35rem;
+    }
+    .hud-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .weapon-icon {
+      font-size: 0.85rem;
     }
     .hud-badge {
       font-family: 'Cinzel', serif;
@@ -148,6 +170,8 @@ interface ShotFlash {
     }
     .hud-mode {
       color: rgba(255, 255, 255, 0.5);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
     }
     .hud-stats {
       display: flex;
@@ -167,13 +191,33 @@ interface ShotFlash {
     }
     .stat-num {
       font-family: 'Cinzel', serif;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 900;
       color: #ffffff;
     }
     .streak-num {
       color: #ffffff;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+    }
+    .kill-callout {
+      margin-top: 0.2rem;
+      padding: 0.3rem 0.6rem;
+      background: rgba(255, 255, 255, 0.08);
+      border-left: 2px solid #ffffff;
+      border-radius: 4px;
+      animation: pulseIn 0.25s ease-out;
+    }
+    @keyframes pulseIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .dynamo-quote {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
     }
 
     @media (max-width: 1024px) {
@@ -187,6 +231,8 @@ interface ShotFlash {
 export class BirdHuntComponent implements OnInit, OnDestroy {
   @ViewChild('huntCanvas', { static: true }) private canvasRef!: ElementRef<HTMLCanvasElement>;
   private audio = inject(AudioService);
+  private charConfig = inject(CharacterConfigService);
+
   private ctx!: CanvasRenderingContext2D;
   private animId: number = 0;
 
@@ -196,8 +242,8 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
   readonly streak = signal<number>(1);
   readonly totalShots = signal<number>(0);
   readonly totalHits = signal<number>(0);
-
   readonly accuracy = signal<number>(100);
+  readonly lastPraise = signal<string>('');
 
   // Entities
   private birds: Bird[] = [];
@@ -205,15 +251,17 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
   private floatingTexts: FloatingText[] = [];
   private shotFlashes: ShotFlash[] = [];
 
-  // Crosshair Mouse Coordinates
+  // Tactical Reticle
   private mouseX = -100;
   private mouseY = -100;
+  private lastMouseMoveTime = 0;
+  private isHoveringClickable = false;
 
   ngOnInit(): void {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d', { alpha: true })!;
     this.resizeCanvas();
-    this.initFlock(6);
+    this.initFlock(7);
     this.loop();
   }
 
@@ -232,6 +280,95 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
   onMouseMove(e: MouseEvent): void {
     this.mouseX = e.clientX;
     this.mouseY = e.clientY;
+    this.lastMouseMoveTime = performance.now();
+
+    // Check if hovering interactive element
+    const target = e.target as HTMLElement;
+    this.isHoveringClickable = !!target?.closest('button, a, select, input, .stance-pill, .washi-card, .sound-btn, .word-prop-badge');
+  }
+
+  @HostListener('window:click', ['$event'])
+  onGlobalClick(e: MouseEvent): void {
+    const target = e.target as HTMLElement;
+    // Don't intercept clicks inside specific buttons, navbar or inputs
+    if (target?.closest('button, a, select, input, .stance-pill, .sound-btn, .return-btn, .action-btn')) {
+      return;
+    }
+
+    const clickX = e.clientX;
+    const clickY = e.clientY;
+
+    this.totalShots.update(s => s + 1);
+
+    // Play Authentic 7.62mm AKM Gunshot
+    this.audio.playAkmShot();
+
+    // Trigger AKM Muzzle Flash
+    this.shotFlashes.push({
+      x: clickX,
+      y: clickY,
+      radius: 40,
+      life: 1.0
+    });
+
+    let hitAny = false;
+
+    // Check hit collision against flying birds
+    for (let bird of this.birds) {
+      if (bird.state !== 'flying') continue;
+
+      const dist = Math.hypot(clickX - bird.x, clickY - bird.y);
+      if (dist < bird.size * 1.7) {
+        // HIT / HEADSHOT!
+        hitAny = true;
+        bird.state = 'hit';
+        bird.fallSpeed = 3.2;
+        bird.rotSpeed = (Math.random() - 0.5) * 0.3;
+
+        this.totalHits.update(h => h + 1);
+        this.ducksDown.update(d => d + 1);
+
+        const currentStreak = this.streak();
+        const earned = bird.points * currentStreak;
+        this.score.update(s => s + earned);
+        this.streak.update(st => Math.min(st + 1, 10));
+
+        // Play Dynamo Gaming "Patt Se Headshot!" Kill Voice
+        const config = this.charConfig.huntConfig();
+        this.audio.playHeadshotDialogue(config.killSoundUrl, config.killDialogueText || 'Patt Se Headshot!');
+
+        // Update HUD Callout
+        const callout = `🎯 PATT SE HEADSHOT! (+${earned})`;
+        this.lastPraise.set(callout);
+        setTimeout(() => {
+          if (this.lastPraise() === callout) this.lastPraise.set('');
+        }, 3500);
+
+        // Spawn Feather Explosion
+        this.spawnFeathers(bird.x, bird.y, 16);
+
+        // Spawn Floating Combo Text
+        this.floatingTexts.push({
+          id: Math.random(),
+          x: bird.x,
+          y: bird.y - 20,
+          text: `PATT SE HEADSHOT! +${earned}`,
+          color: '#ffffff',
+          opacity: 1.0,
+          vy: -2.2
+        });
+
+        break;
+      }
+    }
+
+    if (!hitAny) {
+      this.streak.set(1);
+    }
+
+    // Update Accuracy
+    const acc = Math.round((this.totalHits() / (this.totalShots() || 1)) * 100);
+    this.accuracy.set(acc);
   }
 
   private initFlock(count: number): void {
@@ -250,10 +387,10 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
 
     const fromLeft = Math.random() > 0.5;
     const x = initialX !== undefined ? initialX : fromLeft ? -60 : w + 60;
-    const y = initialY !== undefined ? initialY : Math.random() * (h * 0.6) + 50;
+    const y = initialY !== undefined ? initialY : Math.random() * (h * 0.55) + 50;
 
     // Flight Velocity
-    const baseSpeed = Math.random() * 2.8 + 2.2;
+    const baseSpeed = Math.random() * 2.8 + 2.4;
     const vx = fromLeft ? baseSpeed : -baseSpeed;
     const vy = (Math.random() - 0.5) * 1.2;
 
@@ -270,7 +407,7 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
       vy,
       size,
       wingAngle: Math.random() * Math.PI * 2,
-      wingSpeed: Math.random() * 0.15 + 0.18,
+      wingSpeed: Math.random() * 0.16 + 0.18,
       state: 'flying',
       fallSpeed: 0,
       rotation: 0,
@@ -284,87 +421,18 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
     });
   }
 
-  onShoot(e: MouseEvent): void {
-    const clickX = e.clientX;
-    const clickY = e.clientY;
-
-    this.totalShots.update(s => s + 1);
-    this.audio.playShot();
-
-    // Trigger Shot Flash at Click Point
-    this.shotFlashes.push({
-      x: clickX,
-      y: clickY,
-      radius: 35,
-      life: 1.0
-    });
-
-    let hitAny = false;
-
-    // Check hit collision against flying birds
-    for (let bird of this.birds) {
-      if (bird.state !== 'flying') continue;
-
-      const dist = Math.hypot(clickX - bird.x, clickY - bird.y);
-      if (dist < bird.size * 1.6) {
-        // HIT!
-        hitAny = true;
-        bird.state = 'hit';
-        bird.fallSpeed = 2.5;
-        bird.rotSpeed = (Math.random() - 0.5) * 0.25;
-
-        this.totalHits.update(h => h + 1);
-        this.ducksDown.update(d => d + 1);
-
-        const currentStreak = this.streak();
-        const earned = bird.points * currentStreak;
-        this.score.update(s => s + earned);
-        this.streak.update(st => Math.min(st + 1, 10));
-
-        // Audio hit
-        this.audio.playBirdHit();
-
-        // Spawn Feather Explosion
-        this.spawnFeathers(bird.x, bird.y, 14);
-
-        // Spawn Floating Score Text
-        const praise = currentStreak > 3 ? `x${currentStreak} MEGA SHOT! +${earned}` : `+${earned}`;
-        this.floatingTexts.push({
-          id: Math.random(),
-          x: bird.x,
-          y: bird.y - 15,
-          text: praise,
-          color: '#ffffff',
-          opacity: 1.0,
-          vy: -1.8
-        });
-
-        break;
-      }
-    }
-
-    if (!hitAny) {
-      // Missed shot resets streak
-      this.streak.set(1);
-    }
-
-    // Update Accuracy
-    const acc = Math.round((this.totalHits() / (this.totalShots() || 1)) * 100);
-    this.accuracy.set(acc);
-  }
-
   private spawnFeathers(x: number, y: number, count: number): void {
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 4.5 + 1.5;
+      const speed = Math.random() * 5.0 + 1.8;
       this.feathers.push({
         x,
         y,
         vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - 1.5,
+        vy: Math.sin(angle) * speed - 1.8,
         rotation: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 0.15,
-        size: Math.random() * 8 + 6,
+        rotSpeed: (Math.random() - 0.5) * 0.18,
+        size: Math.random() * 9 + 6,
         life: 1.0,
         maxLife: Math.random() * 0.3 + 0.7,
         color: Math.random() > 0.3 ? '#ffffff' : '#b0b0b0'
@@ -376,39 +444,40 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
     const canvas = this.canvasRef.nativeElement;
     const w = canvas.width;
     const h = canvas.height;
+    const now = performance.now();
 
     this.ctx.clearRect(0, 0, w, h);
 
-    // 1. Draw Shot Flashes
+    // 1. Draw AKM Shot Flashes
     for (let i = this.shotFlashes.length - 1; i >= 0; i--) {
       const flash = this.shotFlashes[i];
-      flash.life -= 0.12;
+      flash.life -= 0.14;
       if (flash.life <= 0) {
         this.shotFlashes.splice(i, 1);
         continue;
       }
 
       this.ctx.save();
-      this.ctx.fillStyle = `rgba(255, 255, 255, ${flash.life * 0.7})`;
+      this.ctx.fillStyle = `rgba(255, 255, 255, ${flash.life * 0.8})`;
       this.ctx.shadowColor = '#ffffff';
-      this.ctx.shadowBlur = 20;
+      this.ctx.shadowBlur = 24;
       this.ctx.beginPath();
       this.ctx.arc(flash.x, flash.y, flash.radius * (1 - flash.life * 0.5), 0, Math.PI * 2);
       this.ctx.fill();
 
-      // Cross lines flash
+      // Crosshair Flash Burst
       this.ctx.strokeStyle = `rgba(255, 255, 255, ${flash.life})`;
-      this.ctx.lineWidth = 2;
+      this.ctx.lineWidth = 2.5;
       this.ctx.beginPath();
-      this.ctx.moveTo(flash.x - 30, flash.y);
-      this.ctx.lineTo(flash.x + 30, flash.y);
-      this.ctx.moveTo(flash.x, flash.y - 30);
-      this.ctx.lineTo(flash.x, flash.y + 30);
+      this.ctx.moveTo(flash.x - 35, flash.y);
+      this.ctx.lineTo(flash.x + 35, flash.y);
+      this.ctx.moveTo(flash.x, flash.y - 35);
+      this.ctx.lineTo(flash.x, flash.y + 35);
       this.ctx.stroke();
       this.ctx.restore();
     }
 
-    // 2. Update and Draw Birds
+    // 2. Update and Draw Flying Birds
     for (let i = this.birds.length - 1; i >= 0; i--) {
       const b = this.birds[i];
       b.timeAlive++;
@@ -426,11 +495,10 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
           continue;
         }
       } else if (b.state === 'hit') {
-        b.fallSpeed += 0.35; // Gravity
+        b.fallSpeed += 0.4;
         b.y += b.fallSpeed;
         b.rotation += b.rotSpeed;
 
-        // Despawn after falling below screen
         if (b.y > h + 80) {
           this.birds.splice(i, 1);
           this.spawnBird();
@@ -438,12 +506,11 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
         }
       }
 
-      // Draw Bird
       this.drawBird(b);
     }
 
     // Maintain flock count
-    while (this.birds.length < 6) {
+    while (this.birds.length < 7) {
       this.spawnBird();
     }
 
@@ -452,7 +519,7 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
       const f = this.feathers[i];
       f.x += f.vx;
       f.y += f.vy;
-      f.vy += 0.08; // subtle feather gravity
+      f.vy += 0.08;
       f.vx *= 0.96;
       f.rotation += f.rotSpeed;
       f.life -= 0.015;
@@ -468,7 +535,7 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
       this.ctx.fillStyle = f.color;
       this.ctx.globalAlpha = f.life;
       this.ctx.shadowColor = '#ffffff';
-      this.ctx.shadowBlur = 6;
+      this.ctx.shadowBlur = 8;
 
       this.ctx.beginPath();
       this.ctx.ellipse(0, 0, f.size * 0.35, f.size, 0, 0, Math.PI * 2);
@@ -488,17 +555,18 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
       }
 
       this.ctx.save();
-      this.ctx.font = '900 16px "Cinzel", serif';
+      this.ctx.font = '900 17px "Cinzel", serif';
       this.ctx.fillStyle = `rgba(255, 255, 255, ${txt.opacity})`;
       this.ctx.shadowColor = '#ffffff';
-      this.ctx.shadowBlur = 12;
+      this.ctx.shadowBlur = 14;
       this.ctx.textAlign = 'center';
       this.ctx.fillText(txt.text, txt.x, txt.y);
       this.ctx.restore();
     }
 
-    // 5. Draw Animated Crosshair Scope on Cursor
-    if (this.mouseX > 0 && this.mouseY > 0) {
+    // 5. Draw Tactical AKM Scope Reticle (only when active and not hovering cards/buttons)
+    const isMouseActive = now - this.lastMouseMoveTime < 2500;
+    if (this.mouseX > 0 && this.mouseY > 0 && isMouseActive && !this.isHoveringClickable) {
       this.drawCrosshair(this.mouseX, this.mouseY);
     }
 
@@ -511,7 +579,6 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
     if (b.state === 'hit') {
       this.ctx.rotate(b.rotation);
     } else {
-      // Facing direction
       const angle = Math.atan2(b.vy, b.vx);
       this.ctx.rotate(angle);
       if (b.vx < 0) {
@@ -519,21 +586,21 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
       }
     }
 
-    const wingFlap = Math.sin(b.wingAngle) * (b.size * 0.9);
+    const wingFlap = Math.sin(b.wingAngle) * (b.size * 0.95);
 
     this.ctx.fillStyle = b.color;
     this.ctx.strokeStyle = '#000000';
     this.ctx.lineWidth = 1.5;
-    this.ctx.shadowColor = 'rgba(255, 255, 255, 0.6)';
-    this.ctx.shadowBlur = 10;
+    this.ctx.shadowColor = 'rgba(255, 255, 255, 0.7)';
+    this.ctx.shadowBlur = 12;
 
-    // Bird Body (Mallard / Crane / Hawk)
+    // Bird Body
     this.ctx.beginPath();
     this.ctx.ellipse(0, 0, b.size * 0.8, b.size * 0.35, 0, 0, Math.PI * 2);
     this.ctx.fill();
     this.ctx.stroke();
 
-    // Head & Beak
+    // Head
     this.ctx.beginPath();
     this.ctx.arc(b.size * 0.7, -2, b.size * 0.28, 0, Math.PI * 2);
     this.ctx.fill();
@@ -573,20 +640,20 @@ export class BirdHuntComponent implements OnInit, OnDestroy {
     this.ctx.strokeStyle = '#ffffff';
     this.ctx.lineWidth = 1.5;
     this.ctx.shadowColor = '#ffffff';
-    this.ctx.shadowBlur = 8;
+    this.ctx.shadowBlur = 10;
 
-    // Outer Circle
+    // Outer Reticle Circle
     this.ctx.beginPath();
     this.ctx.arc(x, y, 16, 0, Math.PI * 2);
     this.ctx.stroke();
 
-    // Inner Dot
+    // Inner Center Dot
     this.ctx.fillStyle = '#ffffff';
     this.ctx.beginPath();
     this.ctx.arc(x, y, 2.5, 0, Math.PI * 2);
     this.ctx.fill();
 
-    // 4 Crosshair Notches
+    // 4 Crosshair Lines
     this.ctx.beginPath();
     this.ctx.moveTo(x - 24, y);
     this.ctx.lineTo(x - 8, y);

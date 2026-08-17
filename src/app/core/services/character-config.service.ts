@@ -7,6 +7,14 @@ export interface MemeDialogue {
   triggerOn: 'PARRY' | 'ULT' | 'WIN';
 }
 
+export interface DuckHuntAudioConfig {
+  killSoundUrl: string;
+  killDialogueText: string;
+  useVoiceSynthesis: boolean;
+  gunSound: 'akm' | 'kar98k' | 'awm';
+  volume: number;
+}
+
 export interface MemeCharacter {
   id: string;
   name: string;
@@ -25,6 +33,9 @@ export interface MemeCharacter {
 })
 export class CharacterConfigService {
   private readonly STORAGE_KEY = 'utkarsh_portfolio_meme_characters';
+  private readonly HUNT_STORAGE_KEY = 'utkarsh_portfolio_hunt_config';
+
+  readonly huntConfig = signal<DuckHuntAudioConfig>(this.loadHuntConfig());
 
   // Preset Meme Legends & Iconic Figures
   private defaultCharacters: MemeCharacter[] = [
@@ -118,6 +129,29 @@ export class CharacterConfigService {
     return this.defaultCharacters;
   }
 
+  private loadHuntConfig(): DuckHuntAudioConfig {
+    try {
+      const saved = localStorage.getItem(this.HUNT_STORAGE_KEY);
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch {}
+    return {
+      killSoundUrl: '',
+      killDialogueText: 'Patt Se Headshot!',
+      useVoiceSynthesis: true,
+      gunSound: 'akm',
+      volume: 0.9
+    };
+  }
+
+  saveHuntConfig(config: DuckHuntAudioConfig): void {
+    this.huntConfig.set(config);
+    try {
+      localStorage.setItem(this.HUNT_STORAGE_KEY, JSON.stringify(config));
+    } catch {}
+  }
+
   saveCharacter(character: MemeCharacter): void {
     const list = [...this.characters()];
     const index = list.findIndex(c => c.id === character.id);
@@ -148,3 +182,4 @@ export class CharacterConfigService {
     this.selectedOpponent.set(character);
   }
 }
+

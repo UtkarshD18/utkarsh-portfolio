@@ -387,10 +387,11 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       flex-wrap: wrap;
     }
     .stance-pill {
-      background: rgba(18, 18, 18, 0.8);
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: rgba(255, 255, 255, 0.75);
-      padding: 0.5rem 1rem;
+      padding: 0.55rem 1.1rem;
       border-radius: 6px;
       font-size: 0.8rem;
       font-weight: 700;
@@ -399,23 +400,32 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      transition: all 0.25s ease;
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .stance-kanji {
       font-family: 'Shippori Mincho', serif;
       color: #ffffff;
       font-size: 0.95rem;
+      transition: transform 0.25s ease;
     }
     .stance-pill:hover {
       border-color: #ffffff;
       color: #fff;
-      background: rgba(30, 30, 30, 0.95);
+      background: rgba(36, 36, 36, 0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 255, 255, 0.15);
+    }
+    .stance-pill:hover .stance-kanji {
+      transform: scale(1.15);
+    }
+    .stance-pill:active {
+      transform: scale(0.96) translateY(0);
     }
     .stance-pill.active {
       background: #ffffff;
       color: #000000;
       border-color: #ffffff;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
     }
     .stance-pill.active .stance-kanji {
       color: #000000;
@@ -432,9 +442,9 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       z-index: 2;
     }
     .washi-card {
-      background: rgba(12, 12, 12, 0.85);
+      background: rgba(12, 12, 12, 0.88);
       backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: 14px;
       padding: 2.8rem;
       display: flex;
@@ -443,12 +453,12 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       position: relative;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
-      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
     }
     .washi-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-6px) scale(1.008);
       border-color: #ffffff;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 255, 255, 0.2);
     }
     .kanji-bg-card {
       position: absolute;
@@ -461,6 +471,11 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       user-select: none;
       pointer-events: none;
       line-height: 1;
+      transition: transform 0.4s ease, color 0.4s ease;
+    }
+    .washi-card:hover .kanji-bg-card {
+      transform: scale(1.08) rotate(-4deg);
+      color: rgba(255, 255, 255, 0.08);
     }
     .card-header {
       display: flex;
@@ -482,6 +497,12 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       padding: 0.1rem 0.35rem;
       border-radius: 3px;
       background: rgba(255, 255, 255, 0.1);
+      transition: all 0.25s ease;
+    }
+    .washi-card:hover .seal-stamp {
+      background: #ffffff;
+      color: #000000;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
     }
     .bento-card h3 {
       font-family: 'Cinzel', serif;
@@ -512,6 +533,12 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       font-size: 0.75rem;
       letter-spacing: 0.05em;
       color: #ffffff;
+      transition: all 0.2s ease;
+    }
+    .pill:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: #ffffff;
+      transform: translateY(-1px);
     }
     .ink-line {
       position: absolute;
@@ -542,12 +569,15 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       font-size: 0.85rem;
       letter-spacing: 0.1em;
       box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
-      transition: all 0.25s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .sound-btn:hover {
-      background: #f0f0f0;
-      transform: scale(1.02);
-      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.5);
+      background: #ffffff;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.6);
+    }
+    .sound-btn:active {
+      transform: scale(0.95);
     }
     .sound-wave {
       display: flex;
