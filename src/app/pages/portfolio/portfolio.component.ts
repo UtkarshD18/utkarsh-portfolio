@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MoonFooterComponent } from '../../components/moon-footer/moon-footer.component';
-import { WindLeavesComponent } from '../../components/wind-leaves/wind-leaves.component';
+import { BirdHuntComponent } from '../../components/bird-hunt/bird-hunt.component';
 import { WordPropsComponent } from '../../components/word-props/word-props.component';
 import { LandscapeHorizonComponent } from '../../components/landscape-horizon/landscape-horizon.component';
 import { AudioService } from '../../core/services/audio.service';
@@ -10,23 +10,23 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule, MoonFooterComponent, WindLeavesComponent, WordPropsComponent, LandscapeHorizonComponent],
+  imports: [CommonModule, MoonFooterComponent, BirdHuntComponent, WordPropsComponent, LandscapeHorizonComponent],
   template: `
     <div class="portfolio-container sumi-monochrome">
       <!-- Dynamic IST Time-Synced Japanese Mountain Landscape & Dawn Horizon -->
       <app-landscape-horizon></app-landscape-horizon>
 
-      <!-- Real-Time Blade Slicing & Falling Monochrome Leaves Layer -->
-      <app-wind-leaves></app-wind-leaves>
+      <!-- Interactive Duck / Bird Hunting Arcade Game Layer -->
+      <app-bird-hunt></app-bird-hunt>
 
       <!-- Interactive Word Props Layer (Touch / Pin Detection) -->
       <app-word-props></app-word-props>
 
-      <!-- Background Kanji Watermarks & Blade Vignette -->
+      <!-- Background Kanji Watermarks & Game Vignette -->
       <div class="blade-slash-hint">
-        <span>⚔ SWIPE CURSOR RAPIDLY TO SLICE FALLING LEAVES IN REAL-TIME</span>
+        <span>🎯 CLICK ANYWHERE TO SHOOT FLYING BIRDS · TOUCH WORD PROPS TO PIN</span>
       </div>
-      <div class="kanji-watermark hero-kanji">切断</div>
+      <div class="kanji-watermark hero-kanji">射撃</div>
 
       <!-- Minimalist Monochrome Samurai Navbar -->
       <nav class="nav-bar">

@@ -119,6 +119,53 @@ export class AudioService {
     } catch {}
   }
 
+  // Synthesizes a sharp arrow/gunshot firing sound for Duck Hunt
+  playShot(): void {
+    if (this.isMuted) return;
+    try {
+      const ctx = this.initContext();
+      const now = ctx.currentTime;
+
+      // 1. Noise burst / shot crack
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(900, now);
+      osc.frequency.exponentialRampToValueAtTime(60, now + 0.12);
+
+      gain.gain.setValueAtTime(0.6, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.15);
+    } catch {}
+  }
+
+  // Synthesizes bird hit / feather scatter impact
+  playBirdHit(): void {
+    if (this.isMuted) return;
+    try {
+      const ctx = this.initContext();
+      const now = ctx.currentTime;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, now);
+      osc.frequency.exponentialRampToValueAtTime(120, now + 0.18);
+
+      gain.gain.setValueAtTime(0.5, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.2);
+    } catch {}
+  }
+
   // Synthesizes heavy blunt hit impact
   playHit(): void {
     if (this.isMuted) return;
