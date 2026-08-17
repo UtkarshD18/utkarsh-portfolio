@@ -1,32 +1,22 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { MoonFooterComponent } from '../../components/moon-footer/moon-footer.component';
 import { BirdHuntComponent } from '../../components/bird-hunt/bird-hunt.component';
-import { WordPropsComponent } from '../../components/word-props/word-props.component';
 import { LandscapeHorizonComponent } from '../../components/landscape-horizon/landscape-horizon.component';
 import { AudioService } from '../../core/services/audio.service';
-import { CharacterConfigService } from '../../core/services/character-config.service';
 
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule, MoonFooterComponent, BirdHuntComponent, WordPropsComponent, LandscapeHorizonComponent],
+  imports: [CommonModule, MoonFooterComponent, BirdHuntComponent, LandscapeHorizonComponent],
   template: `
     <div class="portfolio-container sumi-monochrome">
-      <!-- Dynamic IST Time-Synced Japanese Mountain Landscape & Dawn Horizon -->
+      <!-- Sekiro-Themed Battlefield Landscape & Interactive Planted Katana Tech Props -->
       <app-landscape-horizon></app-landscape-horizon>
 
-      <!-- Interactive Duck / Bird Hunting Arcade Game Layer -->
+      <!-- Duck / Bird Hunting Arcade Game Layer with AKM & Dynamo Headshot voice -->
       <app-bird-hunt></app-bird-hunt>
-
-      <!-- Interactive Word Props Layer (Touch / Pin Detection) -->
-      <app-word-props></app-word-props>
-
-      <!-- Background Kanji Watermarks & Game Vignette -->
-      <div class="blade-slash-hint">
-        <span>🎯 CLICK ANYWHERE TO SHOOT FLYING BIRDS · TOUCH WORD PROPS TO PIN</span>
-      </div>
-      <div class="kanji-watermark hero-kanji">射撃</div>
 
       <!-- Minimalist Monochrome Samurai Navbar -->
       <nav class="nav-bar">
@@ -38,20 +28,20 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
           </div>
         </div>
         <div class="nav-links">
-          <a href="#stances" class="nav-link"><span>01</span> STANCES</a>
-          <a href="#build" class="nav-link"><span>02</span> FORGE</a>
-          <a href="#compete" class="nav-link"><span>03</span> COMBAT</a>
-          <a href="#observe" class="nav-link"><span>04</span> OBSERVATION</a>
+          <a href="#build" class="nav-link"><span>01</span> FORGE</a>
+          <a href="#compete" class="nav-link"><span>02</span> COMPETITIVE</a>
+          <a href="#observe" class="nav-link"><span>03</span> PHILOSOPHY</a>
+          <button class="nav-duel-btn" (click)="goToDuel()">⚔ 3D ARENA</button>
           <a href="/admin" class="nav-link studio-link">STUDIO</a>
         </div>
       </nav>
 
-      <!-- Hero Section (Monochrome Kurosawa Samurai) -->
+      <!-- Hero Section (Sekiro Battlefield Atmosphere) -->
       <header class="hero-section">
         <div class="hero-haiku-kicker">
           <span class="kicker-line"></span>
           <span class="kicker-text">LOW-LATENCY · SYSTEMS · COMPOSURE</span>
-          <span class="kicker-kanji">無刀流</span>
+          <span class="kicker-kanji">隻狼 · SEKIRO</span>
         </div>
         <h1 class="hero-title">
           Forge <span class="white-text">Systems</span>.<br />
@@ -59,46 +49,22 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
           Observe the <span class="white-outline">Void</span>.
         </h1>
         <p class="hero-subtitle">
-          Built with low-level C++ architectures, deterministic WebGL combat physics, and unyielding focus.
+          Engineered with low-level C++ architectures, deterministic WebGL combat physics, and unyielding competitive focus.
         </p>
 
-        <!-- Stance Selector Switcher -->
-        <div class="stance-selector" id="stances">
-          <span class="stance-label">ACTIVE STANCE:</span>
-          <div class="stance-pills">
-            <button
-              class="stance-pill"
-              [class.active]="activeStance() === 'stone'"
-              (click)="setStance('stone')"
-            >
-              <span class="stance-kanji">岩</span>
-              <span>STONE (C++)</span>
-            </button>
-            <button
-              class="stance-pill"
-              [class.active]="activeStance() === 'water'"
-              (click)="setStance('water')"
-            >
-              <span class="stance-kanji">水</span>
-              <span>WATER (WASM)</span>
-            </button>
-            <button
-              class="stance-pill"
-              [class.active]="activeStance() === 'wind'"
-              (click)="setStance('wind')"
-            >
-              <span class="stance-kanji">風</span>
-              <span>WIND (ATHLETE)</span>
-            </button>
-            <button
-              class="stance-pill"
-              [class.active]="activeStance() === 'moon'"
-              (click)="setStance('moon')"
-            >
-              <span class="stance-kanji">月</span>
-              <span>MOON (ZEN)</span>
-            </button>
-          </div>
+        <!-- Functional Action Controls (Purposeful Navigation) -->
+        <div class="hero-action-buttons">
+          <button class="primary-hero-btn" (click)="goToDuel()">
+            <span class="btn-icon">⚔</span>
+            <span>ENTER 3D COMBAT ARENA</span>
+          </button>
+          <a href="#build" class="secondary-hero-btn">
+            <span>EXPLORE SYSTEM ARCHITECTURE ↓</span>
+          </a>
+          <button class="outline-hero-btn" (click)="goToAdmin()">
+            <span class="btn-icon">🎙</span>
+            <span>AUDIO & MEME STUDIO</span>
+          </button>
         </div>
       </header>
 
@@ -132,7 +98,7 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
             <span class="seal-stamp">響</span>
           </div>
           <h3>Echoes of the Blade</h3>
-          <p>Web Audio API synthesis for metallic parry harmonics, sword swooshes, and viral character dialogues.</p>
+          <p>Web Audio API synthesis for metallic parry harmonics, 7.62mm AKM gunshot physics, and viral character dialogues.</p>
           <div class="sound-controls">
             <button class="sound-btn" (click)="playRandomSound()">
               <span class="play-icon">⚔</span>
@@ -199,37 +165,6 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     }
 
-    .blade-slash-hint {
-      position: absolute;
-      top: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      color: rgba(255, 255, 255, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 0.35rem 1rem;
-      border-radius: 999px;
-      background: rgba(10, 10, 10, 0.6);
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .kanji-watermark {
-      position: absolute;
-      font-family: 'Shippori Mincho', serif;
-      font-size: 26rem;
-      font-weight: 900;
-      color: rgba(255, 255, 255, 0.025);
-      top: 30px;
-      right: 30px;
-      user-select: none;
-      pointer-events: none;
-      z-index: 0;
-      line-height: 1;
-    }
-
     /* Navbar */
     .nav-bar {
       display: flex;
@@ -274,7 +209,7 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
     }
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      gap: 2rem;
       align-items: center;
     }
     .nav-link {
@@ -296,17 +231,35 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       color: #ffffff;
       text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
     }
-    .studio-link {
-      color: #000000;
+    .nav-duel-btn {
       background: #ffffff;
-      border: 1px solid #ffffff;
-      padding: 0.35rem 0.9rem;
-      border-radius: 4px;
+      border: none;
+      color: #000000;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .nav-duel-btn:hover {
+      background: #f0f0f0;
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.7);
+      transform: translateY(-1px);
+    }
+    .studio-link {
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
       font-weight: 700;
+      background: rgba(255, 255, 255, 0.08);
     }
     .studio-link:hover {
-      background: transparent;
-      color: #ffffff;
+      background: #ffffff;
+      color: #000000;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
     }
 
@@ -367,68 +320,78 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
       margin-bottom: 2.8rem;
     }
 
-    /* Stance Selector */
-    .stance-selector {
+    /* Purposeful Hero Action Buttons */
+    .hero-action-buttons {
       display: flex;
       align-items: center;
       gap: 1.2rem;
-      margin-top: 1rem;
       flex-wrap: wrap;
     }
-    .stance-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      color: rgba(255, 255, 255, 0.6);
-      font-weight: 700;
-    }
-    .stance-pills {
+    .primary-hero-btn {
+      background: #ffffff;
+      border: none;
+      color: #000000;
+      padding: 0.85rem 1.8rem;
+      border-radius: 6px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      cursor: pointer;
       display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
     }
-    .stance-pill {
+    .primary-hero-btn:hover {
+      background: #ffffff;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(255, 255, 255, 0.6);
+    }
+    .primary-hero-btn:active {
+      transform: scale(0.96);
+    }
+    .secondary-hero-btn {
       background: rgba(18, 18, 18, 0.85);
-      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 0.85rem 1.6rem;
+      border-radius: 6px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .secondary-hero-btn:hover {
+      border-color: #ffffff;
+      background: rgba(30, 30, 30, 0.95);
+      transform: translateY(-2px);
+    }
+    .outline-hero-btn {
+      background: transparent;
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: rgba(255, 255, 255, 0.75);
-      padding: 0.55rem 1.1rem;
+      padding: 0.85rem 1.5rem;
       border-radius: 6px;
+      font-family: 'Cinzel', serif;
       font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
+      font-weight: 800;
+      letter-spacing: 0.12em;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.25s ease;
     }
-    .stance-kanji {
-      font-family: 'Shippori Mincho', serif;
+    .outline-hero-btn:hover {
+      border-color: #ffffff;
       color: #ffffff;
-      font-size: 0.95rem;
-      transition: transform 0.25s ease;
-    }
-    .stance-pill:hover {
-      border-color: #ffffff;
-      color: #fff;
-      background: rgba(36, 36, 36, 0.95);
+      background: rgba(255, 255, 255, 0.08);
       transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 255, 255, 0.15);
-    }
-    .stance-pill:hover .stance-kanji {
-      transform: scale(1.15);
-    }
-    .stance-pill:active {
-      transform: scale(0.96) translateY(0);
-    }
-    .stance-pill.active {
-      background: #ffffff;
-      color: #000000;
-      border-color: #ffffff;
-      box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
-    }
-    .stance-pill.active .stance-kanji {
-      color: #000000;
     }
 
     /* Bento Grid */
@@ -650,14 +613,16 @@ import { CharacterConfigService } from '../../core/services/character-config.ser
 })
 export class PortfolioComponent {
   private audio = inject(AudioService);
-  private charConfig = inject(CharacterConfigService);
+  private router = inject(Router);
 
   readonly isPlayingSound = signal<boolean>(false);
-  readonly activeStance = signal<'stone' | 'water' | 'wind' | 'moon'>('stone');
 
-  setStance(stance: 'stone' | 'water' | 'wind' | 'moon'): void {
-    this.activeStance.set(stance);
-    this.audio.playParry();
+  goToDuel(): void {
+    this.router.navigate(['/duel']);
+  }
+
+  goToAdmin(): void {
+    this.router.navigate(['/admin']);
   }
 
   playRandomSound(): void {
@@ -670,4 +635,3 @@ export class PortfolioComponent {
     }, 600);
   }
 }
-
