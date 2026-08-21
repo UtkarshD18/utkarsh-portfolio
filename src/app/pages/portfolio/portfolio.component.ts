@@ -20,16 +20,16 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
           <!-- Availability Pill -->
           <div class="status-pill liquid-glass">
             <span class="status-dot"></span>
-            <span>Software Engineer · B.Tech CSE (2022-2026) · New Delhi / Jaipur</span>
+            <span>AI / ML Developer &amp; Backend Engineer · B.Tech CSE (2026)</span>
           </div>
 
           <!-- Bold Kinetic Typography Headline -->
           <h1 class="hero-heading">
-            I engineer <span class="highlight-blue">scalable backends</span>, <span class="highlight-sand">distributed systems</span> &amp; modern web interfaces.
+            I engineer <span class="highlight-blue">multi-agent AI pipelines</span> &amp; <span class="highlight-sand">scalable backends</span>.
           </h1>
 
           <p class="hero-subtext">
-            Software engineer with expertise in Java 21, Spring Boot 3.4, React/Node.js, PostgreSQL (pgvector RAG), and low-latency C++ WebAssembly architectures.
+            B.Tech CSE student specializing in StateGraph-based multi-agent routing with LangGraph/LangChain, PostgreSQL pgvector RAG semantic search, and full-stack production systems.
           </p>
 
           <!-- Hero Action CTAs -->
@@ -44,27 +44,27 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
               <span>LinkedIn Profile ↗</span>
             </a>
             <a routerLink="/contact" class="secondary-btn liquid-glass">
-              <span>Contact ✉</span>
+              <span>Get In Touch ✉</span>
             </a>
           </div>
 
           <!-- Key Metrics Grid from Resume -->
           <div class="metrics-ribbon">
             <div class="metric-box liquid-glass">
-              <span class="metric-val">208k+</span>
-              <span class="metric-label">Lines of Code (B1G-CRM Enterprise)</span>
+              <span class="metric-val">-45%</span>
+              <span class="metric-label">Prompt Token Reduction (LangGraph)</span>
             </div>
             <div class="metric-box liquid-glass">
-              <span class="metric-val">1,200</span>
-              <span class="metric-label">Req/Sec (Java 21 Spring Boot Monolith)</span>
+              <span class="metric-val">98%</span>
+              <span class="metric-label">Multi-Agent Triage Routing Accuracy</span>
             </div>
             <div class="metric-box liquid-glass">
-              <span class="metric-val">90%</span>
-              <span class="metric-label">Campaign Query Execution Speedup</span>
+              <span class="metric-val">5,000+</span>
+              <span class="metric-label">Monthly Active Users (BogEcom)</span>
             </div>
             <div class="metric-box liquid-glass">
-              <span class="metric-val">350+</span>
-              <span class="metric-label">LeetCode Algorithmic Problems Solved</span>
+              <span class="metric-val">100+</span>
+              <span class="metric-label">DSA Solved (LeetCode &amp; Code360)</span>
             </div>
           </div>
         </div>
@@ -74,54 +74,54 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       <section class="featured-section">
         <div class="content-container">
           <div class="section-top">
-            <span class="section-tag">[ 01 · FEATURED PROJECTS ]</span>
-            <h2 class="section-title">Verified Production Repositories</h2>
+            <span class="section-tag">[ 01 · FEATURED REPOSITORIES ]</span>
+            <h2 class="section-title">Verified Production Systems</h2>
             <p class="section-desc">
-              Real codebases with live databases, concurrency locks, RAG search, and automated tests.
+              StateGraph multi-agent routing, pgvector RAG search, and full-stack production platforms.
             </p>
           </div>
 
           <div class="featured-grid">
-            <!-- 1. B1G-CRM -->
+            <!-- 1. B1GCRM -->
             <div class="project-card liquid-glass">
               <div class="card-meta">
-                <span class="category-tag">ENTERPRISE CRM / REACT / NODE.JS</span>
+                <span class="category-tag">MULTI-AGENT AI / LANGGRAPH / PGVECTOR</span>
                 <span class="status-tag">208K+ LINES</span>
               </div>
-              <h3 class="card-title">B1G-CRM — Omni-Channel Multi-Tenant Platform</h3>
+              <h3 class="card-title">B1GCRM — Multi-Agent Enterprise Platform</h3>
               <p class="card-desc">
-                Multi-tenant CRM with real-time Socket.io messaging, React Flow visual automation engine, and pgvector RAG semantic document search.
+                StateGraph-based multi-agent routing system with LangGraph &amp; LangChain (cutting prompt tokens by 45% &amp; costs by 30%), 98% triage accuracy to specialist agents, PostgreSQL pgvector RAG knowledge base, and React Flow visual automation.
               </p>
               <div class="card-pills">
+                <span class="pill">LangGraph</span>
+                <span class="pill">LangChain</span>
+                <span class="pill">pgvector</span>
                 <span class="pill">React</span>
                 <span class="pill">Node.js</span>
-                <span class="pill">PostgreSQL</span>
-                <span class="pill">pgvector</span>
                 <span class="pill">Socket.io</span>
-                <span class="pill">React Flow</span>
               </div>
               <div class="card-footer">
                 <a routerLink="/work" fragment="b1gcrm" class="card-link">View Architecture &amp; Code →</a>
               </div>
             </div>
 
-            <!-- 2. bogEcom Enterprise -->
+            <!-- 2. BogEcom -->
             <div class="project-card liquid-glass">
               <div class="card-meta">
-                <span class="category-tag">JAVA 21 / SPRING BOOT 3.4 / MYSQL</span>
-                <span class="status-tag">1,200 REQ/SEC</span>
+                <span class="category-tag">PRODUCTION E-COMMERCE / NEXT.JS / GCP</span>
+                <span class="status-tag">5,000+ MAU</span>
               </div>
-              <h3 class="card-title">bogEcom Enterprise — Modular Monolith</h3>
+              <h3 class="card-title">BogEcom — Production E-Commerce Platform</h3>
               <p class="card-desc">
-                High-performance e-commerce backend with HikariCP connection pooling (+35% throughput boost), Spring Security stateless JWTs, and JPA optimistic locking.
+                Production-deployed e-commerce platform with 5,000+ MAU, 2 integrated payment gateways with JWT auth &amp; RBAC (+40% API/DB boost), and automated GitHub Actions CI/CD (80% faster deployments).
               </p>
               <div class="card-pills">
-                <span class="pill">Java 21</span>
-                <span class="pill">Spring Boot 3.4</span>
-                <span class="pill">Spring Security</span>
-                <span class="pill">MySQL</span>
-                <span class="pill">HikariCP</span>
-                <span class="pill">Testcontainers</span>
+                <span class="pill">Next.js</span>
+                <span class="pill">React</span>
+                <span class="pill">Firebase</span>
+                <span class="pill">GCP</span>
+                <span class="pill">JWT Auth</span>
+                <span class="pill">GitHub Actions</span>
               </div>
               <div class="card-footer">
                 <a routerLink="/work" fragment="bogecom" class="card-link">View Architecture &amp; Code →</a>

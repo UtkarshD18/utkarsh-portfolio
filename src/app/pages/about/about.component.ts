@@ -17,35 +17,35 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
         <div class="content-container">
           <!-- Header -->
           <div class="page-header">
-            <span class="page-kicker">[ 01 · BACKGROUND &amp; PHILOSOPHY ]</span>
+            <span class="page-kicker">[ 01 · PROFILE &amp; EXPERIENCE ]</span>
             <h1 class="page-title">Utkarsh Dwivedi</h1>
             <p class="page-subtitle">
-              B.Tech CSE student (2022–2026) passionate about building scalable, high-throughput systems, event-driven web platforms, and low-latency software.
+              AI / ML Developer &amp; Backend Systems Engineer · B.Tech CSE (2022–2026)
             </p>
           </div>
 
-          <!-- Narrative Section -->
+          <!-- Professional Summary Card -->
           <div class="narrative-grid">
             <div class="narrative-card liquid-glass">
               <span class="card-badge">PROFESSIONAL SUMMARY</span>
-              <h3>Writing Efficient, Scalable Code</h3>
+              <h3>Multi-Agent AI Systems &amp; Backend Engineering</h3>
               <p>
-                Motivated software engineer with hands-on experience in full-stack web development, enterprise database tuning, and data structures. I enjoy writing reliable, low-overhead code that solves real-world operational challenges.
+                B.Tech CSE student (2026) with hands-on experience designing multi-agent AI systems using LangGraph and LangChain, including a StateGraph-based routing pipeline that cut LLM API costs by 30%, alongside a Retrieval-Augmented Generation (RAG) pipeline on PostgreSQL (pgvector) for semantic document search and retrieval.
               </p>
               <p>
-                From migrating e-commerce systems to high-performance Java 21 &amp; Spring Boot monoliths to architecting multi-tenant CRMs with pgvector RAG semantic search, my focus is always on engineering robustness and performance.
+                Strong Python and backend engineering foundation across full-stack (MERN, Next.js) and systems-level projects, with a solid grasp of DSA, OOPs, DBMS, and REST API design. Self-driven and fast at picking up new tools and frameworks.
               </p>
             </div>
 
             <div class="narrative-card liquid-glass">
-              <span class="card-badge">EDUCATION</span>
+              <span class="card-badge">EDUCATION &amp; CERTIFICATIONS</span>
               <h3>Academic Background</h3>
               <div class="edu-item">
                 <div class="edu-header">
                   <span class="edu-title">JECRC University, Jaipur</span>
                   <span class="edu-date">2022 — 2026</span>
                 </div>
-                <span class="edu-degree">B.Tech in Computer Science and Engineering (CSE) · CGPA: 7.3</span>
+                <span class="edu-degree">B.Tech in Computer Science &amp; Engineering · CGPA: 7.3</span>
               </div>
 
               <div class="edu-item">
@@ -55,62 +55,80 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
                 </div>
                 <span class="edu-degree">Class XII (Science) · 82%</span>
               </div>
+
+              <div class="edu-item">
+                <div class="edu-header">
+                  <span class="edu-title">Central Public Sr. Sec. School, Udaipur</span>
+                  <span class="edu-date">2020</span>
+                </div>
+                <span class="edu-degree">Class X · 87%</span>
+              </div>
+
+              <div class="certs-box">
+                <span class="cert-title">CERTIFICATES:</span>
+                <p>• <b>Leadership and Team Effectiveness</b> — NPTEL, Jan–Apr 2025 (ID: NPTEL25MG38S114740245)</p>
+                <p>• <b>IBM Python 101 for Data Science</b> — Jul 2025 (ID: f789e8af3738466393e53ab329fd8373)</p>
+              </div>
             </div>
           </div>
 
-          <!-- Technical Skills Grid -->
+          <!-- Technical Skills Grid (From Resume) -->
           <section class="skills-wrapper">
             <div class="section-top">
               <span class="section-tag">[ 02 · TECHNICAL SKILLS ]</span>
-              <h2 class="section-title">Core Languages &amp; Frameworks</h2>
+              <h2 class="section-title">Technical Expertise &amp; Core Tooling</h2>
             </div>
 
             <div class="skills-grid">
               <div class="skill-box liquid-glass">
-                <h4>⚡ Languages &amp; Systems</h4>
+                <h4>🤖 AI / LLM Engineering</h4>
                 <div class="skill-tags">
-                  <span class="tag">Java (21)</span>
-                  <span class="tag">C / C++</span>
-                  <span class="tag">TypeScript</span>
-                  <span class="tag">JavaScript (ES6+)</span>
-                  <span class="tag">Python</span>
-                  <span class="tag">SQL</span>
-                </div>
-              </div>
-
-              <div class="skill-box liquid-glass">
-                <h4>🌐 Frontend &amp; Web</h4>
-                <div class="skill-tags">
-                  <span class="tag">React.js</span>
-                  <span class="tag">Angular 18</span>
-                  <span class="tag">React Flow</span>
-                  <span class="tag">Zustand</span>
-                  <span class="tag">TailwindCSS</span>
-                  <span class="tag">HTML5 / CSS3</span>
-                </div>
-              </div>
-
-              <div class="skill-box liquid-glass">
-                <h4>🗄️ Backend, Databases &amp; Cloud</h4>
-                <div class="skill-tags">
-                  <span class="tag">Spring Boot 3.4</span>
-                  <span class="tag">Node.js &amp; Express</span>
+                  <span class="tag">LangGraph</span>
+                  <span class="tag">LangChain</span>
+                  <span class="tag">StateGraph</span>
+                  <span class="tag">RAG Pipelines</span>
                   <span class="tag">PostgreSQL (pgvector)</span>
-                  <span class="tag">MySQL &amp; HikariCP</span>
-                  <span class="tag">Redis In-Memory</span>
-                  <span class="tag">Socket.io</span>
+                  <span class="tag">Semantic Search</span>
+                  <span class="tag">LLM Query Routing</span>
+                  <span class="tag">Agentic Workflows</span>
                 </div>
               </div>
 
               <div class="skill-box liquid-glass">
-                <h4>🛠️ Fundamentals &amp; Tools</h4>
+                <h4>💻 Programming Languages</h4>
+                <div class="skill-tags">
+                  <span class="tag">Python</span>
+                  <span class="tag">C</span>
+                  <span class="tag">C++</span>
+                  <span class="tag">Java</span>
+                  <span class="tag">JavaScript</span>
+                  <span class="tag">TypeScript</span>
+                </div>
+              </div>
+
+              <div class="skill-box liquid-glass">
+                <h4>🧠 CS Fundamentals</h4>
                 <div class="skill-tags">
                   <span class="tag">Data Structures &amp; Algorithms</span>
-                  <span class="tag">OOPs &amp; DBMS</span>
+                  <span class="tag">OOPs</span>
+                  <span class="tag">DBMS</span>
                   <span class="tag">Operating Systems</span>
                   <span class="tag">Computer Networks</span>
-                  <span class="tag">Git &amp; GitHub</span>
-                  <span class="tag">Testcontainers</span>
+                  <span class="tag">Multithreading &amp; Concurrency</span>
+                </div>
+              </div>
+
+              <div class="skill-box liquid-glass">
+                <h4>🛠️ Tools &amp; Frameworks</h4>
+                <div class="skill-tags">
+                  <span class="tag">Node.js / Express</span>
+                  <span class="tag">MongoDB / PostgreSQL / SQLite</span>
+                  <span class="tag">React / Next.js</span>
+                  <span class="tag">Firebase &amp; GCP</span>
+                  <span class="tag">Git / GitHub</span>
+                  <span class="tag">Postman &amp; REST APIs</span>
+                  <span class="tag">FFmpeg &amp; PySide6 (Qt6)</span>
+                  <span class="tag">uv</span>
                 </div>
               </div>
             </div>
@@ -119,38 +137,49 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
           <!-- Activity Stats (GitHub + LeetCode) -->
           <app-activity-stats></app-activity-stats>
 
-          <!-- Experience Timeline -->
+          <!-- Work Experience Timeline -->
           <section class="timeline-section">
             <div class="section-top">
-              <span class="section-tag">[ 03 · WORK EXPERIENCE &amp; MILESTONES ]</span>
-              <h2 class="section-title">Experience &amp; Project Track Record</h2>
+              <span class="section-tag">[ 03 · WORK EXPERIENCE ]</span>
+              <h2 class="section-title">Professional Experience &amp; Engineering Roles</h2>
             </div>
 
             <div class="timeline-list">
               <!-- Healthyonegram -->
               <div class="timeline-row">
-                <div class="timeline-badge">JAN 2026 — PRESENT</div>
+                <div class="timeline-badge">JAN 2026 — 29 JUN 2026</div>
                 <div class="timeline-card liquid-glass">
                   <h4>Healthyonegram — IT Intern</h4>
-                  <p>Developing scalable web modules, internal tools, and optimizing database workflows for product management operations.</p>
+                  <p>Working on full-stack web modules, backend endpoints, and database performance optimizations.</p>
                 </div>
               </div>
 
               <!-- B1GCRM -->
               <div class="timeline-row">
-                <div class="timeline-badge">2025 — 2026</div>
+                <div class="timeline-badge">SELF-DRIVEN ENTERPRISE</div>
                 <div class="timeline-card liquid-glass">
-                  <h4>B1GCRM (Enterprise Omni-Channel CRM Platform)</h4>
-                  <p>Contributed 208K+ LoC across React, Node.js, and PostgreSQL. Built React Flow visual automation builder, Socket.io real-time event engine, and pgvector RAG search.</p>
+                  <h4>B1GCRM (Self-Driven Enterprise Architecture Project)</h4>
+                  <p class="role-stack">React, Node.js, PostgreSQL, LangGraph, LangChain</p>
+                  <ul class="role-bullets">
+                    <li><b>Agentic Orchestration:</b> StateGraph-based multi-agent routing system with LangGraph and LangChain, cutting prompt tokens by 45% and LLM API costs by 30%.</li>
+                    <li><b>Query Triage:</b> Triage router directing queries to specialist agents with 98% routing accuracy, eliminating order hallucinations.</li>
+                    <li><b>Resiliency:</b> Self-healing multi-agent architecture with try/catch fallback boundaries and 5ms fallback bridge ensuring 100% message delivery.</li>
+                    <li><b>RAG Knowledge Base:</b> PostgreSQL pgvector semantic document search and retrieval.</li>
+                    <li><b>Omni-Channel Scale:</b> Multi-tenant platform with 208K+ LoC, WhatsApp/Instagram real-time integration, and React Flow visual automation.</li>
+                  </ul>
                 </div>
               </div>
 
-              <!-- bogEcom -->
+              <!-- BogEcom -->
               <div class="timeline-row">
-                <div class="timeline-badge">2024 — 2025</div>
+                <div class="timeline-badge">PRODUCTION PLATFORM</div>
                 <div class="timeline-card liquid-glass">
-                  <h4>bogEcom Enterprise (Java 21 &amp; Spring Boot Monolith)</h4>
-                  <p>Migrated e-commerce backend to Java 21/Spring Boot 3.4. Boosted throughput to 1,200 req/sec via HikariCP and implemented JPA optimistic locking for 100% inventory safety.</p>
+                  <h4>BogEcom — Production E-Commerce Platform</h4>
+                  <p class="role-stack">MERN, Next.js, Firebase, GCP</p>
+                  <ul class="role-bullets">
+                    <li>Developed and deployed production e-commerce platform with 5,000+ MAU and 2 integrated payment gateways with JWT auth and RBAC, improving API/DB performance by 40%.</li>
+                    <li>Automated CI/CD with GitHub Actions, cutting deployment time by 80% and resolving 100+ production/testing issues.</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -256,6 +285,22 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       font-size: 0.85rem;
       color: #8e8e9f;
     }
+    .certs-box {
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.85rem;
+      color: #8e8e9f;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .cert-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #3b82f6;
+      letter-spacing: 0.12em;
+    }
 
     /* Skills */
     .skills-wrapper {
@@ -327,7 +372,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     }
     .timeline-row {
       display: grid;
-      grid-template-columns: 180px 1fr;
+      grid-template-columns: 200px 1fr;
       gap: 2rem;
       align-items: flex-start;
     }
@@ -350,10 +395,21 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       font-weight: 700;
       color: #ffffff;
     }
-    .timeline-card p {
-      font-size: 0.95rem;
+    .role-stack {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #3b82f6;
+      margin-bottom: 0.4rem;
+    }
+    .role-bullets {
+      list-style-type: square;
+      padding-left: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.88rem;
       color: #8e8e9f;
-      line-height: 1.65;
+      line-height: 1.6;
     }
 
     @media (max-width: 900px) {
