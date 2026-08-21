@@ -11,38 +11,38 @@ import { RouterModule } from '@angular/router';
       <div class="footer-container">
         <div class="footer-top">
           <div class="footer-brand">
-            <span class="brand-title">UTKARSH</span>
+            <span class="brand-title">UTKARSH DWIVEDI</span>
             <p class="footer-tagline">
-              Software engineer crafting low-latency C++ systems, WebAssembly runtimes, and high-throughput web applications.
+              B.Tech CSE student (2022–2026) building low-latency systems, Java 21 Spring Boot backends, and multi-tenant web architectures.
             </p>
             <div class="status-indicator">
               <span class="pulse-dot"></span>
-              <span>Available for engineering roles &amp; distributed systems projects.</span>
+              <span>Available for Software Engineering roles &amp; distributed platforms.</span>
             </div>
           </div>
 
           <div class="footer-nav-groups">
             <div class="nav-group">
-              <span class="group-title">NAVIGATION</span>
+              <span class="group-title">PAGES</span>
               <a routerLink="/" class="footer-link">Home</a>
               <a routerLink="/work" class="footer-link">Work &amp; Architecture</a>
-              <a routerLink="/about" class="footer-link">About</a>
+              <a routerLink="/about" class="footer-link">About &amp; Resume</a>
               <a routerLink="/duel" class="footer-link">3D Duel Arena</a>
               <a routerLink="/contact" class="footer-link">Contact</a>
             </div>
 
             <div class="nav-group">
-              <span class="group-title">CONNECT</span>
-              <a href="https://github.com/UtkarshD18" target="_blank" class="footer-link">GitHub ↗</a>
-              <a href="https://linkedin.com" target="_blank" class="footer-link">LinkedIn ↗</a>
-              <a href="https://leetcode.com" target="_blank" class="footer-link">LeetCode ↗</a>
-              <a href="mailto:contact@utkarsh.dev" class="footer-link">Email ↗</a>
+              <span class="group-title">VERIFIED PROFILES</span>
+              <a href="https://github.com/UtkarshD18" target="_blank" class="footer-link">GitHub · UtkarshD18 ↗</a>
+              <a href="https://www.linkedin.com/in/utkarsh-dwivedi-01489524b/" target="_blank" class="footer-link">LinkedIn Profile ↗</a>
+              <a href="https://leetcode.com/u/UtkarshD18/" target="_blank" class="footer-link">LeetCode Profile ↗</a>
+              <a href="mailto:utkarshdwivedi.182@gmail.com" class="footer-link">utkarshdwivedi.182&#64;gmail.com ↗</a>
             </div>
           </div>
         </div>
 
         <div class="footer-bottom">
-          <span>© 2026 Utkarsh. All rights reserved.</span>
+          <span>© 2026 Utkarsh Dwivedi. All rights reserved.</span>
           <span>Engineered with Angular 18, WebAssembly, and Clean Architecture.</span>
         </div>
       </div>

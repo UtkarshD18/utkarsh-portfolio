@@ -17,99 +17,100 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
         <div class="content-container">
           <!-- Header -->
           <div class="page-header">
-            <span class="page-kicker">[ 01 · ABOUT &amp; PHILOSOPHY ]</span>
-            <h1 class="page-title">Engineering Systems with Purpose &amp; Rigor</h1>
+            <span class="page-kicker">[ 01 · BACKGROUND &amp; PHILOSOPHY ]</span>
+            <h1 class="page-title">Utkarsh Dwivedi</h1>
             <p class="page-subtitle">
-              A systems-first software engineer dedicated to deterministic execution, clean API surfaces, and high-throughput architectures.
+              B.Tech CSE student (2022–2026) passionate about building scalable, high-throughput systems, event-driven web platforms, and low-latency software.
             </p>
           </div>
 
           <!-- Narrative Section -->
           <div class="narrative-grid">
             <div class="narrative-card liquid-glass">
-              <span class="card-badge">THE PHILOSOPHY</span>
-              <h3>Simplicity Over Artificial Complexity</h3>
+              <span class="card-badge">PROFESSIONAL SUMMARY</span>
+              <h3>Writing Efficient, Scalable Code</h3>
               <p>
-                Modern software frequently collapses under unnecessary abstractions. My approach is rooted in understanding the underlying machine: memory layout, cache friendliness, deterministic event loops, and predictable asynchronous states.
+                Motivated software engineer with hands-on experience in full-stack web development, enterprise database tuning, and data structures. I enjoy writing reliable, low-overhead code that solves real-world operational challenges.
               </p>
               <p>
-                Whether compiling C++20 algorithms down to WebAssembly bytecode or designing distributed microservices with PostgreSQL and Redis, the goal is always the same: zero-friction execution and robust fault-tolerance.
+                From migrating e-commerce systems to high-performance Java 21 &amp; Spring Boot monoliths to architecting multi-tenant CRMs with pgvector RAG semantic search, my focus is always on engineering robustness and performance.
               </p>
             </div>
 
             <div class="narrative-card liquid-glass">
-              <span class="card-badge">CORE VALUES</span>
-              <h3>What I Strive For</h3>
-              <ul class="values-list">
-                <li>
-                  <span class="val-title">Deterministic Outcomes:</span>
-                  <span class="val-desc">Eliminating hidden side-effects and race conditions in concurrent pipelines.</span>
-                </li>
-                <li>
-                  <span class="val-title">Zero Bloat:</span>
-                  <span class="val-desc">Choosing minimal dependencies and native web standards over massive monolithic libraries.</span>
-                </li>
-                <li>
-                  <span class="val-title">Continuous Problem Solving:</span>
-                  <span class="val-desc">Daily algorithmic rigor with data structures, dynamic programming, and low-level memory buffers.</span>
-                </li>
-              </ul>
+              <span class="card-badge">EDUCATION</span>
+              <h3>Academic Background</h3>
+              <div class="edu-item">
+                <div class="edu-header">
+                  <span class="edu-title">JECRC University, Jaipur</span>
+                  <span class="edu-date">2022 — 2026</span>
+                </div>
+                <span class="edu-degree">B.Tech in Computer Science and Engineering (CSE) · CGPA: 7.3</span>
+              </div>
+
+              <div class="edu-item">
+                <div class="edu-header">
+                  <span class="edu-title">Central Public Sr. Sec. School, Udaipur</span>
+                  <span class="edu-date">2022</span>
+                </div>
+                <span class="edu-degree">Class XII (Science) · 82%</span>
+              </div>
             </div>
           </div>
 
           <!-- Technical Skills Grid -->
           <section class="skills-wrapper">
             <div class="section-top">
-              <span class="section-tag">[ 02 · TECHNICAL PROFICIENCY ]</span>
-              <h2 class="section-title">Core Stack &amp; Tooling</h2>
+              <span class="section-tag">[ 02 · TECHNICAL SKILLS ]</span>
+              <h2 class="section-title">Core Languages &amp; Frameworks</h2>
             </div>
 
             <div class="skills-grid">
               <div class="skill-box liquid-glass">
-                <h4>⚡ Systems &amp; Low-Level</h4>
+                <h4>⚡ Languages &amp; Systems</h4>
                 <div class="skill-tags">
-                  <span class="tag">C++20</span>
-                  <span class="tag">WebAssembly (WASM)</span>
-                  <span class="tag">SIMD Vector Math</span>
-                  <span class="tag">Fixed-Point Math</span>
-                  <span class="tag">Memory Management</span>
-                  <span class="tag">Linux / POSIX</span>
-                </div>
-              </div>
-
-              <div class="skill-box liquid-glass">
-                <h4>🌐 Frontend &amp; Creative Web</h4>
-                <div class="skill-tags">
-                  <span class="tag">Angular 18 (Signals)</span>
-                  <span class="tag">Next.js 15 &amp; React</span>
-                  <span class="tag">Three.js / WebGL</span>
+                  <span class="tag">Java (21)</span>
+                  <span class="tag">C / C++</span>
                   <span class="tag">TypeScript</span>
+                  <span class="tag">JavaScript (ES6+)</span>
+                  <span class="tag">Python</span>
+                  <span class="tag">SQL</span>
+                </div>
+              </div>
+
+              <div class="skill-box liquid-glass">
+                <h4>🌐 Frontend &amp; Web</h4>
+                <div class="skill-tags">
+                  <span class="tag">React.js</span>
+                  <span class="tag">Angular 18</span>
+                  <span class="tag">React Flow</span>
+                  <span class="tag">Zustand</span>
                   <span class="tag">TailwindCSS</span>
-                  <span class="tag">HTML5 / CSS Grid</span>
+                  <span class="tag">HTML5 / CSS3</span>
                 </div>
               </div>
 
               <div class="skill-box liquid-glass">
-                <h4>🗄️ Backend &amp; Cloud Infrastructure</h4>
+                <h4>🗄️ Backend, Databases &amp; Cloud</h4>
                 <div class="skill-tags">
+                  <span class="tag">Spring Boot 3.4</span>
                   <span class="tag">Node.js &amp; Express</span>
-                  <span class="tag">PostgreSQL &amp; Drizzle ORM</span>
-                  <span class="tag">Redis In-Memory Cache</span>
-                  <span class="tag">Docker Containers</span>
-                  <span class="tag">AWS S3 &amp; CloudFront</span>
-                  <span class="tag">REST &amp; WebSockets</span>
+                  <span class="tag">PostgreSQL (pgvector)</span>
+                  <span class="tag">MySQL &amp; HikariCP</span>
+                  <span class="tag">Redis In-Memory</span>
+                  <span class="tag">Socket.io</span>
                 </div>
               </div>
 
               <div class="skill-box liquid-glass">
-                <h4>🛠️ Engineering Practices</h4>
+                <h4>🛠️ Fundamentals &amp; Tools</h4>
                 <div class="skill-tags">
-                  <span class="tag">System Design</span>
-                  <span class="tag">Idempotent APIs</span>
-                  <span class="tag">Git Version Control</span>
-                  <span class="tag">CI / CD Pipelines</span>
-                  <span class="tag">Unit &amp; E2E Testing</span>
-                  <span class="tag">Profiling &amp; Benchmarking</span>
+                  <span class="tag">Data Structures &amp; Algorithms</span>
+                  <span class="tag">OOPs &amp; DBMS</span>
+                  <span class="tag">Operating Systems</span>
+                  <span class="tag">Computer Networks</span>
+                  <span class="tag">Git &amp; GitHub</span>
+                  <span class="tag">Testcontainers</span>
                 </div>
               </div>
             </div>
@@ -118,35 +119,38 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
           <!-- Activity Stats (GitHub + LeetCode) -->
           <app-activity-stats></app-activity-stats>
 
-          <!-- Milestones Timeline -->
+          <!-- Experience Timeline -->
           <section class="timeline-section">
             <div class="section-top">
-              <span class="section-tag">[ 03 · JOURNEY &amp; MILESTONES ]</span>
-              <h2 class="section-title">Milestones &amp; Evolution</h2>
+              <span class="section-tag">[ 03 · WORK EXPERIENCE &amp; MILESTONES ]</span>
+              <h2 class="section-title">Experience &amp; Project Track Record</h2>
             </div>
 
             <div class="timeline-list">
+              <!-- Healthyonegram -->
               <div class="timeline-row">
-                <div class="timeline-badge">2026</div>
+                <div class="timeline-badge">JAN 2026 — PRESENT</div>
                 <div class="timeline-card liquid-glass">
-                  <h4>High-Throughput Systems Architect</h4>
-                  <p>Architecting WebAssembly-compiled C++ physics engines, sub-frame collision math, and reactive Angular 18 enterprise frontends.</p>
+                  <h4>Healthyonegram — IT Intern</h4>
+                  <p>Developing scalable web modules, internal tools, and optimizing database workflows for product management operations.</p>
                 </div>
               </div>
 
+              <!-- B1GCRM -->
+              <div class="timeline-row">
+                <div class="timeline-badge">2025 — 2026</div>
+                <div class="timeline-card liquid-glass">
+                  <h4>B1GCRM (Enterprise Omni-Channel CRM Platform)</h4>
+                  <p>Contributed 208K+ LoC across React, Node.js, and PostgreSQL. Built React Flow visual automation builder, Socket.io real-time event engine, and pgvector RAG search.</p>
+                </div>
+              </div>
+
+              <!-- bogEcom -->
               <div class="timeline-row">
                 <div class="timeline-badge">2024 — 2025</div>
                 <div class="timeline-card liquid-glass">
-                  <h4>Distributed Cloud Platforms &amp; MediaForge</h4>
-                  <p>Designed scalable microservices, Redis caching layers, PostgreSQL schemas, and low-latency API pipelines for content production workflows.</p>
-                </div>
-              </div>
-
-              <div class="timeline-row">
-                <div class="timeline-badge">FOUNDATION</div>
-                <div class="timeline-card liquid-glass">
-                  <h4>Algorithmic Problem Solving &amp; Computer Science</h4>
-                  <p>Built deep fundamentals in data structures, time complexity analysis, operating systems, and memory hierarchy.</p>
+                  <h4>bogEcom Enterprise (Java 21 &amp; Spring Boot Monolith)</h4>
+                  <p>Migrated e-commerce backend to Java 21/Spring Boot 3.4. Boosted throughput to 1,200 req/sec via HikariCP and implemented JPA optimistic locking for 100% inventory safety.</p>
                 </div>
               </div>
             </div>
@@ -196,7 +200,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       line-height: 1.7;
     }
 
-    /* Narrative Grid */
+    /* Narrative */
     .narrative-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -226,26 +230,31 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       color: #8e8e9f;
       line-height: 1.75;
     }
-    .values-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .values-list li {
+    .edu-item {
       display: flex;
       flex-direction: column;
       gap: 0.2rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
-    .val-title {
+    .edu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .edu-title {
+      font-size: 1rem;
       font-weight: 700;
       color: #ffffff;
-      font-size: 0.95rem;
     }
-    .val-desc {
+    .edu-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #8e8e9f;
+    }
+    .edu-degree {
       font-size: 0.85rem;
       color: #8e8e9f;
-      line-height: 1.6;
     }
 
     /* Skills */
@@ -318,13 +327,13 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     }
     .timeline-row {
       display: grid;
-      grid-template-columns: 160px 1fr;
+      grid-template-columns: 180px 1fr;
       gap: 2rem;
       align-items: flex-start;
     }
     .timeline-badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: #3b82f6;
       padding-top: 1.5rem;

@@ -17,35 +17,39 @@ import { FooterComponent } from '../../components/footer/footer.component';
           <div class="contact-grid">
             <!-- Left Info Column -->
             <div class="contact-info">
-              <span class="page-kicker">[ 01 · DIRECT INQUIRY ]</span>
-              <h1 class="page-title">Let's Build Something Exceptional.</h1>
+              <span class="page-kicker">[ 01 · GET IN TOUCH ]</span>
+              <h1 class="page-title">Let's Connect &amp; Build.</h1>
               <p class="page-desc">
-                Have a low-latency systems challenge, high-throughput web application, or architectural problem to solve? Send a message and I'll respond within 24 hours.
+                Looking for a passionate software engineer for full-time backend/systems roles, web engineering, or distributed platforms? Reach out directly via email or LinkedIn.
               </p>
 
-              <!-- Live Timezone Card -->
+              <!-- Live Location Card -->
               <div class="timezone-card liquid-glass">
                 <div class="tz-header">
                   <span class="tz-dot"></span>
-                  <span class="tz-title">LIVE LOCATION &amp; TIMEZONE</span>
+                  <span class="tz-title">LOCATION &amp; AVAILABILITY</span>
                 </div>
-                <div class="tz-time">New Delhi, India · IST (UTC+5:30)</div>
-                <div class="tz-status">Standard response window: 09:00 — 22:00 IST</div>
+                <div class="tz-time">Jaipur / New Delhi, India · IST (UTC+5:30)</div>
+                <div class="tz-status">Available for on-site &amp; remote engineering opportunities.</div>
               </div>
 
-              <!-- Direct Contact Channels -->
+              <!-- Direct Contact Channels with Real Links from Resume -->
               <div class="channels-list">
                 <div class="channel-item">
-                  <span class="channel-label">EMAIL</span>
-                  <a href="mailto:contact@utkarsh.dev" class="channel-val">contact&#64;utkarsh.dev ↗</a>
+                  <span class="channel-label">DIRECT EMAIL</span>
+                  <a href="mailto:utkarshdwivedi.182@gmail.com" class="channel-val">utkarshdwivedi.182&#64;gmail.com ↗</a>
                 </div>
                 <div class="channel-item">
-                  <span class="channel-label">GITHUB</span>
+                  <span class="channel-label">LINKEDIN PROFILE</span>
+                  <a href="https://www.linkedin.com/in/utkarsh-dwivedi-01489524b/" target="_blank" class="channel-val">linkedin.com/in/utkarsh-dwivedi-01489524b ↗</a>
+                </div>
+                <div class="channel-item">
+                  <span class="channel-label">GITHUB REPOSITORIES</span>
                   <a href="https://github.com/UtkarshD18" target="_blank" class="channel-val">github.com/UtkarshD18 ↗</a>
                 </div>
                 <div class="channel-item">
-                  <span class="channel-label">LINKEDIN</span>
-                  <a href="https://linkedin.com" target="_blank" class="channel-val">linkedin.com/in/utkarsh ↗</a>
+                  <span class="channel-label">LEETCODE PROFILE</span>
+                  <a href="https://leetcode.com/u/UtkarshD18/" target="_blank" class="channel-val">leetcode.com/u/UtkarshD18 ↗</a>
                 </div>
               </div>
             </div>
@@ -90,27 +94,27 @@ import { FooterComponent } from '../../components/footer/footer.component';
                   <div class="form-group">
                     <label for="projectType">Inquiry Type</label>
                     <select id="projectType" [(ngModel)]="formData.projectType" name="projectType">
-                      <option value="engineering">Software &amp; Systems Engineering</option>
-                      <option value="wasm">WebAssembly &amp; WebGL 3D Project</option>
-                      <option value="consulting">Architecture Consulting</option>
+                      <option value="fulltime">Full-Time Software Engineering Role</option>
+                      <option value="internship">Engineering Internship</option>
+                      <option value="project">Project Collaboration / Consulting</option>
                       <option value="general">General Inquiry</option>
                     </select>
                   </div>
 
                   <div class="form-group">
-                    <label for="message">Project Details</label>
+                    <label for="message">Message Details</label>
                     <textarea
                       id="message"
                       [(ngModel)]="formData.message"
                       name="message"
                       rows="5"
-                      placeholder="Describe your technical requirements, timeline, or challenge..."
+                      placeholder="Share your opportunity, role requirements, or question..."
                       required
                     ></textarea>
                   </div>
 
                   <button type="submit" class="submit-btn" [disabled]="!formData.name || !formData.email || !formData.message">
-                    <span>Dispatch Message →</span>
+                    <span>Send Message →</span>
                   </button>
                 </form>
               }
@@ -358,7 +362,7 @@ export class ContactComponent {
   formData = {
     name: '',
     email: '',
-    projectType: 'engineering',
+    projectType: 'fulltime',
     message: ''
   };
 
@@ -373,7 +377,7 @@ export class ContactComponent {
     this.formData = {
       name: '',
       email: '',
-      projectType: 'engineering',
+      projectType: 'fulltime',
       message: ''
     };
     this.isSubmitted.set(false);

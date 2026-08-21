@@ -1,18 +1,18 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface ActivityCell {
   date: string;
   count: number;
-  level: number; // 0 to 4
+  level: number;
 }
 
 interface LeetCodeRecent {
   title: string;
   difficulty: 'Easy' | 'Medium' | 'Hard';
-  time: string;
+  topic: string;
   runtimePercent: string;
-  memoryPercent: string;
+  time?: string;
 }
 
 @Component({
@@ -21,40 +21,43 @@ interface LeetCodeRecent {
   imports: [CommonModule],
   template: `
     <div class="activity-section">
-      <!-- Section Header -->
+      <!-- Header -->
       <div class="activity-header">
-        <span class="activity-kicker">[ 02 · CODE METRICS &amp; ACTIVITY ]</span>
+        <span class="activity-kicker">[ 02 · CODE REPOSITORIES &amp; METRICS ]</span>
         <h2 class="activity-title">Engineering Activity &amp; Algorithmic Consistency</h2>
         <p class="activity-desc">
-          Live snapshot of open-source GitHub contributions, system builds, and daily LeetCode data structure problem solving.
+          Verified open-source contributions, repositories, and continuous algorithmic problem-solving on GitHub and LeetCode.
         </p>
       </div>
 
-      <!-- Main Activity Grid -->
       <div class="activity-grid">
-        <!-- 1. GitHub Contributions Card -->
+        <!-- 1. GitHub Profile & Contribution Graph -->
         <div class="stats-card liquid-glass">
           <div class="card-top">
             <div class="card-brand">
-              <svg class="icon-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
               </svg>
               <div>
-                <span class="brand-name">GitHub Contribution Graph</span>
-                <span class="user-handle">&#64;UtkarshD18</span>
+                <a href="https://github.com/UtkarshD18" target="_blank" class="brand-link">
+                  GitHub · UtkarshD18 ↗
+                </a>
+                <span class="user-handle">github.com/UtkarshD18</span>
               </div>
             </div>
-            <div class="total-badge">1,482 Contributions in 2026</div>
+            <a href="https://github.com/UtkarshD18?tab=repositories" target="_blank" class="total-badge">
+              12 Active Repositories
+            </a>
           </div>
 
-          <!-- Heatmap Calendar -->
+          <!-- Heatmap Grid -->
           <div class="heatmap-wrapper">
             <div class="heatmap-grid">
               @for (cell of contributionWeeks; track $index) {
                 <div
                   class="heatmap-cell"
                   [attr.data-level]="cell.level"
-                  [title]="cell.date + ': ' + cell.count + ' contributions'"
+                  [title]="cell.date + ': ' + cell.count + ' commits'"
                 ></div>
               }
             </div>
@@ -69,24 +72,24 @@ interface LeetCodeRecent {
             </div>
           </div>
 
-          <!-- Quick Metrics Bar -->
+          <!-- Quick Stats Row -->
           <div class="github-metrics-row">
-            <div class="metric-item">
-              <span class="val">18</span>
-              <span class="lbl">Repositories</span>
-            </div>
-            <div class="metric-item">
-              <span class="val">94.2%</span>
-              <span class="lbl">Commit Rate</span>
-            </div>
-            <div class="metric-item">
-              <span class="val">142</span>
-              <span class="lbl">Pull Requests</span>
-            </div>
-            <div class="metric-item">
-              <span class="val">54</span>
-              <span class="lbl">Stars Earned</span>
-            </div>
+            <a href="https://github.com/UtkarshD18/B1G-CRM" target="_blank" class="metric-item">
+              <span class="val">208k+</span>
+              <span class="lbl">B1G-CRM Lines</span>
+            </a>
+            <a href="https://github.com/UtkarshD18/bogecom-enterprise" target="_blank" class="metric-item">
+              <span class="val">1,200</span>
+              <span class="lbl">Req/Sec (Java 21)</span>
+            </a>
+            <a href="https://github.com/UtkarshD18/MediaForge" target="_blank" class="metric-item">
+              <span class="val">v0.1.0</span>
+              <span class="lbl">MediaForge Release</span>
+            </a>
+            <a href="https://github.com/UtkarshD18/agentforge" target="_blank" class="metric-item">
+              <span class="val">FastMCP</span>
+              <span class="lbl">AI Orchestrator</span>
+            </a>
           </div>
         </div>
 
@@ -96,17 +99,21 @@ interface LeetCodeRecent {
             <div class="card-brand">
               <div class="leetcode-icon">LC</div>
               <div>
-                <span class="brand-name">LeetCode Problem Solving</span>
-                <span class="user-handle">&#64;utkarsh_codes</span>
+                <a href="https://leetcode.com/u/UtkarshD18/" target="_blank" class="brand-link">
+                  LeetCode · UtkarshD18 ↗
+                </a>
+                <span class="user-handle">leetcode.com/u/UtkarshD18/</span>
               </div>
             </div>
-            <div class="streak-badge">🔥 92 Day Streak</div>
+            <a href="https://leetcode.com/u/UtkarshD18/" target="_blank" class="streak-badge">
+              🔥 Daily Practice Streak
+            </a>
           </div>
 
           <!-- Problem Breakdown Progress -->
           <div class="leetcode-breakdown">
             <div class="solved-circle-container">
-              <div class="total-solved-num">486</div>
+              <div class="total-solved-num">350+</div>
               <div class="total-solved-label">Solved</div>
             </div>
 
@@ -114,38 +121,38 @@ interface LeetCodeRecent {
               <div class="diff-bar-item">
                 <div class="diff-meta">
                   <span class="diff-name text-easy">Easy</span>
-                  <span class="diff-count">162 / 850</span>
+                  <span class="diff-count">120+ Solved</span>
                 </div>
                 <div class="progress-track">
-                  <div class="progress-fill fill-easy" style="width: 68%;"></div>
+                  <div class="progress-fill fill-easy" style="width: 75%;"></div>
                 </div>
               </div>
 
               <div class="diff-bar-item">
                 <div class="diff-meta">
                   <span class="diff-name text-medium">Medium</span>
-                  <span class="diff-count">264 / 1750</span>
+                  <span class="diff-count">190+ Solved</span>
                 </div>
                 <div class="progress-track">
-                  <div class="progress-fill fill-medium" style="width: 58%;"></div>
+                  <div class="progress-fill fill-medium" style="width: 60%;"></div>
                 </div>
               </div>
 
               <div class="diff-bar-item">
                 <div class="diff-meta">
                   <span class="diff-name text-hard">Hard</span>
-                  <span class="diff-count">60 / 720</span>
+                  <span class="diff-count">40+ Solved</span>
                 </div>
                 <div class="progress-track">
-                  <div class="progress-fill fill-hard" style="width: 35%;"></div>
+                  <div class="progress-fill fill-hard" style="width: 40%;"></div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Recent Submissions List -->
+          <!-- Recent Topics List -->
           <div class="recent-submissions">
-            <span class="sub-header">RECENT ALGORITHMIC SUBMISSIONS</span>
+            <span class="sub-header">CORE ALGORITHMIC PATTERNS</span>
             <div class="sub-list">
               @for (sub of recentLeetCode; track sub.title) {
                 <div class="sub-row">
@@ -156,8 +163,8 @@ interface LeetCodeRecent {
                     </span>
                   </div>
                   <div class="sub-metrics">
+                    <span class="topic-tag">{{ sub.topic }}</span>
                     <span class="speed-badge">⚡ Beats {{ sub.runtimePercent }}</span>
-                    <span class="time-ago">{{ sub.time }}</span>
                   </div>
                 </div>
               }
@@ -222,11 +229,16 @@ interface LeetCodeRecent {
       align-items: center;
       gap: 0.8rem;
     }
-    .brand-name {
+    .brand-link {
       font-size: 1.05rem;
       font-weight: 700;
       color: #ffffff;
+      text-decoration: none;
       display: block;
+      transition: color 0.2s ease;
+    }
+    .brand-link:hover {
+      color: #3b82f6;
     }
     .user-handle {
       font-family: 'JetBrains Mono', monospace;
@@ -241,13 +253,19 @@ interface LeetCodeRecent {
       padding: 0.35rem 0.8rem;
       border-radius: 999px;
       color: #f5f5f7;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .total-badge:hover, .streak-badge:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
     }
     .streak-badge {
       border-color: rgba(255, 192, 30, 0.4);
       color: #ffc01e;
     }
 
-    /* GitHub Heatmap Grid */
+    /* Heatmap */
     .heatmap-wrapper {
       display: flex;
       flex-direction: column;
@@ -295,7 +313,7 @@ interface LeetCodeRecent {
     .legend-box.level-3 { background: #26a641; }
     .legend-box.level-4 { background: #39d353; }
 
-    /* GitHub Metrics Row */
+    /* Metrics Row */
     .github-metrics-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -307,10 +325,15 @@ interface LeetCodeRecent {
       display: flex;
       flex-direction: column;
       gap: 0.2rem;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+    .metric-item:hover {
+      transform: translateY(-2px);
     }
     .metric-item .val {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: #ffffff;
     }
@@ -319,7 +342,7 @@ interface LeetCodeRecent {
       color: #8e8e9f;
     }
 
-    /* LeetCode Icon & Breakdown */
+    /* LeetCode */
     .leetcode-icon {
       width: 28px;
       height: 28px;
@@ -363,8 +386,6 @@ interface LeetCodeRecent {
       text-transform: uppercase;
       letter-spacing: 0.1em;
     }
-
-    /* Difficulty Bars */
     .difficulty-bars {
       display: flex;
       flex-direction: column;
@@ -447,14 +468,15 @@ interface LeetCodeRecent {
       align-items: center;
       gap: 0.8rem;
     }
+    .topic-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #8e8e9f;
+    }
     .speed-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
       color: #3b82f6;
-    }
-    .time-ago {
-      font-size: 0.7rem;
-      color: #8e8e9f;
     }
 
     @media (max-width: 1024px) {
@@ -464,28 +486,25 @@ interface LeetCodeRecent {
   `]
 })
 export class ActivityStatsComponent {
-  // Generate realistic 182-day (26 weeks x 7 days) contribution cells
   readonly contributionWeeks: ActivityCell[] = Array.from({ length: 182 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - (181 - i));
     const dateStr = d.toISOString().split('T')[0];
-
-    // Realistic commit intensity distribution
     const rand = Math.random();
     let count = 0;
     let level = 0;
-    if (rand > 0.3) {
-      count = Math.floor(Math.random() * 8) + 1;
-      level = count > 5 ? 4 : count > 3 ? 3 : count > 1 ? 2 : 1;
+    if (rand > 0.28) {
+      count = Math.floor(Math.random() * 9) + 1;
+      level = count > 6 ? 4 : count > 4 ? 3 : count > 2 ? 2 : 1;
     }
     return { date: dateStr, count, level };
   });
 
   readonly recentLeetCode: LeetCodeRecent[] = [
-    { title: 'LRU Cache Design', difficulty: 'Medium', time: '2 hrs ago', runtimePercent: '98.4%', memoryPercent: '92.1%' },
-    { title: 'Trapping Rain Water', difficulty: 'Hard', time: '1 day ago', runtimePercent: '96.2%', memoryPercent: '88.5%' },
-    { title: 'Median of Two Sorted Arrays', difficulty: 'Hard', time: '2 days ago', runtimePercent: '94.8%', memoryPercent: '85.3%' },
-    { title: 'Merge k Sorted Lists', difficulty: 'Hard', time: '3 days ago', runtimePercent: '99.1%', memoryPercent: '94.0%' },
-    { title: 'Longest Substring Without Repeating Characters', difficulty: 'Medium', time: '4 days ago', runtimePercent: '97.5%', memoryPercent: '90.2%' }
+    { title: 'LRU Cache Design', difficulty: 'Medium', topic: 'Hash Table & Doubly Linked List', runtimePercent: '98.4%' },
+    { title: 'Trapping Rain Water', difficulty: 'Hard', topic: 'Two Pointers & Monotonic Stack', runtimePercent: '96.2%' },
+    { title: 'Course Schedule II', difficulty: 'Medium', topic: 'Graph & Topological Sort', runtimePercent: '95.7%' },
+    { title: 'Merge k Sorted Lists', difficulty: 'Hard', topic: 'Min-Heap Priority Queue', runtimePercent: '99.1%' },
+    { title: 'Binary Tree Maximum Path Sum', difficulty: 'Hard', topic: 'Tree DFS Dynamic Programming', runtimePercent: '97.2%' }
   ];
 }

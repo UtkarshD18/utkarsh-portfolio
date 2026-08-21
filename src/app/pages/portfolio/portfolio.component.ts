@@ -20,48 +20,51 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
           <!-- Availability Pill -->
           <div class="status-pill liquid-glass">
             <span class="status-dot"></span>
-            <span>Available for Systems &amp; Software Engineering · New Delhi, India</span>
+            <span>Software Engineer · B.Tech CSE (2022-2026) · New Delhi / Jaipur</span>
           </div>
 
           <!-- Bold Kinetic Typography Headline -->
           <h1 class="hero-heading">
-            I turn <span class="highlight-blue">system complexity</span> into <span class="highlight-sand">intelligent, low-latency</span> solutions.
+            I engineer <span class="highlight-blue">scalable backends</span>, <span class="highlight-sand">distributed systems</span> &amp; modern web interfaces.
           </h1>
 
           <p class="hero-subtext">
-            Software engineer focusing on deterministic C++ memory architectures, WebAssembly byte-code runtimes, and high-throughput web applications with zero garbage collection overhead.
+            Software engineer with expertise in Java 21, Spring Boot 3.4, React/Node.js, PostgreSQL (pgvector RAG), and low-latency C++ WebAssembly architectures.
           </p>
 
           <!-- Hero Action CTAs -->
           <div class="hero-cta-row">
             <a routerLink="/work" class="primary-btn">
-              <span>Explore Selected Work →</span>
+              <span>View Production Codebases →</span>
             </a>
-            <a routerLink="/duel" class="secondary-btn liquid-glass">
-              <span>Launch 3D Arena ⚔</span>
+            <a href="https://github.com/UtkarshD18" target="_blank" class="secondary-btn liquid-glass">
+              <span>GitHub (12 Repos) ↗</span>
+            </a>
+            <a href="https://www.linkedin.com/in/utkarsh-dwivedi-01489524b/" target="_blank" class="secondary-btn liquid-glass">
+              <span>LinkedIn Profile ↗</span>
             </a>
             <a routerLink="/contact" class="secondary-btn liquid-glass">
-              <span>Get In Touch ↗</span>
+              <span>Contact ✉</span>
             </a>
           </div>
 
-          <!-- Key Metrics Grid -->
+          <!-- Key Metrics Grid from Resume -->
           <div class="metrics-ribbon">
             <div class="metric-box liquid-glass">
-              <span class="metric-val">0 ms</span>
-              <span class="metric-label">Garbage Collection Pauses (WASM)</span>
+              <span class="metric-val">208k+</span>
+              <span class="metric-label">Lines of Code (B1G-CRM Enterprise)</span>
             </div>
             <div class="metric-box liquid-glass">
-              <span class="metric-val">70 ms</span>
-              <span class="metric-label">Deterministic Parry Frame Precision</span>
+              <span class="metric-val">1,200</span>
+              <span class="metric-label">Req/Sec (Java 21 Spring Boot Monolith)</span>
             </div>
             <div class="metric-box liquid-glass">
-              <span class="metric-val">60 FPS</span>
-              <span class="metric-label">Continuous WebGL Shader Rendering</span>
+              <span class="metric-val">90%</span>
+              <span class="metric-label">Campaign Query Execution Speedup</span>
             </div>
             <div class="metric-box liquid-glass">
-              <span class="metric-val">99.99%</span>
-              <span class="metric-label">MediaForge Cloud Uptime SLA</span>
+              <span class="metric-val">350+</span>
+              <span class="metric-label">LeetCode Algorithmic Problems Solved</span>
             </div>
           </div>
         </div>
@@ -71,54 +74,57 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       <section class="featured-section">
         <div class="content-container">
           <div class="section-top">
-            <span class="section-tag">[ 01 · FEATURED WORK ]</span>
-            <h2 class="section-title">Highlighted Systems &amp; Platforms</h2>
+            <span class="section-tag">[ 01 · FEATURED PROJECTS ]</span>
+            <h2 class="section-title">Verified Production Repositories</h2>
             <p class="section-desc">
-              Carefully engineered systems combining low-level efficiency with modern interactive frontends.
+              Real codebases with live databases, concurrency locks, RAG search, and automated tests.
             </p>
           </div>
 
           <div class="featured-grid">
-            <!-- Project Card 1: C++ WASM Combat Engine -->
+            <!-- 1. B1G-CRM -->
             <div class="project-card liquid-glass">
               <div class="card-meta">
-                <span class="category-tag">LOW-LATENCY / WASM</span>
-                <span class="status-tag">ACTIVE ENGINE</span>
+                <span class="category-tag">ENTERPRISE CRM / REACT / NODE.JS</span>
+                <span class="status-tag">208K+ LINES</span>
               </div>
-              <h3 class="card-title">Deterministic C++ &amp; WebAssembly Combat Engine</h3>
+              <h3 class="card-title">B1G-CRM — Omni-Channel Multi-Tenant Platform</h3>
               <p class="card-desc">
-                Sub-frame collision physics compiled to WebAssembly. Direct 32-float linear memory buffer streaming directly into Three.js vertex shaders with zero heap allocation overhead during runtime.
+                Multi-tenant CRM with real-time Socket.io messaging, React Flow visual automation engine, and pgvector RAG semantic document search.
               </p>
               <div class="card-pills">
-                <span class="pill">C++20</span>
-                <span class="pill">WebAssembly</span>
-                <span class="pill">Three.js GLSL</span>
-                <span class="pill">SIMD Pointers</span>
+                <span class="pill">React</span>
+                <span class="pill">Node.js</span>
+                <span class="pill">PostgreSQL</span>
+                <span class="pill">pgvector</span>
+                <span class="pill">Socket.io</span>
+                <span class="pill">React Flow</span>
               </div>
               <div class="card-footer">
-                <a routerLink="/work" class="card-link">View Architecture Deep Dive →</a>
+                <a routerLink="/work" fragment="b1gcrm" class="card-link">View Architecture &amp; Code →</a>
               </div>
             </div>
 
-            <!-- Project Card 2: MediaForge Distributed Cloud -->
+            <!-- 2. bogEcom Enterprise -->
             <div class="project-card liquid-glass">
               <div class="card-meta">
-                <span class="category-tag">DISTRIBUTED SYSTEMS / CLOUD</span>
-                <span class="status-tag">PRODUCTION</span>
+                <span class="category-tag">JAVA 21 / SPRING BOOT 3.4 / MYSQL</span>
+                <span class="status-tag">1,200 REQ/SEC</span>
               </div>
-              <h3 class="card-title">MediaForge — Distributed Media Platform</h3>
+              <h3 class="card-title">bogEcom Enterprise — Modular Monolith</h3>
               <p class="card-desc">
-                High-throughput distributed media processing platform with Redis cache stampede locks, idempotent transaction handlers, and real-time AWS S3 CDN streaming pipelines.
+                High-performance e-commerce backend with HikariCP connection pooling (+35% throughput boost), Spring Security stateless JWTs, and JPA optimistic locking.
               </p>
               <div class="card-pills">
-                <span class="pill">Angular 18</span>
-                <span class="pill">TypeScript</span>
-                <span class="pill">PostgreSQL</span>
-                <span class="pill">Redis</span>
-                <span class="pill">Docker</span>
+                <span class="pill">Java 21</span>
+                <span class="pill">Spring Boot 3.4</span>
+                <span class="pill">Spring Security</span>
+                <span class="pill">MySQL</span>
+                <span class="pill">HikariCP</span>
+                <span class="pill">Testcontainers</span>
               </div>
               <div class="card-footer">
-                <a routerLink="/work" class="card-link">View Architecture Deep Dive →</a>
+                <a routerLink="/work" fragment="bogecom" class="card-link">View Architecture &amp; Code →</a>
               </div>
             </div>
           </div>
@@ -175,9 +181,9 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       50% { opacity: 0.3; }
     }
     .hero-heading {
-      font-size: 4.4rem;
+      font-size: 4.2rem;
       font-weight: 800;
-      line-height: 1.1;
+      line-height: 1.12;
       letter-spacing: -0.03em;
       max-width: 1050px;
       margin-bottom: 1.8rem;
@@ -195,7 +201,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     .hero-subtext {
       font-size: 1.2rem;
       color: #8e8e9f;
-      max-width: 720px;
+      max-width: 760px;
       line-height: 1.7;
       margin-bottom: 2.8rem;
     }

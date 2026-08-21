@@ -15,11 +15,14 @@ interface CodeSnippet {
 
 interface ProjectCaseStudy {
   id: string;
+  number: string;
   tag: string;
+  repoUrl: string;
   title: string;
   subtitle: string;
   overview: string;
   tags: string[];
+  imageUrl?: string;
   metrics: { label: string; value: string }[];
   snippets: CodeSnippet[];
 }
@@ -36,140 +39,93 @@ interface ProjectCaseStudy {
         <div class="content-container">
           <!-- Page Header -->
           <div class="page-header">
-            <span class="page-kicker">[ CASE STUDIES &amp; ARCHITECTURE ]</span>
-            <h1 class="page-title">Systems Engineering &amp; Platform Architecture</h1>
+            <span class="page-kicker">[ PRODUCTION CODE &amp; ARCHITECTURE ]</span>
+            <h1 class="page-title">Systems Engineering &amp; Production Codebases</h1>
             <p class="page-subtitle">
-              In-depth technical breakdowns of low-level WebAssembly engines, distributed cloud media pipelines, and interactive 3D WebGL shaders.
+              Detailed technical architecture, code subsystems, and real production engineering metrics across open-source repositories.
             </p>
           </div>
 
-          <!-- Project 1: C++ WebAssembly Combat Engine -->
-          <section class="case-study-card liquid-glass">
-            <div class="case-header">
-              <div class="case-meta">
-                <span class="case-badge">01 · LOW-LATENCY SYSTEMS</span>
-                <h2 class="case-title">{{ projectCombat.title }}</h2>
-                <p class="case-subtitle">{{ projectCombat.subtitle }}</p>
-                <p class="case-desc">{{ projectCombat.overview }}</p>
-              </div>
-
-              <div class="case-metrics">
-                @for (m of projectCombat.metrics; track m.label) {
-                  <div class="metric-chip liquid-glass">
-                    <span class="chip-val">{{ m.value }}</span>
-                    <span class="chip-lbl">{{ m.label }}</span>
+          <!-- Project Showcase Cards -->
+          @for (project of projects; track project.id) {
+            <section class="case-study-card liquid-glass" [id]="project.id">
+              <div class="case-header">
+                <div class="case-meta">
+                  <div class="meta-badge-row">
+                    <span class="case-badge">{{ project.number }} · {{ project.tag }}</span>
+                    <a [href]="project.repoUrl" target="_blank" class="repo-link">
+                      GitHub Repository ↗
+                    </a>
                   </div>
-                }
-              </div>
-            </div>
+                  <h2 class="case-title">{{ project.title }}</h2>
+                  <p class="case-subtitle">{{ project.subtitle }}</p>
+                  <p class="case-desc">{{ project.overview }}</p>
+                </div>
 
-            <!-- Tech Pills -->
-            <div class="tech-pills-row">
-              @for (tag of projectCombat.tags; track tag) {
-                <span class="tech-pill">{{ tag }}</span>
-              }
-            </div>
-
-            <!-- Interactive Architecture Deep Dive Tabs -->
-            <div class="interactive-deepdive">
-              <div class="deepdive-nav">
-                <span class="nav-label">INSPECT CODE SUBSYSTEMS:</span>
-                <div class="tabs-list">
-                  @for (snip of projectCombat.snippets; track snip.id) {
-                    <button
-                      class="tab-btn"
-                      [class.active]="activeCombatSnippet().id === snip.id"
-                      (click)="activeCombatSnippet.set(snip)"
-                    >
-                      {{ snip.tabLabel }}
-                    </button>
+                <div class="case-metrics">
+                  @for (m of project.metrics; track m.label) {
+                    <div class="metric-chip liquid-glass">
+                      <span class="chip-val">{{ m.value }}</span>
+                      <span class="chip-lbl">{{ m.label }}</span>
+                    </div>
                   }
                 </div>
               </div>
 
-              <div class="deepdive-view">
-                <div class="view-explanation">
-                  <h3>{{ activeCombatSnippet().title }}</h3>
-                  <p>{{ activeCombatSnippet().explanation }}</p>
-                </div>
-
-                <div class="code-window">
-                  <div class="code-header">
-                    <div class="window-dots">
-                      <span></span><span></span><span></span>
-                    </div>
-                    <span class="filename">{{ activeCombatSnippet().tabLabel }}.cpp</span>
-                    <span class="lang">{{ activeCombatSnippet().language }}</span>
+              <!-- Real Project Screenshot / Visual Evidence -->
+              @if (project.imageUrl) {
+                <div class="project-image-container">
+                  <img [src]="project.imageUrl" [alt]="project.title" class="project-image" />
+                  <div class="image-overlay-caption">
+                    <span>LIVE UI/UX PREVIEW · PRODUCTION BUILD</span>
                   </div>
-                  <pre class="code-content"><code>{{ activeCombatSnippet().code }}</code></pre>
                 </div>
-              </div>
-            </div>
-          </section>
+              }
 
-          <!-- Project 2: MediaForge Cloud Platform -->
-          <section class="case-study-card liquid-glass mt-16">
-            <div class="case-header">
-              <div class="case-meta">
-                <span class="case-badge">02 · DISTRIBUTED CLOUD SERVICES</span>
-                <h2 class="case-title">{{ projectMediaForge.title }}</h2>
-                <p class="case-subtitle">{{ projectMediaForge.subtitle }}</p>
-                <p class="case-desc">{{ projectMediaForge.overview }}</p>
-              </div>
-
-              <div class="case-metrics">
-                @for (m of projectMediaForge.metrics; track m.label) {
-                  <div class="metric-chip liquid-glass">
-                    <span class="chip-val">{{ m.value }}</span>
-                    <span class="chip-lbl">{{ m.label }}</span>
-                  </div>
+              <!-- Tech Pills -->
+              <div class="tech-pills-row">
+                @for (tag of project.tags; track tag) {
+                  <span class="tech-pill">{{ tag }}</span>
                 }
               </div>
-            </div>
 
-            <!-- Tech Pills -->
-            <div class="tech-pills-row">
-              @for (tag of projectMediaForge.tags; track tag) {
-                <span class="tech-pill">{{ tag }}</span>
-              }
-            </div>
-
-            <!-- Interactive Architecture Deep Dive Tabs -->
-            <div class="interactive-deepdive">
-              <div class="deepdive-nav">
-                <span class="nav-label">INSPECT CODE SUBSYSTEMS:</span>
-                <div class="tabs-list">
-                  @for (snip of projectMediaForge.snippets; track snip.id) {
-                    <button
-                      class="tab-btn"
-                      [class.active]="activeMediaForgeSnippet().id === snip.id"
-                      (click)="activeMediaForgeSnippet.set(snip)"
-                    >
-                      {{ snip.tabLabel }}
-                    </button>
-                  }
-                </div>
-              </div>
-
-              <div class="deepdive-view">
-                <div class="view-explanation">
-                  <h3>{{ activeMediaForgeSnippet().title }}</h3>
-                  <p>{{ activeMediaForgeSnippet().explanation }}</p>
-                </div>
-
-                <div class="code-window">
-                  <div class="code-header">
-                    <div class="window-dots">
-                      <span></span><span></span><span></span>
-                    </div>
-                    <span class="filename">{{ activeMediaForgeSnippet().tabLabel }}.ts</span>
-                    <span class="lang">{{ activeMediaForgeSnippet().language }}</span>
+              <!-- Interactive Architecture Deep Dive Tabs -->
+              <div class="interactive-deepdive">
+                <div class="deepdive-nav">
+                  <span class="nav-label">INSPECT CODE SUBSYSTEMS:</span>
+                  <div class="tabs-list">
+                    @for (snip of project.snippets; track snip.id) {
+                      <button
+                        class="tab-btn"
+                        [class.active]="getActiveSnippet(project.id).id === snip.id"
+                        (click)="setActiveSnippet(project.id, snip)"
+                      >
+                        {{ snip.tabLabel }}
+                      </button>
+                    }
                   </div>
-                  <pre class="code-content"><code>{{ activeMediaForgeSnippet().code }}</code></pre>
+                </div>
+
+                <div class="deepdive-view">
+                  <div class="view-explanation">
+                    <h3>{{ getActiveSnippet(project.id).title }}</h3>
+                    <p>{{ getActiveSnippet(project.id).explanation }}</p>
+                  </div>
+
+                  <div class="code-window">
+                    <div class="code-header">
+                      <div class="window-dots">
+                        <span></span><span></span><span></span>
+                      </div>
+                      <span class="filename">{{ getActiveSnippet(project.id).tabLabel }}</span>
+                      <span class="lang">{{ getActiveSnippet(project.id).language }}</span>
+                    </div>
+                    <pre class="code-content"><code>{{ getActiveSnippet(project.id).code }}</code></pre>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          }
         </div>
       </main>
 
@@ -219,8 +175,8 @@ interface ProjectCaseStudy {
     .case-study-card {
       border-radius: 18px;
       padding: 3.5rem;
+      margin-bottom: 4rem;
     }
-    .mt-16 { margin-top: 4.5rem; }
     .case-header {
       display: grid;
       grid-template-columns: 1.8fr 1fr;
@@ -228,13 +184,32 @@ interface ProjectCaseStudy {
       align-items: flex-start;
       margin-bottom: 2rem;
     }
+    .meta-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
     .case-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
       color: #3b82f6;
       letter-spacing: 0.12em;
-      margin-bottom: 0.6rem;
-      display: block;
+    }
+    .repo-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .repo-link:hover {
+      background: #ffffff;
+      color: #000000;
     }
     .case-title {
       font-size: 2.2rem;
@@ -277,6 +252,40 @@ interface ProjectCaseStudy {
       font-size: 0.75rem;
       color: #8e8e9f;
     }
+
+    /* Project Image Preview */
+    .project-image-container {
+      margin: 1.5rem 0 2.5rem;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      position: relative;
+      background: #0d0d12;
+    }
+    .project-image {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .project-image-container:hover .project-image {
+      transform: scale(1.02);
+    }
+    .image-overlay-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, transparent 0%, rgba(7, 7, 9, 0.95) 100%);
+      padding: 1rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #8e8e9f;
+      letter-spacing: 0.15em;
+    }
+
     .tech-pills-row {
       display: flex;
       flex-wrap: wrap;
@@ -293,7 +302,7 @@ interface ProjectCaseStudy {
       color: #f5f5f7;
     }
 
-    /* Interactive Deep-Dive */
+    /* Deep Dive */
     .interactive-deepdive {
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       padding-top: 2rem;
@@ -405,160 +414,256 @@ interface ProjectCaseStudy {
       .page-title { font-size: 2.8rem; }
       .case-header { grid-template-columns: 1fr; }
       .deepdive-view { grid-template-columns: 1fr; }
+      .project-image { height: 260px; }
     }
   `]
 })
 export class WorkComponent {
-  readonly projectCombat: ProjectCaseStudy = {
-    id: 'combat_engine',
-    tag: 'C++20 / WebAssembly / WebGL',
-    title: 'Deterministic C++ & WebAssembly Combat Engine',
-    subtitle: 'Zero-Copy Linear Memory Physics at 60 FPS',
-    overview: 'Engineered a deterministic physics and combat simulation compiled from C++20 to WebAssembly. Features sub-frame 70ms parry detection calculation, zero-copy linear float memory buffer streaming to Three.js vertex shaders, and deterministic collision math with 0ms garbage-collection pauses.',
-    tags: ['C++20', 'WebAssembly', 'Three.js GLSL', 'Emscripten', 'Fixed-Point Math'],
-    metrics: [
-      { label: 'GC Heap Pauses', value: '0 ms' },
-      { label: 'Parry Time Window', value: '70 ms' },
-      { label: 'Frame Consistency', value: '60 FPS' },
-      { label: 'Memory Footprint', value: '< 2.4 MB' }
-    ],
-    snippets: [
-      {
-        id: 'memory_stream',
-        tabLabel: 'Zero-Copy Memory Buffer',
-        title: 'Direct WASM Linear Memory Buffer Streaming',
-        explanation: 'Reads memory offsets directly from WebAssembly HEAPF32 into Three.js Float32BufferAttributes without allocating intermediate JavaScript objects.',
-        language: 'cpp',
-        code: `// C++20 WASM Memory Alignment & Linear Buffer
-#include <emscripten/emscripten.h>
-
-struct alignas(16) CombatEntityState {
-    float position[3];
-    float velocity[3];
-    float hitboxRadius;
-    uint32_t stanceFlags; // 70ms Parry Detection bitmask
-};
-
-static CombatEntityState g_Entities[MAX_COMBATANTS];
-
-extern "C" {
-    EMSCRIPTEN_KEEPALIVE
-    float* get_entity_buffer_offset() {
-        return reinterpret_cast<float*>(g_Entities);
-    }
-}`
-      },
-      {
-        id: 'parry_detection',
-        tabLabel: '70ms Parry Math',
-        title: 'Deterministic Collision & Parry Window Math',
-        explanation: 'Calculates capsule-to-capsule proximity to detect clash strikes within the sub-frame 70ms deflection window.',
-        language: 'cpp',
-        code: `// Deterministic Capsule Proximity & Clash Detection
-bool DetectParryWindow(const CombatEntityState& attacker, const CombatEntityState& defender) {
-    if (!(defender.stanceFlags & PARRY_ACTIVE_BIT)) return false;
-
-    float dx = attacker.position[0] - defender.position[0];
-    float dy = attacker.position[1] - defender.position[1];
-    float dz = attacker.position[2] - defender.position[2];
-    float distSq = dx*dx + dy*dy + dz*dz;
-
-    float collisionRadius = attacker.hitboxRadius + defender.hitboxRadius;
-    return distSq <= (collisionRadius * collisionRadius);
-}`
-      },
-      {
-        id: 'glsl_shaders',
-        tabLabel: 'GLSL Terrain Shader',
-        title: 'Three.js Vertex Displacement Shaders',
-        explanation: 'Custom GLSL vertex shader creating dynamic ground fissure shockwaves triggered upon weapon clashes.',
-        language: 'glsl',
-        code: `// Three.js Custom Ground Fissure Vertex Shader
-uniform float uTime;
-uniform vec3 uClashOrigin;
-varying vec2 vUv;
-
-void main() {
-    vUv = uv;
-    vec3 displacedPosition = position;
-    float dist = distance(position.xz, uClashOrigin.xz);
-    if (dist < 4.0) {
-        displacedPosition.y += sin(dist * 3.0 - uTime * 8.0) * 0.45;
-    }
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(displacedPosition, 1.0);
-}`
-      }
-    ]
-  };
-
-  readonly projectMediaForge: ProjectCaseStudy = {
-    id: 'mediaforge',
-    tag: 'Angular 18 / Redis / PostgreSQL',
-    title: 'MediaForge — Distributed Media & Workflow Platform',
-    subtitle: 'Event-Driven Microservices with Redis & PostgreSQL',
-    overview: 'High-throughput cloud architecture designed for asynchronous media encoding, idempotent webhook ingestion, Redis cache stampede prevention, and streaming AWS S3 asset deliveries with 99.99% availability.',
-    tags: ['Angular 18', 'TypeScript', 'Redis', 'PostgreSQL', 'Docker', 'AWS S3'],
-    metrics: [
-      { label: 'System Uptime', value: '99.99%' },
-      { label: 'Throughput', value: '50k req/min' },
-      { label: 'Cache Hit Ratio', value: '94.2%' },
-      { label: 'P99 API Latency', value: '< 18 ms' }
-    ],
-    snippets: [
-      {
-        id: 'redis_cache',
-        tabLabel: 'Redis Cache Layer',
-        title: 'Stampede-Safe In-Memory Cache Wrapper',
-        explanation: 'Guarantees cache freshness while preventing concurrent cache stampedes using atomic distributed locks.',
-        language: 'typescript',
-        code: `// Redis Cache Wrapper with Stampede Prevention
-export async function getOrSetCache<T>(key: string, ttlSeconds: number, fetchFn: () => Promise<T>): Promise<T> {
-  const cached = await redisClient.get(key);
-  if (cached) return JSON.parse(cached) as T;
-
-  const lockAcquired = await redisClient.set(\`lock:\${key}\`, '1', 'EX', 5, 'NX');
-  if (!lockAcquired) {
-    await new Promise(res => setTimeout(res, 50));
-    return getOrSetCache(key, ttlSeconds, fetchFn);
-  }
-
-  try {
-    const result = await fetchFn();
-    await redisClient.set(key, JSON.stringify(result), 'EX', ttlSeconds);
-    return result;
-  } finally {
-    await redisClient.del(\`lock:\${key}\`);
+  readonly projects: ProjectCaseStudy[] = [
+    // 1. B1G-CRM
+    {
+      id: 'b1gcrm',
+      number: '01',
+      tag: 'REACT / NODE.JS / POSTGRESQL (PGVECTOR) / SOCKET.IO',
+      repoUrl: 'https://github.com/UtkarshD18/B1G-CRM',
+      title: 'B1G-CRM — Enterprise Omni-Channel Multi-Tenant Platform',
+      subtitle: '208K+ Lines of Code · Real-Time Automation & pgvector RAG',
+      overview: 'Architected and developed a multi-tenant, omni-channel CRM platform contributing 208K+ lines of code across React, Node.js, and PostgreSQL. Features real-time event-driven messaging with Socket.io, a visual automation workflow builder with React Flow and Zustand, a pgvector RAG knowledge base for semantic document search, and raw SQL query optimization reducing campaign execution time by 90%.',
+      tags: ['React', 'Node.js', 'PostgreSQL', 'pgvector (RAG)', 'Socket.io', 'React Flow', 'Zustand', 'RBAC'],
+      metrics: [
+        { label: 'Lines of Code', value: '208k+' },
+        { label: 'Query Speedup', value: '90%' },
+        { label: 'Integration Tests', value: '30+ Tests' },
+        { label: 'Architecture', value: 'Multi-Tenant' }
+      ],
+      snippets: [
+        {
+          id: 'b1g_rag',
+          tabLabel: 'pgvector RAG Search',
+          title: 'PostgreSQL pgvector Embedding Distance Query',
+          explanation: 'Executes cosine distance vector similarity queries against chunked enterprise knowledge bases for sub-second retrieval augmented generation.',
+          language: 'sql',
+          code: `// PostgreSQL (pgvector) Cosine Similarity Search
+SELECT 
+    document_chunks.id,
+    document_chunks.document_id,
+    document_chunks.content,
+    1 - (document_chunks.embedding <=> $1::vector) AS similarity_score
+FROM document_chunks
+JOIN tenant_documents ON tenant_documents.id = document_chunks.document_id
+WHERE tenant_documents.tenant_id = $2
+  AND 1 - (document_chunks.embedding <=> $1::vector) > 0.75
+ORDER BY similarity_score DESC
+LIMIT 5;`
+        },
+        {
+          id: 'b1g_automation',
+          tabLabel: 'React Flow Engine',
+          title: 'Visual Automation Workflow Evaluator',
+          explanation: 'Evaluates dynamic conditional branching graph nodes in conversational WhatsApp and email marketing workflows.',
+          language: 'typescript',
+          code: `// React Flow Node Execution Engine
+export async function executeWorkflowNode(node: WorkflowNode, context: ExecutionContext): Promise<NodeResult> {
+  switch (node.type) {
+    case 'TRIGGER_WHATSAPP_MSG':
+      return await dispatchWhatsAppMessage(context.contact, node.data.templateId);
+    case 'AI_INTENT_CLASSIFY':
+      const intent = await classifyCustomerIntent(context.lastMessage);
+      return { nextNodeId: node.data.routes[intent] || node.data.fallbackRoute };
+    case 'UPDATE_LEAD_STATUS':
+      await db.update(leads).set({ stage: node.data.targetStage }).where(eq(leads.id, context.leadId));
+      return { success: true };
   }
 }`
-      },
-      {
-        id: 'idempotent_webhooks',
-        tabLabel: 'Idempotent Webhooks',
-        title: 'ACID Transactional Webhook Handlers',
-        explanation: 'Ensures external events (payments, notifications) are handled exactly once under heavy concurrent load.',
-        language: 'typescript',
-        code: `// Idempotent Webhook Handler with Drizzle Transactions
-export async function processIdempotentWebhook(event: WebhookEvent) {
-  return await db.transaction(async (tx) => {
-    const existing = await tx.query.processedEvents.findFirst({
-      where: eq(processedEvents.id, event.id)
-    });
-    if (existing) return { status: 'ALREADY_PROCESSED' };
+        }
+      ]
+    },
 
-    await tx.insert(processedEvents).values({
-      id: event.id,
-      eventType: event.type,
-      processedAt: new Date()
-    });
+    // 2. bogEcom Enterprise
+    {
+      id: 'bogecom',
+      number: '02',
+      tag: 'JAVA 21 / SPRING BOOT 3.4 / SPRING SECURITY / MYSQL',
+      repoUrl: 'https://github.com/UtkarshD18/bogecom-enterprise',
+      title: 'bogEcom Enterprise — Java 21 Modular Monolith Backend',
+      subtitle: '1,200 Req/Sec Throughput · JPA @Version Optimistic Locking',
+      imageUrl: 'assets/projects/desktop-home.png',
+      overview: 'Migrated legacy MERN stack e-commerce backend to high-performance Java 21 & Spring Boot 3.4 modular monolith. Boosted concurrent API throughput by 35% (handling up to 1,200 req/sec) using HikariCP connection pooling, enforced stateless JWT security, and prevented checkout overselling via JPA Optimistic Locking (@Version). Validated with 20+ Testcontainers integration tests.',
+      tags: ['Java 21', 'Spring Boot 3.4', 'Spring Security', 'JWT', 'MySQL', 'HikariCP', 'Testcontainers', 'JPA'],
+      metrics: [
+        { label: 'Throughput', value: '1,200 req/s' },
+        { label: 'Throughput Boost', value: '+35%' },
+        { label: 'Inventory Safety', value: '100% Locked' },
+        { label: 'Testcontainers', value: '20+ Suites' }
+      ],
+      snippets: [
+        {
+          id: 'jpa_locking',
+          tabLabel: 'JPA @Version Locking',
+          title: 'Concurrency-Safe Stock Deduct via Optimistic Locking',
+          explanation: 'Uses JPA @Version field to prevent race conditions and overselling when hundreds of customers checkout the same inventory item simultaneously.',
+          language: 'java',
+          code: `// Java 21 / Spring Boot 3.4 Optimistic Locking
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    await handleDomainEvent(tx, event);
-    return { status: 'SUCCESS' };
-  });
+    @Version
+    private Long version; // Optimistic lock counter
+
+    @Column(nullable = false)
+    private Integer stockQuantity;
+
+    public void deductStock(int quantity) {
+        if (this.stockQuantity < quantity) {
+            throw new InsufficientStockException("Out of stock for product ID: " + this.id);
+        }
+        this.stockQuantity -= quantity;
+    }
 }`
-      }
-    ]
-  };
+        },
+        {
+          id: 'jwt_security',
+          tabLabel: 'Spring Security JWT',
+          title: 'Stateless JWT Filter & Token Verification',
+          explanation: 'Stateless Spring Security filter chain with public route whitelisting and instant token claim validation.',
+          language: 'java',
+          code: `// Spring Security 6.x Stateless JWT Filter
+@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
-  readonly activeCombatSnippet = signal<CodeSnippet>(this.projectCombat.snippets[0]);
-  readonly activeMediaForgeSnippet = signal<CodeSnippet>(this.projectMediaForge.snippets[0]);
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
+        final String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            chain.doFilter(request, response);
+            return;
+        }
+        String jwt = authHeader.substring(7);
+        String userEmail = jwtService.extractUsername(jwt);
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+            if (jwtService.isTokenValid(jwt, userDetails)) {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
+        }
+        chain.doFilter(request, response);
+    }
+}`
+        }
+      ]
+    },
+
+    // 3. MediaForge
+    {
+      id: 'mediaforge',
+      number: '03',
+      tag: 'PYTHON / FASTMCP / FFMPEG / REDIS / S3',
+      repoUrl: 'https://github.com/UtkarshD18/MediaForge',
+      title: 'MediaForge — Automated Video Production & AI Clipping Suite',
+      subtitle: 'v0.1.0-rc1 Release · Asynchronous Subprocess Rendering',
+      overview: 'Engineered an automated video processing suite utilizing Python, FastMCP, and hardware-accelerated FFmpeg subprocess pipelines. Automatically segments long-form content, synthesizes animated captions, and synchronizes assets to cloud storage with atomic Redis cache locks.',
+      tags: ['Python', 'FastMCP', 'FFmpeg', 'Redis', 'AWS S3', 'AsyncIO'],
+      metrics: [
+        { label: 'Milestone', value: 'v0.1.0-rc1' },
+        { label: 'Rendering', value: 'Hardware Accel' },
+        { label: 'Locking', value: 'Atomic Redis' },
+        { label: 'Protocol', value: 'FastMCP' }
+      ],
+      snippets: [
+        {
+          id: 'ffmpeg_pipeline',
+          tabLabel: 'FFmpeg Pipeline',
+          title: 'Asynchronous Hardware-Accelerated Video Segmentation',
+          explanation: 'Subprocess wrapper executing two-pass video encoding with hardware NVENC/VAAPI acceleration and animated subtitle burns.',
+          language: 'python',
+          code: `# Python FastMCP Subprocess Video Splitter
+import asyncio, subprocess
+
+async def render_video_short(source_path: str, start_time: float, duration: float, output_path: str):
+    cmd = [
+        "ffmpeg", "-y",
+        "-ss", str(start_time),
+        "-t", str(duration),
+        "-i", source_path,
+        "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
+        "-c:v", "libx264", "-preset", "fast",
+        "-c:a", "aac", "-b:a", "192k",
+        output_path
+    ]
+    process = await asyncio.create_subprocess_exec(*cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = await process.communicate()
+    if process.returncode != 0:
+        raise RuntimeError(f"FFmpeg render error: {stderr.decode()}")
+    return output_path`
+        }
+      ]
+    },
+
+    // 4. Data Structure Visualizer
+    {
+      id: 'dsvisualizer',
+      number: '04',
+      tag: 'TYPESCRIPT / VS CODE EXTENSION API / TREE-SITTER / D3.JS',
+      repoUrl: 'https://github.com/UtkarshD18/DS-visualizer',
+      title: 'Data Structure Visualizer — VS Code Extension',
+      subtitle: '92.8% Test Success Across 69 Automated Test Suites',
+      overview: 'Developed a VS Code extension for real-time data structure AST parsing and dynamic visual graph rendering using Tree-sitter, Babel Parser, Mermaid.js, and D3.js. Features live memory graph generation for trees, heaps, and linked lists during active debug sessions.',
+      tags: ['TypeScript', 'VS Code API', 'Tree-sitter', 'Babel', 'D3.js', 'Mermaid.js'],
+      metrics: [
+        { label: 'Test Success', value: '92.8%' },
+        { label: 'Automated Tests', value: '69 Suites' },
+        { label: 'AST Parsers', value: 'Tree-sitter' },
+        { label: 'Rendering', value: 'D3.js / SVG' }
+      ],
+      snippets: [
+        {
+          id: 'ast_parser',
+          tabLabel: 'Tree-sitter AST Parser',
+          title: 'Real-Time Memory Hierarchy Node Extraction',
+          explanation: 'Traverses abstract syntax trees to identify pointer linkages and array heap allocations on the fly.',
+          language: 'typescript',
+          code: `// Tree-sitter AST Linked List Linkage Parser
+export function extractMemoryNodes(astRoot: SyntaxNode): GraphData {
+  const nodes: VisualNode[] = [];
+  const edges: VisualEdge[] = [];
+
+  const cursor = astRoot.walk();
+  let hasNext = true;
+  while (hasNext) {
+    if (cursor.nodeType === 'variable_declarator' && cursor.nodeText.includes('next')) {
+      edges.push({ from: cursor.currentNode().id, to: cursor.currentNode().targetId });
+    }
+    hasNext = cursor.gotoNextSibling() || cursor.gotoParent();
+  }
+  return { nodes, edges };
+}`
+        }
+      ]
+    }
+  ];
+
+  private activeSnippetsState = new Map<string, CodeSnippet>();
+
+  constructor() {
+    this.projects.forEach(p => {
+      this.activeSnippetsState.set(p.id, p.snippets[0]);
+    });
+  }
+
+  getActiveSnippet(projectId: string): CodeSnippet {
+    return this.activeSnippetsState.get(projectId) || this.projects.find(p => p.id === projectId)!.snippets[0];
+  }
+
+  setActiveSnippet(projectId: string, snippet: CodeSnippet): void {
+    this.activeSnippetsState.set(projectId, snippet);
+  }
 }
