@@ -484,7 +484,7 @@ export class WorkComponent {
       repoUrl: 'https://github.com/UtkarshD18/B1G-CRM',
       title: 'B1GCRM — Enterprise Multi-Agent Architecture Project',
       subtitle: 'StateGraph-Based Routing · 98% Triage Accuracy · 208K+ LoC',
-      imageUrl: '/assets/projects/b1gcrm-flows.png',
+      imageUrl: '/assets/projects/b1gcrm-builder.png',
       overview: 'Self-driven enterprise multi-tenant CRM platform integrating LangGraph & LangChain multi-agent systems with real-time omni-channel messaging, PostgreSQL pgvector RAG semantic search, and an interactive React Flow automation builder.',
       tags: ['React', 'Node.js', 'PostgreSQL', 'LangGraph', 'LangChain', 'pgvector (RAG)', 'Socket.io', 'React Flow', 'Zustand'],
       metrics: [

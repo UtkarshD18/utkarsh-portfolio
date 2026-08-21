@@ -1,20 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-interface ActivityCell {
-  date: string;
-  count: number;
-  level: number;
-}
-
-interface LeetCodeRecent {
-  title: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
-  topic: string;
-  runtimePercent: string;
-  time?: string;
-}
-
 @Component({
   selector: 'app-activity-stats',
   standalone: true,
@@ -23,15 +9,15 @@ interface LeetCodeRecent {
     <div class="activity-section">
       <!-- Header -->
       <div class="activity-header">
-        <span class="activity-kicker">[ 02 · CODE REPOSITORIES &amp; METRICS ]</span>
-        <h2 class="activity-title">Engineering Activity &amp; Algorithmic Consistency</h2>
+        <span class="activity-kicker">[ 02 · VERIFIED ACTIVITY &amp; REPOSITORIES ]</span>
+        <h2 class="activity-title">Live GitHub Contributions &amp; Coding Profiles</h2>
         <p class="activity-desc">
-          Verified open-source contributions, repositories, and continuous algorithmic problem-solving on GitHub and LeetCode.
+          Live snapshot mapped directly from GitHub and verified DSA profiles on LeetCode &amp; Naukri Code360.
         </p>
       </div>
 
       <div class="activity-grid">
-        <!-- 1. GitHub Profile & Contribution Graph -->
+        <!-- 1. Live GitHub Contributions Card -->
         <div class="stats-card liquid-glass">
           <div class="card-top">
             <div class="card-brand">
@@ -46,128 +32,119 @@ interface LeetCodeRecent {
               </div>
             </div>
             <a href="https://github.com/UtkarshD18?tab=repositories" target="_blank" class="total-badge">
-              12 Active Repositories
+              11 Public Repositories
             </a>
           </div>
 
-          <!-- Heatmap Grid -->
-          <div class="heatmap-wrapper">
-            <div class="heatmap-grid">
-              @for (cell of contributionWeeks; track $index) {
-                <div
-                  class="heatmap-cell"
-                  [attr.data-level]="cell.level"
-                  [title]="cell.date + ': ' + cell.count + ' commits'"
-                ></div>
-              }
+          <!-- Live GitHub Contribution Heatmap SVG -->
+          <div class="gh-chart-container">
+            <div class="chart-scroll">
+              <img
+                src="https://ghchart.rshah.org/3b82f6/UtkarshD18"
+                alt="UtkarshD18 GitHub Contributions Graph"
+                class="gh-live-svg"
+                loading="lazy"
+              />
             </div>
-            <div class="heatmap-legend">
-              <span>Less</span>
-              <span class="legend-box level-0"></span>
-              <span class="legend-box level-1"></span>
-              <span class="legend-box level-2"></span>
-              <span class="legend-box level-3"></span>
-              <span class="legend-box level-4"></span>
-              <span>More</span>
-            </div>
+            <span class="chart-caption">LIVE SYNCHRONIZED COMMITS VIA GITHUB GRAPHQL API</span>
           </div>
 
-          <!-- Quick Stats Row -->
+          <!-- Verified Repositories Quick Links -->
           <div class="github-metrics-row">
             <a href="https://github.com/UtkarshD18/B1G-CRM" target="_blank" class="metric-item">
-              <span class="val">208k+</span>
-              <span class="lbl">B1G-CRM Lines</span>
+              <span class="val">B1G-CRM</span>
+              <span class="lbl">Multi-Agent CRM · 208K+ LoC</span>
             </a>
-            <a href="https://github.com/UtkarshD18/bogecom-enterprise" target="_blank" class="metric-item">
-              <span class="val">1,200</span>
-              <span class="lbl">Req/Sec (Java 21)</span>
+            <a href="https://github.com/UtkarshD18/bogEcom" target="_blank" class="metric-item">
+              <span class="val">BogEcom</span>
+              <span class="lbl">5,000+ MAU E-Commerce</span>
             </a>
             <a href="https://github.com/UtkarshD18/MediaForge" target="_blank" class="metric-item">
-              <span class="val">v0.1.0</span>
-              <span class="lbl">MediaForge Release</span>
+              <span class="val">MediaForge</span>
+              <span class="lbl">FFmpeg Transcoding Daemon</span>
             </a>
-            <a href="https://github.com/UtkarshD18/agentforge" target="_blank" class="metric-item">
-              <span class="val">FastMCP</span>
-              <span class="lbl">AI Orchestrator</span>
+            <a href="https://github.com/UtkarshD18/DS-visualizer" target="_blank" class="metric-item">
+              <span class="val">DS-Visualizer</span>
+              <span class="lbl">VS Code Extension API</span>
             </a>
           </div>
         </div>
 
-        <!-- 2. LeetCode Problem-Solving Activity Card -->
+        <!-- 2. Coding Profiles: LeetCode & Naukri Code360 -->
         <div class="stats-card liquid-glass">
           <div class="card-top">
             <div class="card-brand">
-              <div class="leetcode-icon">LC</div>
+              <div class="leetcode-icon">DSA</div>
               <div>
                 <a href="https://leetcode.com/u/UtkarshD18/" target="_blank" class="brand-link">
-                  LeetCode · UtkarshD18 ↗
+                  LeetCode &amp; Naukri Code360 ↗
                 </a>
-                <span class="user-handle">leetcode.com/u/UtkarshD18/</span>
+                <span class="user-handle">LeetCode · Naukri Code360</span>
               </div>
             </div>
             <a href="https://leetcode.com/u/UtkarshD18/" target="_blank" class="streak-badge">
-              🔥 Daily Practice Streak
+              Verified Profiles
             </a>
           </div>
 
-          <!-- Problem Breakdown Progress -->
+          <!-- Problems Solved Progress Circle -->
           <div class="leetcode-breakdown">
             <div class="solved-circle-container">
-              <div class="total-solved-num">350+</div>
-              <div class="total-solved-label">Solved</div>
+              <div class="total-solved-num">100+</div>
+              <div class="total-solved-label">DSA Solved</div>
             </div>
 
-            <div class="difficulty-bars">
-              <div class="diff-bar-item">
-                <div class="diff-meta">
-                  <span class="diff-name text-easy">Easy</span>
-                  <span class="diff-count">120+ Solved</span>
-                </div>
-                <div class="progress-track">
-                  <div class="progress-fill fill-easy" style="width: 75%;"></div>
-                </div>
+            <div class="profile-details">
+              <div class="profile-row">
+                <span class="prof-name">Data Structures &amp; Algorithms:</span>
+                <span class="prof-val">100+ Problems Across Platforms</span>
               </div>
-
-              <div class="diff-bar-item">
-                <div class="diff-meta">
-                  <span class="diff-name text-medium">Medium</span>
-                  <span class="diff-count">190+ Solved</span>
-                </div>
-                <div class="progress-track">
-                  <div class="progress-fill fill-medium" style="width: 60%;"></div>
-                </div>
+              <div class="profile-row">
+                <span class="prof-name">Core Focus:</span>
+                <span class="prof-val">Trees, Graphs, Dynamic Programming, Heaps</span>
               </div>
-
-              <div class="diff-bar-item">
-                <div class="diff-meta">
-                  <span class="diff-name text-hard">Hard</span>
-                  <span class="diff-count">40+ Solved</span>
-                </div>
-                <div class="progress-track">
-                  <div class="progress-fill fill-hard" style="width: 40%;"></div>
-                </div>
+              <div class="profile-row">
+                <span class="prof-name">CS Fundamentals:</span>
+                <span class="prof-val">DBMS, Operating Systems, Computer Networks</span>
               </div>
             </div>
           </div>
 
-          <!-- Recent Topics List -->
+          <!-- Algorithmic Patterns Solved -->
           <div class="recent-submissions">
-            <span class="sub-header">CORE ALGORITHMIC PATTERNS</span>
+            <span class="sub-header">PROVEN ALGORITHMIC COMPETENCIES</span>
             <div class="sub-list">
-              @for (sub of recentLeetCode; track sub.title) {
-                <div class="sub-row">
-                  <div class="sub-main">
-                    <span class="sub-title">{{ sub.title }}</span>
-                    <span class="diff-pill" [class]="'pill-' + sub.difficulty.toLowerCase()">
-                      {{ sub.difficulty }}
-                    </span>
-                  </div>
-                  <div class="sub-metrics">
-                    <span class="topic-tag">{{ sub.topic }}</span>
-                    <span class="speed-badge">⚡ Beats {{ sub.runtimePercent }}</span>
-                  </div>
+              <div class="sub-row">
+                <div class="sub-main">
+                  <span class="sub-title">StateGraph Multi-Agent Routing &amp; Triage</span>
+                  <span class="diff-pill pill-medium">LangGraph</span>
                 </div>
-              }
+                <span class="speed-badge">98% Accuracy</span>
+              </div>
+
+              <div class="sub-row">
+                <div class="sub-main">
+                  <span class="sub-title">pgvector Cosine Distance Search</span>
+                  <span class="diff-pill pill-hard">PostgreSQL</span>
+                </div>
+                <span class="speed-badge">Sub-Second RAG</span>
+              </div>
+
+              <div class="sub-row">
+                <div class="sub-main">
+                  <span class="sub-title">Tree-sitter AST Multi-Language Parsing</span>
+                  <span class="diff-pill pill-easy">TypeScript</span>
+                </div>
+                <span class="speed-badge">69 Test Suites</span>
+              </div>
+
+              <div class="sub-row">
+                <div class="sub-main">
+                  <span class="sub-title">Idempotent Two-Way Lead Sync Engine</span>
+                  <span class="diff-pill pill-medium">Python REST</span>
+                </div>
+                <span class="speed-badge">0 Duplicates</span>
+              </div>
             </div>
           </div>
         </div>
@@ -261,62 +238,42 @@ interface LeetCodeRecent {
       color: #ffffff;
     }
     .streak-badge {
-      border-color: rgba(255, 192, 30, 0.4);
-      color: #ffc01e;
+      border-color: rgba(59, 130, 246, 0.4);
+      color: #3b82f6;
     }
 
-    /* Heatmap */
-    .heatmap-wrapper {
+    /* Live GitHub Chart */
+    .gh-chart-container {
       display: flex;
       flex-direction: column;
       gap: 0.8rem;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 1.2rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
-    .heatmap-grid {
-      display: grid;
-      grid-template-columns: repeat(26, 1fr);
-      grid-template-rows: repeat(7, 1fr);
-      gap: 4px;
-      height: 120px;
+    .chart-scroll {
+      overflow-x: auto;
+      width: 100%;
     }
-    .heatmap-cell {
-      border-radius: 2px;
-      transition: transform 0.15s ease;
-      cursor: pointer;
+    .gh-live-svg {
+      width: 100%;
+      min-width: 540px;
+      height: auto;
+      display: block;
+      filter: invert(1) hue-rotate(180deg) brightness(0.95);
     }
-    .heatmap-cell:hover {
-      transform: scale(1.3);
-      z-index: 10;
-    }
-    .heatmap-cell[data-level="0"] { background: #161b22; }
-    .heatmap-cell[data-level="1"] { background: #0e4429; }
-    .heatmap-cell[data-level="2"] { background: #006d32; }
-    .heatmap-cell[data-level="3"] { background: #26a641; }
-    .heatmap-cell[data-level="4"] { background: #39d353; }
-
-    .heatmap-legend {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 5px;
-      font-size: 0.7rem;
-      color: #8e8e9f;
+    .chart-caption {
       font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #5c5c6d;
+      letter-spacing: 0.12em;
     }
-    .legend-box {
-      width: 10px;
-      height: 10px;
-      border-radius: 2px;
-    }
-    .legend-box.level-0 { background: #161b22; }
-    .legend-box.level-1 { background: #0e4429; }
-    .legend-box.level-2 { background: #006d32; }
-    .legend-box.level-3 { background: #26a641; }
-    .legend-box.level-4 { background: #39d353; }
 
     /* Metrics Row */
     .github-metrics-row {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       padding-top: 1.4rem;
@@ -326,34 +283,40 @@ interface LeetCodeRecent {
       flex-direction: column;
       gap: 0.2rem;
       text-decoration: none;
-      transition: transform 0.2s ease;
+      padding: 0.6rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      transition: all 0.2s ease;
     }
     .metric-item:hover {
+      background: rgba(255, 255, 255, 0.06);
       transform: translateY(-2px);
     }
     .metric-item .val {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.25rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #ffffff;
     }
     .metric-item .lbl {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: #8e8e9f;
     }
 
-    /* LeetCode */
+    /* LeetCode & Code360 */
     .leetcode-icon {
-      width: 28px;
-      height: 28px;
-      background: #ffc01e;
-      color: #000000;
+      width: 32px;
+      height: 32px;
+      background: #3b82f6;
+      color: #ffffff;
       border-radius: 6px;
       font-weight: 900;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
     }
     .leetcode-breakdown {
       display: grid;
@@ -362,8 +325,8 @@ interface LeetCodeRecent {
       align-items: center;
     }
     .solved-circle-container {
-      width: 95px;
-      height: 95px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       border: 3px solid #3b82f6;
       background: rgba(59, 130, 246, 0.05);
@@ -380,46 +343,34 @@ interface LeetCodeRecent {
       line-height: 1;
     }
     .total-solved-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: #8e8e9f;
       margin-top: 0.2rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
     }
-    .difficulty-bars {
+    .profile-details {
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 0.6rem;
     }
-    .diff-bar-item {
+    .profile-row {
       display: flex;
       flex-direction: column;
-      gap: 0.3rem;
+      gap: 0.15rem;
     }
-    .diff-meta {
-      display: flex;
-      justify-content: space-between;
+    .prof-name {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
+      color: #8e8e9f;
     }
-    .text-easy { color: #00b8a3; }
-    .text-medium { color: #ffc01e; }
-    .text-hard { color: #ef4743; }
-    .progress-track {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 999px;
-      overflow: hidden;
+    .prof-val {
+      font-size: 0.85rem;
+      color: #f5f5f7;
+      font-weight: 600;
     }
-    .progress-fill {
-      height: 100%;
-      border-radius: 999px;
-    }
-    .fill-easy { background: #00b8a3; }
-    .fill-medium { background: #ffc01e; }
-    .fill-hard { background: #ef4743; }
 
-    /* Recent Submissions */
+    /* Submissions / Competencies */
     .recent-submissions {
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       padding-top: 1.2rem;
@@ -450,7 +401,7 @@ interface LeetCodeRecent {
       gap: 0.6rem;
     }
     .sub-title {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: #f5f5f7;
       font-weight: 500;
     }
@@ -460,19 +411,9 @@ interface LeetCodeRecent {
       padding: 0.1rem 0.45rem;
       border-radius: 4px;
     }
-    .pill-easy { background: rgba(0, 184, 163, 0.15); color: #00b8a3; }
-    .pill-medium { background: rgba(255, 192, 30, 0.15); color: #ffc01e; }
-    .pill-hard { background: rgba(239, 71, 67, 0.15); color: #ef4743; }
-    .sub-metrics {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-    .topic-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: #8e8e9f;
-    }
+    .pill-easy { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+    .pill-medium { background: rgba(0, 230, 118, 0.15); color: #00e676; }
+    .pill-hard { background: rgba(255, 192, 30, 0.15); color: #ffc01e; }
     .speed-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
@@ -481,30 +422,8 @@ interface LeetCodeRecent {
 
     @media (max-width: 1024px) {
       .activity-grid { grid-template-columns: 1fr; }
-      .github-metrics-row { grid-template-columns: repeat(2, 1fr); }
+      .github-metrics-row { grid-template-columns: 1fr; }
     }
   `]
 })
-export class ActivityStatsComponent {
-  readonly contributionWeeks: ActivityCell[] = Array.from({ length: 182 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - (181 - i));
-    const dateStr = d.toISOString().split('T')[0];
-    const rand = Math.random();
-    let count = 0;
-    let level = 0;
-    if (rand > 0.28) {
-      count = Math.floor(Math.random() * 9) + 1;
-      level = count > 6 ? 4 : count > 4 ? 3 : count > 2 ? 2 : 1;
-    }
-    return { date: dateStr, count, level };
-  });
-
-  readonly recentLeetCode: LeetCodeRecent[] = [
-    { title: 'LRU Cache Design', difficulty: 'Medium', topic: 'Hash Table & Doubly Linked List', runtimePercent: '98.4%' },
-    { title: 'Trapping Rain Water', difficulty: 'Hard', topic: 'Two Pointers & Monotonic Stack', runtimePercent: '96.2%' },
-    { title: 'Course Schedule II', difficulty: 'Medium', topic: 'Graph & Topological Sort', runtimePercent: '95.7%' },
-    { title: 'Merge k Sorted Lists', difficulty: 'Hard', topic: 'Min-Heap Priority Queue', runtimePercent: '99.1%' },
-    { title: 'Binary Tree Maximum Path Sum', difficulty: 'Hard', topic: 'Tree DFS Dynamic Programming', runtimePercent: '97.2%' }
-  ];
-}
+export class ActivityStatsComponent {}
