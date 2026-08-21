@@ -144,27 +144,30 @@ export class ArenaCanvasComponent implements OnInit, OnDestroy {
     this.camera.position.set(0, 4.2, 10.5);
     this.camera.lookAt(0, 1.2, 0);
 
-    // 3. Renderer
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvasRef.nativeElement, antialias: true, alpha: false });
+    // 3. Renderer with High-Fidelity Tone Mapping & PCF Shadow Map
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvasRef.nativeElement, antialias: true, alpha: false, powerPreference: 'high-performance' });
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.15;
 
-    // 4. Ghost of Tsushima Twilight Lighting (Warm Golden Moon + Crimson Accent)
-    const ambientLight = new THREE.AmbientLight(0xffecd2, 0.65);
+    // 4. Cinematic Dramatic Lighting (Golden Key + Cyan Rim + Ambient Fill)
+    const ambientLight = new THREE.AmbientLight(0xd4e2ff, 0.45);
     this.scene.add(ambientLight);
 
-    const goldenMoonLight = new THREE.DirectionalLight(0xf0c375, 1.8);
-    goldenMoonLight.position.set(6, 14, 8);
-    goldenMoonLight.castShadow = true;
-    goldenMoonLight.shadow.mapSize.width = 1024;
-    goldenMoonLight.shadow.mapSize.height = 1024;
-    this.scene.add(goldenMoonLight);
+    const goldenKeyLight = new THREE.DirectionalLight(0xffecd2, 2.4);
+    goldenKeyLight.position.set(8, 16, 10);
+    goldenKeyLight.castShadow = true;
+    goldenKeyLight.shadow.mapSize.width = 2048;
+    goldenKeyLight.shadow.mapSize.height = 2048;
+    goldenKeyLight.shadow.bias = -0.0001;
+    this.scene.add(goldenKeyLight);
 
-    const crimsonRimLight = new THREE.DirectionalLight(0xc2362b, 1.2);
-    crimsonRimLight.position.set(-8, 6, -6);
-    this.scene.add(crimsonRimLight);
+    const cyanRimLight = new THREE.DirectionalLight(0x38bdf8, 1.6);
+    cyanRimLight.position.set(-10, 8, -8);
+    this.scene.add(cyanRimLight);
 
     // 5. Environment & Particles
     this.createArena();
