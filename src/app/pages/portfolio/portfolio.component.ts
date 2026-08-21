@@ -1,514 +1,1033 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { MoonFooterComponent } from '../../components/moon-footer/moon-footer.component';
-import { BirdHuntComponent } from '../../components/bird-hunt/bird-hunt.component';
-import { LandscapeHorizonComponent } from '../../components/landscape-horizon/landscape-horizon.component';
-import { AudioService } from '../../core/services/audio.service';
+
+interface CodeSnippet {
+  id: string;
+  tabLabel: string;
+  title: string;
+  explanation: string;
+  language: string;
+  code: string;
+}
+
+interface ProjectData {
+  id: string;
+  category: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  tags: string[];
+  metrics: { label: string; value: string }[];
+  snippets: CodeSnippet[];
+}
 
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule, MoonFooterComponent, BirdHuntComponent, LandscapeHorizonComponent],
+  imports: [CommonModule],
   template: `
-    <div class="portfolio-viewport">
-      <!-- Luxury Film Grain Noise Texture -->
-      <div class="noise-overlay"></div>
+    <div class="portfolio-root">
+      <!-- Minimalist Navigation Bar -->
+      <header class="navbar">
+        <div class="nav-container">
+          <a href="#" class="brand">
+            <span class="brand-name">Utkarsh</span>
+            <span class="brand-pill">Systems &amp; Web</span>
+          </a>
 
-      <!-- Sekiro-Themed Ashina Battlefield & Interactive Planted Katana Props -->
-      <app-landscape-horizon></app-landscape-horizon>
-
-      <!-- Duck / Bird Hunting Mini-Game Layer (AKM & Dynamo Voice) -->
-      <app-bird-hunt></app-bird-hunt>
-
-      <!-- Award-Winning Editorial Navbar -->
-      <header class="editorial-nav">
-        <div class="nav-brand">
-          <span class="brand-mon">○</span>
-          <div class="brand-meta">
-            <span class="brand-title">UTKARSH</span>
-            <span class="brand-role">[ SYSTEMS ARCHITECT · ATHLETE ]</span>
-          </div>
+          <nav class="nav-links">
+            <a href="#projects" class="nav-link">Work</a>
+            <a href="#architecture" class="nav-link">Architecture</a>
+            <a href="#skills" class="nav-link">Stack</a>
+            <a href="#journey" class="nav-link">Journey</a>
+            <a href="mailto:contact@utkarsh.dev" class="contact-btn liquid-glass">
+              <span>Get In Touch ↗</span>
+            </a>
+          </nav>
         </div>
-
-        <nav class="nav-items">
-          <a href="#engineering" class="nav-item">
-            <span class="item-num">[ 01 ]</span>
-            <span class="item-label">SYSTEMS FORGE</span>
-          </a>
-          <a href="#compete" class="nav-item">
-            <span class="item-num">[ 02 ]</span>
-            <span class="item-label">ATHLETE REFLEX</span>
-          </a>
-          <a href="#philosophy" class="nav-item">
-            <span class="item-num">[ 03 ]</span>
-            <span class="item-label">OBSERVATION</span>
-          </a>
-          <button class="nav-action-btn luxury-btn" (click)="goToDuel()">
-            <span>⚔ 3D ARENA</span>
-          </button>
-        </nav>
       </header>
 
-      <!-- Hero Section (Bespoke Kinetic Editorial Typography) -->
-      <main class="hero-stage">
-        <div class="editorial-meta-row">
-          <div class="meta-tag">
-            <span class="pulse-dot"></span>
-            <span>AVAILABLE FOR LOW-LATENCY SYSTEMS & CREATIVE ENGINEERING</span>
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-container">
+          <!-- Status Pill -->
+          <div class="status-pill liquid-glass">
+            <span class="status-dot"></span>
+            <span>Available for Systems &amp; Software Engineering · New Delhi, India</span>
           </div>
-          <div class="meta-coords">
-            <span>28°36'N · 77°12'E</span>
-          </div>
-        </div>
 
-        <h1 class="hero-title">
-          <span class="title-line"><span class="reveal-text">TEMPERING LOW-LEVEL</span></span>
-          <span class="title-line"><span class="reveal-text italic-serif">C++ ARCHITECTURES</span></span>
-          <span class="title-line"><span class="reveal-text">&amp; DETERMINISTIC SYSTEMS</span></span>
-        </h1>
+          <!-- Main Typography Headline -->
+          <h1 class="hero-heading">
+            I turn <span class="highlight-blue">system complexity</span> into <span class="highlight-sand">intelligent, low-latency</span> solutions.
+          </h1>
 
-        <div class="hero-lead-grid">
-          <p class="hero-lead-text">
-            Bridging bare-metal performance, WebAssembly compilers, and high-frequency reflex composure. Designed with intentional negative space, zero-garbage collection latency, and martial discipline.
+          <p class="hero-description">
+            Software engineer specializing in low-level C++ architectures, WebAssembly runtimes, and high-throughput web applications. Combining deterministic engineering with 120ms national-athlete reaction composure.
           </p>
 
-          <div class="hero-cta-group">
-            <button class="luxury-btn primary-cta" (click)="goToDuel()">
-              <span>ENTER 3D COMBAT ARENA ⚔</span>
-            </button>
-            <a href="#engineering" class="luxury-btn secondary-cta">
-              <span>EXPLORE CASE STUDIES ↓</span>
+          <!-- Call to Action Buttons -->
+          <div class="hero-actions">
+            <a href="#projects" class="primary-btn">
+              <span>Explore Selected Work ↓</span>
+            </a>
+            <a href="https://github.com" target="_blank" class="secondary-btn liquid-glass">
+              <span>GitHub Profile ↗</span>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="secondary-btn liquid-glass">
+              <span>LinkedIn ↗</span>
             </a>
           </div>
+
+          <!-- Quick Metrics Ribbon -->
+          <div class="metrics-ribbon">
+            <div class="metric-card liquid-glass">
+              <span class="metric-num">0 ms</span>
+              <span class="metric-label">Garbage Collection Pauses (WASM)</span>
+            </div>
+            <div class="metric-card liquid-glass">
+              <span class="metric-num">70 ms</span>
+              <span class="metric-label">Deterministic Frame Precision</span>
+            </div>
+            <div class="metric-card liquid-glass">
+              <span class="metric-num">120 ms</span>
+              <span class="metric-label">National Athlete Reflex Speed</span>
+            </div>
+            <div class="metric-card liquid-glass">
+              <span class="metric-num">60 FPS</span>
+              <span class="metric-label">Smooth Three.js WebGL Pipelines</span>
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
 
-      <!-- Editorial Case Studies & Engineering Architecture -->
-      <section class="editorial-dossiers" id="engineering">
-        <div class="section-editorial-header">
-          <div class="section-label">[ 01 · SYSTEM ARCHITECTURE ]</div>
-          <h2 class="section-headline">Deterministic Engine &amp; Low-Latency Primitives</h2>
-        </div>
-
-        <div class="editorial-grid">
-          <!-- Dossier 1: C++ WASM Combat Engine -->
-          <article class="dossier-card card-span-2">
-            <div class="card-meta">
-              <span class="dossier-num">01.01</span>
-              <span class="dossier-category">WASM / SIMD / C++20</span>
-            </div>
-            <h3 class="dossier-title">Zero-Copy WebAssembly Combat Simulation</h3>
-            <p class="dossier-desc">
-              Deterministic AABB &amp; Capsule hitbox detection, sub-frame 70ms parry calculation, and streaming linear 32-float memory buffers directly into WebGL vertex pipelines at 60 FPS without garbage-collection overhead.
+      <!-- Featured Projects & Deep Dives (Armaan Kachhawa Style) -->
+      <section class="projects-section" id="projects">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-kicker">[ 01 · SELECTED PROJECTS ]</span>
+            <h2 class="section-title">Engineered with Precision &amp; Scalability</h2>
+            <p class="section-desc">
+              Explore real architecture decisions, memory models, and code implementations used in production.
             </p>
-            <div class="card-pills">
-              <span class="pill">C++ 20</span>
-              <span class="pill">Emscripten WASM</span>
-              <span class="pill">SIMD Pointers</span>
-              <span class="pill">Three.js GLSL</span>
-            </div>
-            <div class="hover-indicator-line"></div>
-          </article>
+          </div>
 
-          <!-- Dossier 2: Audio Synthesis & Soundboard -->
-          <article class="dossier-card">
-            <div class="card-meta">
-              <span class="dossier-num">01.02</span>
-              <span class="dossier-category">WEB AUDIO SYNTH</span>
-            </div>
-            <h3 class="dossier-title">Real-Time Acoustic Physics Lab</h3>
-            <p class="dossier-desc">
-              Procedural metallic parry harmonics, 7.62mm AKM bullet shockwave physics, and spatial combat reverb synthesized on-the-fly.
-            </p>
-            <div class="sound-action-box">
-              <button class="luxury-btn sound-strike-btn" (click)="playClashSound()">
-                <span>{{ isPlayingSound() ? 'REVERBERATING...' : 'CLASH STEEL ⚔' }}</span>
-              </button>
-            </div>
-            <div class="hover-indicator-line"></div>
-          </article>
-
-          <!-- Dossier 3: National Athlete Reflex Composure -->
-          <article class="dossier-card" id="compete">
-            <div class="card-meta">
-              <span class="dossier-num">02.01</span>
-              <span class="dossier-category">NEURAL SPEED</span>
-            </div>
-            <h3 class="dossier-title">120ms National Athlete Reflex</h3>
-            <p class="dossier-desc">
-              National-level table tennis taught me high-speed composure: decomposing rapid chaotic inputs into instant deterministic reactions.
-            </p>
-            <div class="metric-display">
-              <div class="metric-row">
-                <span>Reaction Latency</span>
-                <span class="metric-val">120 ms</span>
+          <!-- Project 1: C++ WebAssembly Combat Engine -->
+          <article class="project-showcase liquid-glass">
+            <div class="showcase-header">
+              <div class="showcase-meta">
+                <span class="project-tag">Low-Latency / WASM / C++20</span>
+                <h3 class="project-title">{{ projectCombat.title }}</h3>
+                <p class="project-desc">{{ projectCombat.description }}</p>
               </div>
-              <div class="metric-row">
-                <span>Combat Composure</span>
-                <span class="metric-val">99.9%</span>
+
+              <div class="tech-pills">
+                @for (tag of projectCombat.tags; track tag) {
+                  <span class="tech-pill">{{ tag }}</span>
+                }
               </div>
             </div>
-            <div class="hover-indicator-line"></div>
+
+            <!-- Interactive Architecture Tabs -->
+            <div class="code-deepdive" id="architecture">
+              <div class="tabs-nav">
+                @for (snip of projectCombat.snippets; track snip.id) {
+                  <button
+                    class="tab-btn"
+                    [class.active]="activeCombatSnippet().id === snip.id"
+                    (click)="activeCombatSnippet.set(snip)"
+                  >
+                    {{ snip.tabLabel }}
+                  </button>
+                }
+              </div>
+
+              <div class="snippet-body">
+                <div class="snippet-info">
+                  <h4>{{ activeCombatSnippet().title }}</h4>
+                  <p>{{ activeCombatSnippet().explanation }}</p>
+                </div>
+
+                <div class="code-editor">
+                  <div class="editor-header">
+                    <div class="window-dots">
+                      <span></span><span></span><span></span>
+                    </div>
+                    <span class="file-name">{{ activeCombatSnippet().tabLabel }}.cpp</span>
+                    <span class="lang-tag">{{ activeCombatSnippet().language }}</span>
+                  </div>
+                  <pre class="code-block"><code>{{ activeCombatSnippet().code }}</code></pre>
+                </div>
+              </div>
+            </div>
           </article>
 
-          <!-- Dossier 4: Observer Philosophy -->
-          <article class="dossier-card card-span-2" id="philosophy">
-            <div class="card-meta">
-              <span class="dossier-num">03.01</span>
-              <span class="dossier-category">PHILOSOPHY</span>
+          <!-- Project 2: MediaForge Distributed Cloud Platform -->
+          <article class="project-showcase liquid-glass mt-12">
+            <div class="showcase-header">
+              <div class="showcase-meta">
+                <span class="project-tag">Distributed Systems / Cloud / Angular</span>
+                <h3 class="project-title">{{ projectMediaForge.title }}</h3>
+                <p class="project-desc">{{ projectMediaForge.description }}</p>
+              </div>
+
+              <div class="tech-pills">
+                @for (tag of projectMediaForge.tags; track tag) {
+                  <span class="tech-pill">{{ tag }}</span>
+                }
+              </div>
             </div>
-            <h3 class="dossier-title">The Space Between Reaction &amp; Awareness</h3>
-            <blockquote class="editorial-quote">
-              "The warrior is not one who never feels fear, but one who observes the incoming blade without trembling. Observe the void before initiating the strike."
-            </blockquote>
-            <div class="philosophy-tags">
-              <span>BUSHIDO CODE</span> · <span>ZEN STILLNESS</span> · <span>JAIN ANEKANTAVADA</span> · <span>STOIC REASON</span>
+
+            <!-- Interactive Architecture Tabs -->
+            <div class="code-deepdive">
+              <div class="tabs-nav">
+                @for (snip of projectMediaForge.snippets; track snip.id) {
+                  <button
+                    class="tab-btn"
+                    [class.active]="activeMediaForgeSnippet().id === snip.id"
+                    (click)="activeMediaForgeSnippet.set(snip)"
+                  >
+                    {{ snip.tabLabel }}
+                  </button>
+                }
+              </div>
+
+              <div class="snippet-body">
+                <div class="snippet-info">
+                  <h4>{{ activeMediaForgeSnippet().title }}</h4>
+                  <p>{{ activeMediaForgeSnippet().explanation }}</p>
+                </div>
+
+                <div class="code-editor">
+                  <div class="editor-header">
+                    <div class="window-dots">
+                      <span></span><span></span><span></span>
+                    </div>
+                    <span class="file-name">{{ activeMediaForgeSnippet().tabLabel }}.ts</span>
+                    <span class="lang-tag">{{ activeMediaForgeSnippet().language }}</span>
+                  </div>
+                  <pre class="code-block"><code>{{ activeMediaForgeSnippet().code }}</code></pre>
+                </div>
+              </div>
             </div>
-            <div class="hover-indicator-line"></div>
           </article>
         </div>
       </section>
 
-      <!-- Blood Moon Torii Gateway Footer -->
-      <app-moon-footer></app-moon-footer>
+      <!-- Technical Skills Matrix -->
+      <section class="skills-section" id="skills">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-kicker">[ 02 · TECHNICAL STACK ]</span>
+            <h2 class="section-title">Core Competencies &amp; Tooling</h2>
+          </div>
+
+          <div class="skills-grid">
+            <div class="skill-category liquid-glass">
+              <h3 class="category-title">⚡ Systems &amp; Low-Level</h3>
+              <p class="category-desc">Performance-critical architectures and deterministic execution.</p>
+              <div class="skills-list">
+                <span class="skill-item">C++20</span>
+                <span class="skill-item">WebAssembly (WASM)</span>
+                <span class="skill-item">SIMD Vectorization</span>
+                <span class="skill-item">Memory Pooling</span>
+                <span class="skill-item">Linux / POSIX</span>
+              </div>
+            </div>
+
+            <div class="skill-category liquid-glass">
+              <h3 class="category-title">🌐 Modern Web &amp; 3D</h3>
+              <p class="category-desc">Modern responsive web applications and interactive WebGL graphics.</p>
+              <div class="skills-list">
+                <span class="skill-item">Angular 18 Signals</span>
+                <span class="skill-item">Next.js 15 &amp; React</span>
+                <span class="skill-item">Three.js / WebGL</span>
+                <span class="skill-item">TypeScript</span>
+                <span class="skill-item">TailwindCSS</span>
+              </div>
+            </div>
+
+            <div class="skill-category liquid-glass">
+              <h3 class="category-title">🗄️ Backend &amp; Cloud Infrastructure</h3>
+              <p class="category-desc">Distributed services, relational databases, and containerization.</p>
+              <div class="skills-list">
+                <span class="skill-item">Node.js / Express</span>
+                <span class="skill-item">PostgreSQL / Drizzle</span>
+                <span class="skill-item">Redis Caching</span>
+                <span class="skill-item">Docker Containers</span>
+                <span class="skill-item">AWS S3 &amp; CloudFront</span>
+              </div>
+            </div>
+
+            <div class="skill-category liquid-glass">
+              <h3 class="category-title">🏓 Composure &amp; High-Speed Execution</h3>
+              <p class="category-desc">Competitive psychology applied to high-pressure technical execution.</p>
+              <div class="skills-list">
+                <span class="skill-item">National Table Tennis Athlete</span>
+                <span class="skill-item">120ms Reflex Composure</span>
+                <span class="skill-item">Root-Cause Deconstruction</span>
+                <span class="skill-item">Disciplined Delivery</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Journey / Timeline ("Let's Take It Back") -->
+      <section class="journey-section" id="journey">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-kicker">[ 03 · MILESTONES ]</span>
+            <h2 class="section-title">Let's Take It Back</h2>
+            <p class="section-desc">Key milestones in engineering and competitive athletics.</p>
+          </div>
+
+          <div class="timeline-wrapper">
+            <div class="timeline-track"></div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content liquid-glass">
+                <span class="timeline-year">2026 · PRESENT</span>
+                <h4>High-Throughput Systems Architect</h4>
+                <p>Developing WebAssembly-compiled C++ kernels, deterministic collision shaders, and high-performance micro-frontends.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content liquid-glass">
+                <span class="timeline-year">2024 — 2025</span>
+                <h4>Distributed Media &amp; Full-Stack Platforms</h4>
+                <p>Architected MediaForge enterprise releases, Redis caching layers, PostgreSQL schemas, and low-latency API pipelines.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content liquid-glass">
+                <span class="timeline-year">FOUNDATION</span>
+                <h4>National Table Tennis &amp; Algorithmic Thinking</h4>
+                <p>Competed at the national level. Trained fast reflex processing (120ms), pattern recognition, and poise under high-pressure scenarios.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Minimalist Contact Footer -->
+      <footer class="footer">
+        <div class="footer-container">
+          <div class="footer-top">
+            <div class="footer-brand">
+              <span class="brand-title">UTKARSH</span>
+              <p class="footer-tagline">Building clean, robust, and deterministic digital experiences.</p>
+            </div>
+
+            <div class="footer-links">
+              <a href="mailto:contact@utkarsh.dev" class="footer-link">Email</a>
+              <a href="https://github.com" target="_blank" class="footer-link">GitHub</a>
+              <a href="https://linkedin.com" target="_blank" class="footer-link">LinkedIn</a>
+              <a href="https://x.com" target="_blank" class="footer-link">Twitter / X</a>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <span>© 2026 Utkarsh. All rights reserved.</span>
+            <span>Engineered with Angular 18 &amp; Web Standards.</span>
+          </div>
+        </div>
+      </footer>
     </div>
   `,
   styles: [`
-    .portfolio-viewport {
+    .portfolio-root {
       min-height: 100vh;
-      background: #08080a;
-      color: #ffffff;
-      position: relative;
-      overflow: hidden;
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: #070709;
+      color: #f5f5f7;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     }
 
-    /* Editorial Navbar */
-    .editorial-nav {
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 7, 9, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1.2rem 0;
+    }
+    .nav-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 2.2rem 4.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      position: relative;
-      z-index: 20;
-      backdrop-filter: blur(16px);
-      background: rgba(8, 8, 10, 0.6);
     }
-    .nav-brand {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.8rem;
+      text-decoration: none;
     }
-    .brand-mon {
-      font-size: 1.3rem;
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-    }
-    .brand-meta {
-      display: flex;
-      flex-direction: column;
-    }
-    .brand-title {
-      font-family: 'Cinzel', serif;
-      font-weight: 900;
-      letter-spacing: 0.25em;
+    .brand-name {
       font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    .brand-pill {
+      font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #8e8e9f;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .nav-link {
+      color: #8e8e9f;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover {
       color: #ffffff;
     }
-    .brand-role {
-      font-family: monospace;
-      font-size: 0.65rem;
-      color: rgba(255, 255, 255, 0.5);
-      letter-spacing: 0.15em;
-    }
-    .nav-items {
-      display: flex;
-      gap: 2.5rem;
-      align-items: center;
-    }
-    .nav-item {
-      color: rgba(255, 255, 255, 0.65);
+    .contact-btn {
+      padding: 0.45rem 1.1rem;
+      border-radius: 999px;
+      color: #ffffff;
       text-decoration: none;
       font-size: 0.8rem;
-      letter-spacing: 0.15em;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.3s ease;
-    }
-    .nav-item .item-num {
-      font-family: monospace;
-      font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.4);
-    }
-    .nav-item:hover {
-      color: #ffffff;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-    }
-    .nav-action-btn {
-      padding: 0.55rem 1.3rem;
-      font-size: 0.75rem;
+      font-weight: 600;
     }
 
-    /* Hero Stage */
-    .hero-stage {
-      padding: 6.5rem 4.5rem 4.5rem;
-      max-width: 1320px;
-      position: relative;
-      z-index: 5;
+    /* Hero Section */
+    .hero-section {
+      padding: 6.5rem 0 5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
-    .editorial-meta-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      font-family: monospace;
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.5);
-      letter-spacing: 0.15em;
+    .hero-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 2rem;
     }
-    .meta-tag {
-      display: flex;
+    .status-pill {
+      display: inline-flex;
       align-items: center;
       gap: 0.6rem;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #8e8e9f;
+      margin-bottom: 2rem;
     }
-    .pulse-dot {
+    .status-dot {
       width: 6px;
       height: 6px;
       background: #00e676;
       border-radius: 50%;
       box-shadow: 0 0 8px #00e676;
-      animation: pulseGlow 1.8s infinite;
+      animation: pulseDot 2s infinite;
     }
-    @keyframes pulseGlow {
+    @keyframes pulseDot {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(0.85); }
+      50% { opacity: 0.4; transform: scale(0.85); }
     }
-    .hero-title {
-      font-family: 'Cinzel', serif;
-      font-size: 5.2rem;
-      font-weight: 900;
-      line-height: 1.06;
-      letter-spacing: -0.02em;
-      margin-bottom: 2.8rem;
+    .hero-heading {
+      font-size: 4.4rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      max-width: 1050px;
+      margin-bottom: 1.8rem;
       color: #ffffff;
     }
-    .title-line {
-      display: block;
-      overflow: hidden;
+    .highlight-blue {
+      color: #3b82f6;
     }
-    .italic-serif {
+    .highlight-sand {
+      color: #e5e5d8;
+      font-family: 'Instrument Serif', serif;
       font-style: italic;
-      color: #e0e0e0;
+      font-weight: 400;
     }
-    .hero-lead-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 3.5rem;
-      align-items: center;
-    }
-    .hero-lead-text {
+    .hero-description {
       font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.75);
-      line-height: 1.75;
-      max-width: 680px;
+      color: #8e8e9f;
+      max-width: 720px;
+      line-height: 1.7;
+      margin-bottom: 2.8rem;
     }
-    .hero-cta-group {
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
+    }
+    .primary-btn {
+      background: #ffffff;
+      color: #000000;
+      padding: 0.85rem 1.8rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
+      transition: all 0.25s ease;
+    }
+    .primary-btn:hover {
+      background: #e5e5d8;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255, 255, 255, 0.4);
+    }
+    .secondary-btn {
+      padding: 0.85rem 1.6rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-decoration: none;
+    }
+    .secondary-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Metrics Ribbon */
+    .metrics-ribbon {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+    }
+    .metric-card {
+      padding: 1.8rem 1.6rem;
+      border-radius: 12px;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      align-items: flex-start;
+      gap: 0.4rem;
     }
-    .primary-cta {
+    .metric-num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.03em;
+    }
+    .metric-label {
+      font-size: 0.8rem;
+      color: #8e8e9f;
+      line-height: 1.4;
+    }
+
+    /* Projects Section */
+    .projects-section {
+      padding: 6rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .section-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .section-header {
+      margin-bottom: 3.5rem;
+    }
+    .section-kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #3b82f6;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 0.8rem;
+    }
+    .section-desc {
+      font-size: 1rem;
+      color: #8e8e9f;
+      max-width: 620px;
+    }
+
+    /* Showcase Card */
+    .project-showcase {
+      border-radius: 16px;
+      padding: 3rem;
+      overflow: hidden;
+    }
+    .mt-12 { margin-top: 3.5rem; }
+    .showcase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .project-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #3b82f6;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .project-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.02em;
+    }
+    .project-desc {
+      font-size: 1rem;
+      color: #8e8e9f;
+      max-width: 720px;
+      line-height: 1.65;
+    }
+    .tech-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .tech-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #f5f5f7;
+    }
+
+    /* Code Deep-Dive Tabs (Armaan Kachhawa Style) */
+    .code-deepdive {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 2rem;
+    }
+    .tabs-nav {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #8e8e9f;
+      padding: 0.5rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
       background: #ffffff;
       color: #000000;
       border-color: #ffffff;
-      box-shadow: 0 4px 25px rgba(255, 255, 255, 0.35);
+      font-weight: 700;
     }
-    .secondary-cta {
-      border-color: rgba(255, 255, 255, 0.25);
+    .tab-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+    .snippet-body {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+    .snippet-info h4 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.8rem;
+    }
+    .snippet-info p {
+      font-size: 0.95rem;
+      color: #8e8e9f;
+      line-height: 1.7;
     }
 
-    /* Editorial Dossiers */
-    .editorial-dossiers {
-      padding: 5rem 4.5rem 7rem;
-      max-width: 1440px;
-      position: relative;
-      z-index: 5;
-    }
-    .section-editorial-header {
-      margin-bottom: 3.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 1.5rem;
-    }
-    .section-label {
-      font-family: monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      color: rgba(255, 255, 255, 0.45);
-      margin-bottom: 0.6rem;
-    }
-    .section-headline {
-      font-family: 'Cinzel', serif;
-      font-size: 2.4rem;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.01em;
-    }
-    .editorial-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-    .dossier-card {
-      background: rgba(14, 14, 18, 0.85);
-      backdrop-filter: blur(25px);
+    /* Code Editor Window */
+    .code-editor {
+      background: #0d0d12;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
-      padding: 3rem 2.6rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .dossier-card:hover {
-      transform: translateY(-8px) scale(1.01);
-      border-color: #ffffff;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 255, 255, 0.2);
-    }
-    .card-span-2 {
-      grid-column: span 2;
-    }
-    .card-meta {
+    .editor-header {
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.6rem 1rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.4rem;
-      font-family: monospace;
+      justify-content: space-between;
+    }
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .window-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .window-dots span:nth-child(1) { background: #ff5f56; }
+    .window-dots span:nth-child(2) { background: #ffbd2e; }
+    .window-dots span:nth-child(3) { background: #27c93f; }
+    .file-name {
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      color: rgba(255, 255, 255, 0.5);
+      color: #8e8e9f;
     }
-    .dossier-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.85rem;
-      font-weight: 800;
+    .lang-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #3b82f6;
+      text-transform: uppercase;
+    }
+    .code-block {
+      padding: 1.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #d1d5db;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    /* Skills Grid */
+    .skills-section {
+      padding: 6rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.8rem;
+    }
+    .skill-category {
+      padding: 2.5rem;
+      border-radius: 14px;
+    }
+    .category-title {
+      font-size: 1.3rem;
+      font-weight: 700;
       color: #ffffff;
-      margin-bottom: 1.2rem;
-      letter-spacing: 0.02em;
+      margin-bottom: 0.5rem;
     }
-    .dossier-desc {
-      color: rgba(255, 255, 255, 0.75);
-      font-size: 0.95rem;
-      line-height: 1.75;
-      margin-bottom: 2rem;
+    .category-desc {
+      font-size: 0.85rem;
+      color: #8e8e9f;
+      margin-bottom: 1.5rem;
     }
-    .card-pills {
+    .skills-list {
       display: flex;
       flex-wrap: wrap;
       gap: 0.6rem;
     }
-    .pill {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
+    .skill-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.45rem 0.95rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
       color: #ffffff;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
     }
-    .pill:hover {
+    .skill-item:hover {
       background: #ffffff;
       color: #000000;
       transform: translateY(-2px);
     }
-    .hover-indicator-line {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background: #ffffff;
-      box-shadow: 0 0 12px #ffffff;
-      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Journey Timeline */
+    .journey-section {
+      padding: 6rem 0 8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
-    .dossier-card:hover .hover-indicator-line {
-      width: 100%;
-    }
-    .sound-action-box {
-      margin-top: 1rem;
-    }
-    .metric-display {
+    .timeline-wrapper {
+      position: relative;
+      padding-left: 2.5rem;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding-top: 1.2rem;
+      gap: 2.5rem;
     }
-    .metric-row {
+    .timeline-track {
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: linear-gradient(180deg, #3b82f6 0%, rgba(255, 255, 255, 0.1) 100%);
+    }
+    .timeline-item {
+      position: relative;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -2.5rem;
+      top: 1.6rem;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #070709;
+      border: 3px solid #3b82f6;
+    }
+    .timeline-content {
+      padding: 2rem 2.4rem;
+      border-radius: 12px;
+    }
+    .timeline-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #3b82f6;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .timeline-content h4 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.6rem;
+    }
+    .timeline-content p {
+      font-size: 0.95rem;
+      color: #8e8e9f;
+      line-height: 1.65;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 4.5rem 0 3rem;
+      background: #050507;
+    }
+    .footer-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .footer-top {
       display: flex;
       justify-content: space-between;
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.8);
+      align-items: flex-start;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+      gap: 2rem;
     }
-    .metric-val {
-      font-family: 'Cinzel', serif;
-      font-weight: 900;
-      color: #ffffff;
-    }
-    .editorial-quote {
-      font-family: 'Shippori Mincho', serif;
-      font-size: 1.35rem;
-      font-style: italic;
-      color: #ffffff;
-      border-left: 2px solid #ffffff;
-      padding-left: 1.8rem;
-      margin: 1.2rem 0 2rem;
-      line-height: 1.75;
-    }
-    .philosophy-tags {
-      font-family: monospace;
-      font-size: 0.75rem;
+    .brand-title {
+      font-size: 1.4rem;
+      font-weight: 800;
       letter-spacing: 0.15em;
-      color: rgba(255, 255, 255, 0.5);
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .footer-tagline {
+      font-size: 0.9rem;
+      color: #8e8e9f;
+      max-width: 400px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .footer-link {
+      color: #8e8e9f;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+    .footer-link:hover {
+      color: #ffffff;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 2rem;
+      font-size: 0.8rem;
+      color: #5c5c6d;
     }
 
     @media (max-width: 1024px) {
-      .editorial-grid { grid-template-columns: 1fr; }
-      .card-span-2 { grid-column: span 1; }
-      .hero-title { font-size: 3.4rem; }
-      .hero-lead-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .editorial-nav { padding: 1.5rem 2rem; }
-      .hero-stage { padding: 3.5rem 2rem; }
-      .editorial-dossiers { padding: 3rem 2rem; }
+      .hero-heading { font-size: 3.2rem; }
+      .metrics-ribbon { grid-template-columns: repeat(2, 1fr); }
+      .snippet-body { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
     }
   `]
 })
 export class PortfolioComponent {
-  private audio = inject(AudioService);
-  private router = inject(Router);
+  readonly projectCombat: ProjectData = {
+    id: 'combat_engine',
+    category: 'Systems & Low-Latency',
+    title: 'Deterministic C++ & WebAssembly Combat Engine',
+    subtitle: 'Zero-Copy Linear Memory Physics at 60 FPS',
+    description: 'Engineered a deterministic physics & combat simulation engine compiled from C++20 to WebAssembly. Achieves sub-frame 70ms parry detection windows and streams 32-float vertex buffers directly to Three.js shaders with 0ms garbage collection pauses.',
+    tags: ['C++20', 'WebAssembly (WASM)', 'Three.js GLSL', 'Emscripten', 'SIMD'],
+    metrics: [
+      { label: 'GC Latency', value: '0 ms' },
+      { label: 'Framerate', value: '60 FPS' },
+      { label: 'Parry Window', value: '70 ms' }
+    ],
+    snippets: [
+      {
+        id: 'memory_stream',
+        tabLabel: 'Zero-Copy Memory Stream',
+        title: 'Zero-Copy 32-Float Linear Memory Streaming',
+        explanation: 'Directly reads memory offsets from WebAssembly HEAPF32 into Three.js Float32BufferAttributes without JavaScript array allocation overhead.',
+        language: 'cpp',
+        code: `// C++20 WASM Memory Buffer Alignment
+#include <emscripten/emscripten.h>
 
-  readonly isPlayingSound = signal<boolean>(false);
+struct alignas(16) CombatEntityState {
+    float position[3];
+    float velocity[3];
+    float hitboxRadius;
+    uint32_t stanceFlags; // 70ms Parry Detection bitmask
+};
 
-  goToDuel(): void {
-    this.router.navigate(['/duel']);
+static CombatEntityState g_Entities[MAX_COMBATANTS];
+
+extern "C" {
+    EMSCRIPTEN_KEEPALIVE
+    float* get_entity_buffer_offset() {
+        return reinterpret_cast<float*>(g_Entities);
+    }
+}`
+      },
+      {
+        id: 'parry_calc',
+        tabLabel: '70ms Parry Frame Detection',
+        title: 'Deterministic Sub-Frame Collision Detection',
+        explanation: 'Capsule-to-Capsule distance calculation detecting whether a strike occurs within the 70ms active parry deflection frame window.',
+        language: 'cpp',
+        code: `// Deterministic AABB / Capsule Clash Calculation
+bool DetectParryWindow(const CombatEntityState& attacker, const CombatEntityState& defender) {
+    if (!(defender.stanceFlags & PARRY_ACTIVE_BIT)) return false;
+
+    float dx = attacker.position[0] - defender.position[0];
+    float dy = attacker.position[1] - defender.position[1];
+    float dz = attacker.position[2] - defender.position[2];
+    float distSq = dx*dx + dy*dy + dz*dz;
+
+    float collisionRadius = attacker.hitboxRadius + defender.hitboxRadius;
+    return distSq <= (collisionRadius * collisionRadius);
+}`
+      },
+      {
+        id: 'shader_bridge',
+        tabLabel: 'Three.js Shader Bridge',
+        title: 'Custom GLSL Terrain & Spark Pipeline',
+        explanation: 'Custom GLSL vertex shader translating C++ strike vectors into dynamic ground deformation and rim-lit particle sparks.',
+        language: 'glsl',
+        code: `// Three.js Custom Ground Fissure Vertex Shader
+uniform float uTime;
+uniform vec3 uClashOrigin;
+varying vec2 vUv;
+
+void main() {
+    vUv = uv;
+    vec3 displacedPosition = position;
+    float dist = distance(position.xz, uClashOrigin.xz);
+    if (dist < 4.0) {
+        displacedPosition.y += sin(dist * 3.0 - uTime * 8.0) * 0.45;
+    }
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(displacedPosition, 1.0);
+}`
+      }
+    ]
+  };
+
+  readonly projectMediaForge: ProjectData = {
+    id: 'mediaforge',
+    category: 'Cloud & Distributed Architecture',
+    title: 'MediaForge — Distributed Media & Content Architecture',
+    subtitle: 'Event-Driven Microservices with Redis & PostgreSQL',
+    description: 'High-throughput cloud platform featuring idempotency-safe API routes, real-time Redis cache invalidation, Drizzle ORM schema migrations, and optimized AWS S3 media streaming pipelines.',
+    tags: ['Angular 18', 'TypeScript', 'PostgreSQL', 'Redis', 'Docker', 'AWS S3'],
+    metrics: [
+      { label: 'Uptime', value: '99.99%' },
+      { label: 'Throughput', value: '50k req/min' },
+      { label: 'Cache Hit Rate', value: '94.2%' }
+    ],
+    snippets: [
+      {
+        id: 'redis_cache',
+        tabLabel: 'Redis Cache Layer',
+        title: 'High-Throughput In-Memory Caching',
+        explanation: 'Idempotent cache wrapper that validates cache freshness and prevents cache-stampede via atomic distributed locks.',
+        language: 'typescript',
+        code: `// Redis Cache Wrapper with Stampede Prevention
+export async function getOrSetCache<T>(key: string, ttlSeconds: number, fetchFn: () => Promise<T>): Promise<T> {
+  const cached = await redisClient.get(key);
+  if (cached) return JSON.parse(cached) as T;
+
+  const lockAcquired = await redisClient.set(\`lock:\${key}\`, '1', 'EX', 5, 'NX');
+  if (!lockAcquired) {
+    await new Promise(res => setTimeout(res, 50));
+    return getOrSetCache(key, ttlSeconds, fetchFn);
   }
 
-  playClashSound(): void {
-    if (this.isPlayingSound()) return;
-    this.isPlayingSound.set(true);
-    this.audio.playParry();
-
-    setTimeout(() => {
-      this.isPlayingSound.set(false);
-    }, 600);
+  try {
+    const result = await fetchFn();
+    await redisClient.set(key, JSON.stringify(result), 'EX', ttlSeconds);
+    return result;
+  } finally {
+    await redisClient.del(\`lock:\${key}\`);
   }
+}`
+      },
+      {
+        id: 'idempotent_webhooks',
+        tabLabel: 'Idempotent Webhooks',
+        title: 'Transactional Database Sync & Idempotency',
+        explanation: 'Ensures concurrent payment and auth webhooks are processed exactly once with ACID database transactions.',
+        language: 'typescript',
+        code: `// Idempotent Webhook Handler with Drizzle Transactions
+export async function processIdempotentWebhook(event: WebhookEvent) {
+  return await db.transaction(async (tx) => {
+    const existing = await tx.query.processedEvents.findFirst({
+      where: eq(processedEvents.id, event.id)
+    });
+    if (existing) return { status: 'ALREADY_PROCESSED' };
+
+    await tx.insert(processedEvents).values({
+      id: event.id,
+      eventType: event.type,
+      processedAt: new Date()
+    });
+
+    await handleDomainEvent(tx, event);
+    return { status: 'SUCCESS' };
+  });
+}`
+      }
+    ]
+  };
+
+  readonly activeCombatSnippet = signal<CodeSnippet>(this.projectCombat.snippets[0]);
+  readonly activeMediaForgeSnippet = signal<CodeSnippet>(this.projectMediaForge.snippets[0]);
 }
