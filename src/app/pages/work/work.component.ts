@@ -55,7 +55,8 @@ interface ProjectCaseStudy {
                   <div class="meta-badge-row">
                     <span class="case-badge">{{ project.number }} · {{ project.tag }}</span>
                     <a [href]="project.repoUrl" target="_blank" class="repo-link">
-                      GitHub Repository ↗
+                      <span>GitHub Repository</span>
+                      <span class="arrow-icon">↗</span>
                     </a>
                   </div>
                   <h2 class="case-title">{{ project.title }}</h2>
@@ -199,13 +200,15 @@ interface ProjectCaseStudy {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.6rem;
+      gap: 1.5rem;
+      margin-bottom: 0.8rem;
     }
     .case-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
       color: #3b82f6;
       letter-spacing: 0.12em;
+      line-height: 1.4;
     }
     .repo-link {
       font-family: 'JetBrains Mono', monospace;
@@ -213,14 +216,24 @@ interface ProjectCaseStudy {
       color: #ffffff;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 0.25rem 0.65rem;
+      padding: 0.35rem 0.8rem;
       border-radius: 6px;
       text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      white-space: nowrap;
+      flex-shrink: 0;
       transition: all 0.2s ease;
+    }
+    .repo-link .arrow-icon {
+      font-size: 0.85rem;
+      line-height: 1;
     }
     .repo-link:hover {
       background: #ffffff;
       color: #000000;
+      transform: translateY(-1px);
     }
     .case-title {
       font-size: 2.2rem;
@@ -457,6 +470,7 @@ interface ProjectCaseStudy {
       .case-header { grid-template-columns: 1fr; }
       .deepdive-view { grid-template-columns: 1fr; }
       .project-image { height: 260px; }
+      .meta-badge-row { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
     }
   `]
 })
@@ -470,6 +484,7 @@ export class WorkComponent {
       repoUrl: 'https://github.com/UtkarshD18/B1G-CRM',
       title: 'B1GCRM — Enterprise Multi-Agent Architecture Project',
       subtitle: 'StateGraph-Based Routing · 98% Triage Accuracy · 208K+ LoC',
+      imageUrl: '/assets/projects/b1gcrm-flows.png',
       overview: 'Self-driven enterprise multi-tenant CRM platform integrating LangGraph & LangChain multi-agent systems with real-time omni-channel messaging, PostgreSQL pgvector RAG semantic search, and an interactive React Flow automation builder.',
       tags: ['React', 'Node.js', 'PostgreSQL', 'LangGraph', 'LangChain', 'pgvector (RAG)', 'Socket.io', 'React Flow', 'Zustand'],
       metrics: [
@@ -623,6 +638,7 @@ export function authorizeRoles(...allowedRoles: string[]) {
       repoUrl: 'https://github.com/UtkarshD18/MediaForge',
       title: 'MediaForge AI — Automated Media Transcoding Daemon',
       subtitle: 'Thread-Isolated Daemon · Peak RAM < 73MB · SHA256 Deduplication',
+      imageUrl: '/assets/projects/mediaforge-arch.png',
       overview: 'Thread-isolated background media transcoding daemon with a filesystem watchdog, SQLite-backed FIFO job queue, Unix Domain Socket IPC, and worker-thread pool for concurrent, non-blocking video segmentation.',
       tags: ['Python', 'FFmpeg', 'SQLite', 'PySide6 (Qt6)', 'Unix Sockets', 'AsyncIO'],
       metrics: [
@@ -673,6 +689,7 @@ class TranscodingDaemon:
       repoUrl: 'https://github.com/UtkarshD18/DS-visualizer',
       title: 'Data Structure Visualizer — VS Code Extension',
       subtitle: 'Step-by-Step Algorithm Animation · 92.8% Test Success',
+      imageUrl: '/assets/projects/dsvisualizer-arch.png',
       overview: 'Full-featured VS Code extension for real-time visualization of arrays, trees, and linked lists with step-by-step algorithm animation, multi-language AST-based parsing, variable tracking, and breakpoints.',
       tags: ['TypeScript', 'Tree-sitter', 'Babel', 'D3.js', 'Mermaid.js', 'VS Code API'],
       metrics: [
