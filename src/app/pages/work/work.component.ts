@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavigationComponent } from '../../components/navigation/navigation.component';
@@ -23,6 +23,7 @@ interface ProjectCaseStudy {
   overview: string;
   tags: string[];
   imageUrl?: string;
+  scrollDirection: 'left' | 'right';
   metrics: { label: string; value: string }[];
   bulletPoints: string[];
   snippets: CodeSnippet[];
@@ -38,106 +39,130 @@ interface ProjectCaseStudy {
 
       <main class="work-stage">
         <div class="content-container">
-          <!-- Page Header -->
-          <div class="page-header">
-            <span class="page-kicker">[ PRODUCTION WORK &amp; ARCHITECTURE ]</span>
-            <h1 class="page-title">Verified Systems &amp; Engineering Projects</h1>
+          <!-- Page Header with Staggered Entrance -->
+          <div class="page-header scroll-in-up reveal-target">
+            <span class="page-kicker">[ 01 · PRODUCTION CODEBASES &amp; ARCHITECTURE ]</span>
+            <h1 class="page-title">Engineering Systems &amp; High-Impact Projects</h1>
             <p class="page-subtitle">
-              Authentic technical architecture, multi-agent AI pipelines, and distributed backends directly from production repositories.
+              Interactive architectural deep-dives with zoom-motion camera focus, verified multi-agent AI pipelines, and high-throughput systems.
             </p>
           </div>
 
-          <!-- Project Showcase Cards -->
-          @for (project of projects; track project.id) {
-            <section class="case-study-card liquid-glass" [id]="project.id">
-              <div class="case-header">
-                <div class="case-meta">
-                  <div class="meta-badge-row">
-                    <span class="case-badge">{{ project.number }} · {{ project.tag }}</span>
-                    <a [href]="project.repoUrl" target="_blank" class="repo-link">
-                      <span>GitHub Repository</span>
-                      <span class="arrow-icon">↗</span>
-                    </a>
-                  </div>
-                  <h2 class="case-title">{{ project.title }}</h2>
-                  <p class="case-subtitle">{{ project.subtitle }}</p>
-                  <p class="case-desc">{{ project.overview }}</p>
-
-                  <!-- Key Engineering Points from Resume -->
-                  <div class="bullet-points-box">
-                    <span class="bullet-header">ENGINEERING HIGHLIGHTS &amp; METRICS:</span>
-                    <ul class="bullet-list">
-                      @for (pt of project.bulletPoints; track pt) {
-                        <li>{{ pt }}</li>
-                      }
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="case-metrics">
-                  @for (m of project.metrics; track m.label) {
-                    <div class="metric-chip liquid-glass">
-                      <span class="chip-val">{{ m.value }}</span>
-                      <span class="chip-lbl">{{ m.label }}</span>
+          <!-- Project Showcase Cards (Glide In From Sides to Center on Scroll) -->
+          <div class="projects-list">
+            @for (project of projects; track project.id) {
+              <section
+                class="case-study-card liquid-glass reveal-target"
+                [class.scroll-in-left]="project.scrollDirection === 'left'"
+                [class.scroll-in-right]="project.scrollDirection === 'right'"
+                [id]="project.id"
+              >
+                <div class="case-header">
+                  <div class="case-meta">
+                    <div class="meta-badge-row">
+                      <span class="case-badge">{{ project.number }} · {{ project.tag }}</span>
+                      <a [href]="project.repoUrl" target="_blank" class="repo-link">
+                        <span>GitHub Repository</span>
+                        <span class="arrow-icon">↗</span>
+                      </a>
                     </div>
-                  }
-                </div>
-              </div>
+                    <h2 class="case-title">{{ project.title }}</h2>
+                    <p class="case-subtitle">{{ project.subtitle }}</p>
+                    <p class="case-desc">{{ project.overview }}</p>
 
-              <!-- Project Visual Evidence / Screenshot -->
-              @if (project.imageUrl) {
-                <div class="project-image-container">
-                  <img [src]="project.imageUrl" [alt]="project.title" class="project-image" />
-                  <div class="image-overlay-caption">
-                    <span>LIVE UI/UX PREVIEW · PRODUCTION EVIDENCE</span>
+                    <!-- Key Engineering Points from Resume -->
+                    <div class="bullet-points-box">
+                      <span class="bullet-header">VERIFIED ENGINEERING HIGHLIGHTS:</span>
+                      <ul class="bullet-list">
+                        @for (pt of project.bulletPoints; track pt) {
+                          <li>{{ pt }}</li>
+                        }
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              }
 
-              <!-- Tech Pills -->
-              <div class="tech-pills-row">
-                @for (tag of project.tags; track tag) {
-                  <span class="tech-pill">{{ tag }}</span>
-                }
-              </div>
-
-              <!-- Interactive Architecture Deep Dive Tabs -->
-              <div class="interactive-deepdive">
-                <div class="deepdive-nav">
-                  <span class="nav-label">INSPECT CODE SUBSYSTEMS:</span>
-                  <div class="tabs-list">
-                    @for (snip of project.snippets; track snip.id) {
-                      <button
-                        class="tab-btn"
-                        [class.active]="getActiveSnippet(project.id).id === snip.id"
-                        (click)="setActiveSnippet(project.id, snip)"
-                      >
-                        {{ snip.tabLabel }}
-                      </button>
+                  <div class="case-metrics">
+                    @for (m of project.metrics; track m.label) {
+                      <div class="metric-chip liquid-glass">
+                        <span class="chip-val">{{ m.value }}</span>
+                        <span class="chip-lbl">{{ m.label }}</span>
+                      </div>
                     }
                   </div>
                 </div>
 
-                <div class="deepdive-view">
-                  <div class="view-explanation">
-                    <h3>{{ getActiveSnippet(project.id).title }}</h3>
-                    <p>{{ getActiveSnippet(project.id).explanation }}</p>
+                <!-- Interactive Zoom Motion Camera Focus on Genuine Visual Evidence -->
+                @if (project.imageUrl) {
+                  <div
+                    #zoomStage
+                    class="zoom-motion-stage"
+                    (mousemove)="onMouseMove($event, zoomStage)"
+                    (mouseleave)="onMouseLeave(zoomStage)"
+                  >
+                    <div class="zoom-badge">
+                      <span class="pulse"></span>
+                      <span>ZOOM MOTION CAMERA FOCUS · HOVER TO INSPECT</span>
+                    </div>
+
+                    <img
+                      [src]="project.imageUrl"
+                      [alt]="project.title"
+                      class="zoom-target-layer project-image"
+                    />
+
+                    <div class="zoom-spotlight-overlay"></div>
+
+                    <div class="image-overlay-caption">
+                      <span>GENUINE PROJECT PREVIEW · VERIFIED IN REPOSITORY</span>
+                    </div>
+                  </div>
+                }
+
+                <!-- Tech Pills -->
+                <div class="tech-pills-row">
+                  @for (tag of project.tags; track tag) {
+                    <span class="tech-pill">{{ tag }}</span>
+                  }
+                </div>
+
+                <!-- Interactive Architecture Deep Dive Tabs -->
+                <div class="interactive-deepdive">
+                  <div class="deepdive-nav">
+                    <span class="nav-label">INSPECT CODE SUBSYSTEMS:</span>
+                    <div class="tabs-list">
+                      @for (snip of project.snippets; track snip.id) {
+                        <button
+                          class="tab-btn"
+                          [class.active]="getActiveSnippet(project.id).id === snip.id"
+                          (click)="setActiveSnippet(project.id, snip)"
+                        >
+                          {{ snip.tabLabel }}
+                        </button>
+                      }
+                    </div>
                   </div>
 
-                  <div class="code-window">
-                    <div class="code-header">
-                      <div class="window-dots">
-                        <span></span><span></span><span></span>
-                      </div>
-                      <span class="filename">{{ getActiveSnippet(project.id).tabLabel }}</span>
-                      <span class="lang">{{ getActiveSnippet(project.id).language }}</span>
+                  <div class="deepdive-view">
+                    <div class="view-explanation">
+                      <h3>{{ getActiveSnippet(project.id).title }}</h3>
+                      <p>{{ getActiveSnippet(project.id).explanation }}</p>
                     </div>
-                    <pre class="code-content"><code>{{ getActiveSnippet(project.id).code }}</code></pre>
+
+                    <div class="code-window">
+                      <div class="code-header">
+                        <div class="window-dots">
+                          <span></span><span></span><span></span>
+                        </div>
+                        <span class="filename">{{ getActiveSnippet(project.id).tabLabel }}</span>
+                        <span class="lang">{{ getActiveSnippet(project.id).language }}</span>
+                      </div>
+                      <pre class="code-content"><code>{{ getActiveSnippet(project.id).code }}</code></pre>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </section>
-          }
+              </section>
+            }
+          </div>
         </div>
       </main>
 
@@ -147,7 +172,7 @@ interface ProjectCaseStudy {
   styles: [`
     .page-viewport {
       min-height: 100vh;
-      background: #070709;
+      background: transparent;
       color: #f5f5f7;
     }
     .work-stage {
@@ -159,7 +184,7 @@ interface ProjectCaseStudy {
       padding: 0 2rem;
     }
     .page-header {
-      margin-bottom: 4rem;
+      margin-bottom: 4.5rem;
     }
     .page-kicker {
       font-family: 'JetBrains Mono', monospace;
@@ -170,24 +195,31 @@ interface ProjectCaseStudy {
       display: block;
     }
     .page-title {
-      font-size: 3.5rem;
+      font-size: 3.6rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       color: #ffffff;
       margin-bottom: 1rem;
+      line-height: 1.12;
     }
     .page-subtitle {
       font-size: 1.15rem;
       color: #8e8e9f;
-      max-width: 760px;
+      max-width: 780px;
       line-height: 1.7;
+    }
+
+    /* Projects List */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
     }
 
     /* Case Study Card */
     .case-study-card {
-      border-radius: 18px;
+      border-radius: 20px;
       padding: 3.5rem;
-      margin-bottom: 4rem;
     }
     .case-header {
       display: grid;
@@ -308,25 +340,13 @@ interface ProjectCaseStudy {
       color: #8e8e9f;
     }
 
-    /* Image Preview */
-    .project-image-container {
-      margin: 2rem 0;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      position: relative;
-      background: #0d0d12;
-    }
+    /* Project Image with Zoom Focus */
     .project-image {
       width: 100%;
-      height: 400px;
+      height: 420px;
       object-fit: cover;
       object-position: top;
       display: block;
-      transition: transform 0.4s ease;
-    }
-    .project-image-container:hover .project-image {
-      transform: scale(1.02);
     }
     .image-overlay-caption {
       position: absolute;
@@ -339,13 +359,14 @@ interface ProjectCaseStudy {
       font-size: 0.7rem;
       color: #8e8e9f;
       letter-spacing: 0.15em;
+      pointer-events: none;
     }
 
     .tech-pills-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.6rem;
-      margin-bottom: 2.5rem;
+      margin: 2rem 0;
     }
     .tech-pill {
       background: rgba(255, 255, 255, 0.05);
@@ -469,12 +490,12 @@ interface ProjectCaseStudy {
       .page-title { font-size: 2.8rem; }
       .case-header { grid-template-columns: 1fr; }
       .deepdive-view { grid-template-columns: 1fr; }
-      .project-image { height: 260px; }
+      .project-image { height: 280px; }
       .meta-badge-row { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
     }
   `]
 })
-export class WorkComponent {
+export class WorkComponent implements AfterViewInit, OnDestroy {
   readonly projects: ProjectCaseStudy[] = [
     // 1. B1GCRM
     {
@@ -485,6 +506,7 @@ export class WorkComponent {
       title: 'B1GCRM — Enterprise Multi-Agent Architecture Project',
       subtitle: 'StateGraph-Based Routing · 98% Triage Accuracy · 208K+ LoC',
       imageUrl: '/assets/projects/b1gcrm-builder.png',
+      scrollDirection: 'left',
       overview: 'Self-driven enterprise multi-tenant CRM platform integrating LangGraph & LangChain multi-agent systems with real-time omni-channel messaging, PostgreSQL pgvector RAG semantic search, and an interactive React Flow automation builder.',
       tags: ['React', 'Node.js', 'PostgreSQL', 'LangGraph', 'LangChain', 'pgvector (RAG)', 'Socket.io', 'React Flow', 'Zustand'],
       metrics: [
@@ -586,6 +608,7 @@ export async function executeAgentWithFallback(query: string, tenantId: string):
       title: 'BogEcom — Production E-Commerce Platform',
       subtitle: '5,000+ MAU · 2 Payment Gateways · +40% API/DB Performance',
       imageUrl: '/assets/projects/desktop-home.png',
+      scrollDirection: 'right',
       overview: 'Production-deployed e-commerce platform serving 5,000+ monthly active users. Features 2 integrated payment gateways, JWT authentication with Role-Based Access Control (RBAC), and automated CI/CD pipelines via GitHub Actions.',
       tags: ['Next.js', 'React', 'Node.js', 'Firebase', 'GCP', 'JWT Auth', 'RBAC', 'GitHub Actions'],
       metrics: [
@@ -638,7 +661,7 @@ export function authorizeRoles(...allowedRoles: string[]) {
       repoUrl: 'https://github.com/UtkarshD18/MediaForge',
       title: 'MediaForge AI — Automated Media Transcoding Daemon',
       subtitle: 'Thread-Isolated Daemon · Peak RAM < 73MB · SHA256 Deduplication',
-      imageUrl: '/assets/projects/mediaforge-arch.png',
+      scrollDirection: 'left',
       overview: 'Thread-isolated background media transcoding daemon with a filesystem watchdog, SQLite-backed FIFO job queue, Unix Domain Socket IPC, and worker-thread pool for concurrent, non-blocking video segmentation.',
       tags: ['Python', 'FFmpeg', 'SQLite', 'PySide6 (Qt6)', 'Unix Sockets', 'AsyncIO'],
       metrics: [
@@ -689,7 +712,7 @@ class TranscodingDaemon:
       repoUrl: 'https://github.com/UtkarshD18/DS-visualizer',
       title: 'Data Structure Visualizer — VS Code Extension',
       subtitle: 'Step-by-Step Algorithm Animation · 92.8% Test Success',
-      imageUrl: '/assets/projects/dsvisualizer-arch.png',
+      scrollDirection: 'right',
       overview: 'Full-featured VS Code extension for real-time visualization of arrays, trees, and linked lists with step-by-step algorithm animation, multi-language AST-based parsing, variable tracking, and breakpoints.',
       tags: ['TypeScript', 'Tree-sitter', 'Babel', 'D3.js', 'Mermaid.js', 'VS Code API'],
       metrics: [
@@ -733,6 +756,7 @@ export function parseDataStructureAST(rootNode: SyntaxNode): GraphModel {
       repoUrl: 'https://github.com/UtkarshD18/automation_testing_trello',
       title: 'Two-Way Sync: Airtable ↔ Trello',
       subtitle: 'Idempotent Logic · 0 Duplicate Cards · 70%+ Sync Error Reduction',
+      scrollDirection: 'left',
       overview: 'Automated synchronization engine eliminating 80–90% of manual updates by auto-creating and updating Trello tasks from Airtable leads via REST APIs with idempotent verification and auto-healing deleted card flows.',
       tags: ['Python', 'REST APIs', 'Airtable API', 'Trello API', 'Idempotency'],
       metrics: [
@@ -778,6 +802,7 @@ def sync_airtable_to_trello(airtable_record, trello_list_id, api_key, api_token)
       repoUrl: 'https://github.com/UtkarshD18/Summitly',
       title: 'Summitly — Full-Stack Event Management Platform',
       subtitle: '20+ Events Supported · 10+ Dynamic Pages · 100+ Ticket Records',
+      scrollDirection: 'right',
       overview: 'Full-stack event platform supporting 20+ events with secure JWT login across 10+ dynamic pages and a ticketing system managing 100+ ticket records, backed by scalable REST APIs across 3 core data models.',
       tags: ['React', 'Vite', 'Node.js', 'Express', 'MongoDB', 'JWT'],
       metrics: [
@@ -815,11 +840,47 @@ export async function bookEventTicket(req, res) {
   ];
 
   private activeSnippetsState = new Map<string, CodeSnippet>();
+  private observer?: IntersectionObserver;
 
   constructor() {
     this.projects.forEach(p => {
       this.activeSnippetsState.set(p.id, p.snippets[0]);
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('scroll-visible');
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
+      );
+
+      const targets = document.querySelectorAll('.reveal-target');
+      targets.forEach((t) => this.observer?.observe(t));
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
+  }
+
+  onMouseMove(e: MouseEvent, target: HTMLElement): void {
+    const rect = target.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    target.style.setProperty('--mouse-x', x.toFixed(3));
+    target.style.setProperty('--mouse-y', y.toFixed(3));
+  }
+
+  onMouseLeave(target: HTMLElement): void {
+    target.style.setProperty('--mouse-x', '0.5');
+    target.style.setProperty('--mouse-y', '0.5');
   }
 
   getActiveSnippet(projectId: string): CodeSnippet {

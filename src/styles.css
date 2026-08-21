@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
 
 :root {
-  /* Color Palette - Minimal Obsidian & Sand Accents */
+  /* Sondaven & Luxury Editorial Palette */
   --bg-primary: #070709;
-  --bg-secondary: #0d0d11;
-  --bg-card: rgba(18, 18, 24, 0.7);
-  --bg-card-hover: rgba(26, 26, 36, 0.85);
+  --bg-secondary: #0d0d12;
+  --bg-card: rgba(15, 15, 20, 0.75);
+  --bg-card-hover: rgba(22, 22, 30, 0.9);
   
   --text-main: #f5f5f7;
-  --text-muted: #8e8e9f;
+  --text-muted: #9494a6;
   --text-dim: #5c5c6d;
   
   --accent-blue: #3b82f6;
-  --accent-cyan: #06b6d4;
+  --accent-cyan: #38bdf8;
   --accent-sand: #e5e5d8;
   
   --border-subtle: rgba(255, 255, 255, 0.08);
@@ -24,6 +24,7 @@
   --font-mono: 'JetBrains Mono', monospace;
 
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -39,14 +40,17 @@ html {
 
 body {
   background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 65%),
+    radial-gradient(circle at 100% 40%, rgba(56, 189, 248, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 0% 75%, rgba(229, 229, 216, 0.03) 0%, transparent 50%);
+  background-attachment: fixed;
   color: var(--text-main);
   font-family: var(--font-sans);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  selection-background-color: #3b82f6;
-  selection-color: #ffffff;
 }
 
 ::selection {
@@ -72,15 +76,15 @@ body {
   background: rgba(255, 255, 255, 0.35);
 }
 
-/* Liquid Glass Primitives (Dev Shouri & Armaan Style) */
+/* Liquid Glass Primitives (Sondaven & Dev Shouri Inspired) */
 .liquid-glass {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
   position: relative;
   overflow: hidden;
-  transition: all 0.3s var(--ease-smooth);
+  transition: all 0.4s var(--ease-smooth);
 }
 
 .liquid-glass::before {
@@ -91,10 +95,10 @@ body {
   padding: 1px;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.08) 30%,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.06) 30%,
     rgba(255, 255, 255, 0) 60%,
-    rgba(255, 255, 255, 0.15) 100%
+    rgba(255, 255, 255, 0.12) 100%
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -103,21 +107,102 @@ body {
 }
 
 .liquid-glass:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   border-color: var(--border-focus);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.15);
 }
 
-/* Scroll Animation Helper Classes */
-.animate-fade-in {
+/* Side-to-Center Scroll Reveal Classes */
+.scroll-in-left {
   opacity: 0;
-  transform: translateY(24px);
-  animation: scrollFadeIn 0.8s var(--ease-smooth) forwards;
+  transform: translateX(-40px) scale(0.97);
+  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+  will-change: opacity, transform;
 }
 
-@keyframes scrollFadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.scroll-in-right {
+  opacity: 0;
+  transform: translateX(40px) scale(0.97);
+  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+  will-change: opacity, transform;
+}
+
+.scroll-in-up {
+  opacity: 0;
+  transform: translateY(35px) scale(0.98);
+  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+  will-change: opacity, transform;
+}
+
+.scroll-visible {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) !important;
+}
+
+/* Interactive Zoom Motion Camera Focus */
+.zoom-motion-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #09090d;
+  cursor: crosshair;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.zoom-target-layer {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
+  transform-origin: center center;
+  display: block;
+}
+
+.zoom-motion-stage:hover .zoom-target-layer {
+  transform: scale(1.15) translate(calc((var(--mouse-x, 0.5) - 0.5) * -45px), calc((var(--mouse-y, 0.5) - 0.5) * -45px));
+}
+
+.zoom-spotlight-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 240px at calc(var(--mouse-x, 0.5) * 100%) calc(var(--mouse-y, 0.5) * 100%),
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.zoom-motion-stage:hover .zoom-spotlight-overlay {
+  opacity: 1;
+}
+
+.zoom-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #f5f5f7;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.zoom-badge .pulse {
+  width: 5px;
+  height: 5px;
+  background: #3b82f6;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #3b82f6;
 }
