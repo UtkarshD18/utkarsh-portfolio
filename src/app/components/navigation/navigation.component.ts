@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
@@ -12,8 +12,8 @@ import { RouterModule, Router } from '@angular/router';
         <a routerLink="/" class="brand">
           <span class="brand-mon">○</span>
           <div class="brand-text">
-            <span class="brand-name">Utkarsh</span>
-            <span class="brand-sub">[ Systems &amp; Web ]</span>
+            <span class="brand-name">Utkarsh Dwivedi</span>
+            <span class="brand-sub">[ Software &amp; Systems ]</span>
           </div>
         </a>
 
@@ -29,6 +29,9 @@ import { RouterModule, Router } from '@angular/router';
           <a routerLink="/about" routerLinkActive="active" class="nav-item">
             <span class="item-index">[ 03 ]</span>
             <span>About</span>
+          </a>
+          <a href="/assets/Utkarsh_Dwivedi_Resume.pdf" target="_blank" class="nav-item resume-link">
+            <span>Resume 📄</span>
           </a>
           <a routerLink="/duel" routerLinkActive="active" class="nav-item duel-link">
             <span class="duel-badge">3D</span>
@@ -64,24 +67,29 @@ import { RouterModule, Router } from '@angular/router';
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      gap: 0.9rem;
       text-decoration: none;
+      color: #ffffff;
     }
     .brand-mon {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 0.15rem 0.45rem;
-      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.03);
     }
     .brand-text {
       display: flex;
       flex-direction: column;
     }
     .brand-name {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.95rem;
       letter-spacing: -0.01em;
     }
     .brand-sub {
@@ -92,70 +100,75 @@ import { RouterModule, Router } from '@angular/router';
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: 1.6rem;
     }
     .nav-item {
-      color: #8e8e9f;
       text-decoration: none;
+      color: #8e8e9f;
       font-size: 0.85rem;
-      font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 0.35rem;
-      transition: all 0.25s ease;
-      position: relative;
-    }
-    .nav-item .item-index {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.35);
+      gap: 0.4rem;
+      transition: color 0.2s ease;
     }
     .nav-item:hover, .nav-item.active {
       color: #ffffff;
     }
-    .nav-item.active {
-      font-weight: 700;
+    .item-index {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #3b82f6;
     }
-    .nav-item.active::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: #3b82f6;
-      border-radius: 2px;
+    .resume-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #e5e5d8;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    .resume-link:hover {
+      background: #ffffff;
+      color: #000000;
     }
     .duel-link {
-      color: #e5e5d8;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 0.35rem 0.8rem;
+      border-radius: 6px;
+      color: #ffffff;
     }
     .duel-badge {
-      background: rgba(59, 130, 246, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      color: #3b82f6;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
+      background: #3b82f6;
+      color: #ffffff;
       padding: 0.1rem 0.35rem;
-      border-radius: 4px;
+      border-radius: 3px;
+      font-weight: 700;
     }
     .contact-cta {
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
       padding: 0.45rem 1.1rem;
       border-radius: 999px;
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 600;
+      transition: all 0.2s ease;
     }
-    .contact-cta:active {
-      transform: scale(0.96);
+    .contact-cta:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
     }
 
-    @media (max-width: 900px) {
-      .nav-links { gap: 1.2rem; }
-      .nav-item .item-index { display: none; }
-    }
-    @media (max-width: 680px) {
-      .nav-links { display: none; }
+    @media (max-width: 768px) {
+      .nav-container { padding: 0 1rem; }
+      .nav-links { gap: 0.8rem; }
+      .item-index { display: none; }
+      .duel-link { display: none; }
+      .brand-sub { display: none; }
     }
   `]
 })

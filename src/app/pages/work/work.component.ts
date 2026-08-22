@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavigationComponent } from '../../components/navigation/navigation.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { B1gcrmPreviewComponent } from '../../components/b1gcrm-preview/b1gcrm-preview.component';
 
 interface CodeSnippet {
   id: string;
@@ -23,64 +24,61 @@ interface ProjectCaseStudy {
   overview: string;
   tags: string[];
   imageUrl?: string;
+  isB1gCrm?: boolean;
   scrollDirection: 'left' | 'right';
   metrics: { label: string; value: string }[];
   bulletPoints: string[];
+  architectureFlow?: string;
   snippets: CodeSnippet[];
 }
 
 @Component({
   selector: 'app-work',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavigationComponent, FooterComponent],
+  imports: [CommonModule, RouterModule, NavigationComponent, FooterComponent, B1gcrmPreviewComponent],
   template: `
     <div class="page-viewport">
       <app-navigation></app-navigation>
 
       <main class="work-stage">
         <div class="content-container">
-          <!-- Page Header with Staggered Entrance -->
+          <!-- Page Header with Kinetic Stagger -->
           <div class="page-header scroll-in-up reveal-target">
             <span class="page-kicker">[ 01 · PRODUCTION CODEBASES &amp; ARCHITECTURE ]</span>
             <h1 class="page-title">Engineering Systems &amp; High-Impact Projects</h1>
             <p class="page-subtitle">
-              Interactive architectural deep-dives with zoom-motion camera focus, verified multi-agent AI pipelines, and high-throughput systems.
+              Interactive architectural deep-dives with system data-flow diagrams, genuine codebases, and zoom-motion camera focus.
             </p>
           </div>
 
-          <!-- Project Showcase Cards (Glide In From Sides to Center on Scroll) -->
-          <div class="projects-list">
-            @for (project of projects; track project.id) {
+          <!-- Project Showcase Cards (Shopify Editions Stacking Deck Physics) -->
+          <div class="stacked-deck-container">
+            @for (project of projects; track project.id; let i = $index) {
               <section
-                class="case-study-card liquid-glass reveal-target"
+                class="case-study-card stacked-card liquid-glass reveal-target"
                 [class.scroll-in-left]="project.scrollDirection === 'left'"
                 [class.scroll-in-right]="project.scrollDirection === 'right'"
+                [style.top.px]="90 + i * 14"
                 [id]="project.id"
               >
+                <!-- Card Header -->
                 <div class="case-header">
                   <div class="case-meta">
                     <div class="meta-badge-row">
                       <span class="case-badge">{{ project.number }} · {{ project.tag }}</span>
-                      <a [href]="project.repoUrl" target="_blank" class="repo-link">
-                        <span>GitHub Repository</span>
-                        <span class="arrow-icon">↗</span>
+                      <a [href]="project.repoUrl" target="_blank" class="github-repo-pill liquid-glass">
+                        <svg class="gh-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                        <span>Verified Repository ↗</span>
                       </a>
                     </div>
                     <h2 class="case-title">{{ project.title }}</h2>
-                    <p class="case-subtitle">{{ project.subtitle }}</p>
-                    <p class="case-desc">{{ project.overview }}</p>
-
-                    <!-- Key Engineering Points from Resume -->
-                    <div class="bullet-points-box">
-                      <span class="bullet-header">VERIFIED ENGINEERING HIGHLIGHTS:</span>
-                      <ul class="bullet-list">
-                        @for (pt of project.bulletPoints; track pt) {
-                          <li>{{ pt }}</li>
-                        }
-                      </ul>
-                    </div>
+                    <p class="case-sub">{{ project.subtitle }}</p>
+                    <p class="case-overview">{{ project.overview }}</p>
                   </div>
 
+                  <!-- Metrics Display -->
                   <div class="case-metrics">
                     @for (m of project.metrics; track m.label) {
                       <div class="metric-chip liquid-glass">
@@ -91,31 +89,42 @@ interface ProjectCaseStudy {
                   </div>
                 </div>
 
-                <!-- Interactive Zoom Motion Camera Focus on Genuine Visual Evidence -->
+                <!-- High-Resolution Project Preview -->
                 @if (project.imageUrl) {
-                  <div
-                    #zoomStage
-                    class="zoom-motion-stage"
-                    (mousemove)="onMouseMove($event, zoomStage)"
-                    (mouseleave)="onMouseLeave(zoomStage)"
-                  >
-                    <div class="zoom-badge">
-                      <span class="pulse"></span>
-                      <span>ZOOM MOTION CAMERA FOCUS · HOVER TO INSPECT</span>
-                    </div>
-
-                    <img
-                      [src]="project.imageUrl"
-                      [alt]="project.title"
-                      class="zoom-target-layer project-image"
-                    />
-
-                    <div class="zoom-spotlight-overlay"></div>
-
+                  <div class="zoom-motion-stage image-container">
+                    <img [src]="project.imageUrl" [alt]="project.title" class="project-image" />
                     <div class="image-overlay-caption">
-                      <span>GENUINE PROJECT PREVIEW · VERIFIED IN REPOSITORY</span>
+                      <span>VERIFIED SCREENSHOT · HIGH RESOLUTION</span>
                     </div>
                   </div>
+                }
+
+                <!-- System Architecture Pipeline Diagram -->
+                @if (project.architectureFlow) {
+                  <div class="arch-flow-box">
+                    <div class="arch-flow-header">
+                      <span>⚡ SYSTEM ARCHITECTURE &amp; DATA FLOW PIPELINE</span>
+                      <span class="scroll-hint">⟷ Drag / Scroll</span>
+                    </div>
+                    <div class="arch-flow-content" data-lenis-prevent tabindex="0">
+                      <pre class="arch-pre"><code>{{ project.architectureFlow }}</code></pre>
+                    </div>
+                  </div>
+                }
+
+                <!-- Architectural Bullets -->
+                <div class="bullet-points-box liquid-glass">
+                  <span class="bullet-title">ENGINEERING HIGHLIGHTS &amp; ARCHITECTURAL CONTRIBUTIONS:</span>
+                  <ul class="bullet-list">
+                    @for (pt of project.bulletPoints; track pt) {
+                      <li>{{ pt }}</li>
+                    }
+                  </ul>
+                </div>
+
+                <!-- Custom Genuine Interactive Preview for B1GCRM Multi-Agent System -->
+                @if (project.isB1gCrm) {
+                  <app-b1gcrm-preview></app-b1gcrm-preview>
                 }
 
                 <!-- Tech Pills -->
@@ -156,7 +165,7 @@ interface ProjectCaseStudy {
                         <span class="filename">{{ getActiveSnippet(project.id).tabLabel }}</span>
                         <span class="lang">{{ getActiveSnippet(project.id).language }}</span>
                       </div>
-                      <pre class="code-content"><code>{{ getActiveSnippet(project.id).code }}</code></pre>
+                      <pre class="code-content" data-lenis-prevent tabindex="0"><code>{{ getActiveSnippet(project.id).code }}</code></pre>
                     </div>
                   </div>
                 </div>
@@ -176,31 +185,33 @@ interface ProjectCaseStudy {
       color: #f5f5f7;
     }
     .work-stage {
-      padding: 5rem 0 8rem;
+      padding: 5rem 0 10rem;
     }
     .content-container {
       max-width: 1240px;
       margin: 0 auto;
       padding: 0 2rem;
+      width: 100%;
+      box-sizing: border-box;
     }
     .page-header {
-      margin-bottom: 4.5rem;
+      margin-bottom: 4rem;
     }
     .page-kicker {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: clamp(0.65rem, 2.5vw, 0.75rem);
       color: #3b82f6;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       margin-bottom: 0.6rem;
-      display: block;
+      display: inline-block;
+      white-space: nowrap;
     }
     .page-title {
       font-size: 3.6rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       color: #ffffff;
-      margin-bottom: 1rem;
-      line-height: 1.12;
+      margin-bottom: 0.8rem;
     }
     .page-subtitle {
       font-size: 1.15rem;
@@ -209,63 +220,87 @@ interface ProjectCaseStudy {
       line-height: 1.7;
     }
 
-    /* Projects List */
-    .projects-list {
+    /* Stacking Deck Container */
+    .stacked-deck-container {
       display: flex;
       flex-direction: column;
-      gap: 5rem;
+      gap: 3rem;
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .case-study-card {
+      padding: 3.5rem;
+      border-radius: 18px;
+      margin-bottom: 3.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .stacked-card {
+      position: sticky;
     }
 
-    /* Case Study Card */
-    .case-study-card {
-      border-radius: 20px;
-      padding: 3.5rem;
-    }
+    /* Card Header */
     .case-header {
       display: grid;
-      grid-template-columns: 1.8fr 1fr;
-      gap: 3rem;
-      align-items: flex-start;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 2.5rem;
       margin-bottom: 2rem;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .case-meta {
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
     }
     .meta-badge-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 0.8rem;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+      width: 100%;
     }
     .case-badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: #3b82f6;
-      letter-spacing: 0.12em;
-      line-height: 1.4;
+      letter-spacing: 0.1em;
+      line-height: 1.5;
+      word-break: break-word;
+      white-space: normal;
+      overflow: visible;
+      min-width: 0;
+      flex: 1;
     }
-    .repo-link {
+    .github-repo-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.95rem;
+      border-radius: 999px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
       color: #ffffff;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 0.35rem 0.8rem;
-      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
       white-space: nowrap;
       flex-shrink: 0;
       transition: all 0.2s ease;
     }
-    .repo-link .arrow-icon {
-      font-size: 0.85rem;
-      line-height: 1;
-    }
-    .repo-link:hover {
-      background: #ffffff;
-      color: #000000;
+    .github-repo-pill:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
       transform: translateY(-1px);
+    }
+    .gh-icon {
+      color: #ffffff;
+      flex-shrink: 0;
     }
     .case-title {
       font-size: 2.2rem;
@@ -274,18 +309,90 @@ interface ProjectCaseStudy {
       letter-spacing: -0.02em;
       margin-bottom: 0.4rem;
     }
-    .case-subtitle {
+    .case-sub {
       font-size: 1.1rem;
       color: #e5e5d8;
       font-family: 'Instrument Serif', serif;
       font-style: italic;
       margin-bottom: 1rem;
     }
-    .case-desc {
+    .case-overview {
       font-size: 0.95rem;
       color: #8e8e9f;
       line-height: 1.75;
       margin-bottom: 1.5rem;
+    }
+
+    /* Architecture Flow Box */
+    .arch-flow-box {
+      margin: 1.8rem 0;
+      background: #08080c;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .arch-flow-header {
+      padding: 0.7rem 1.2rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #3b82f6;
+      letter-spacing: 0.1em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .scroll-hint {
+      color: #8e8e9f;
+      font-size: 0.65rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+    .arch-flow-content {
+      padding: 1.4rem;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x pan-y;
+      overscroll-behavior-x: contain;
+      user-select: text;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      cursor: grab;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(59, 130, 246, 0.4) transparent;
+    }
+    .arch-flow-content::-webkit-scrollbar {
+      height: 6px;
+    }
+    .arch-flow-content::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .arch-flow-content::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.5);
+      border-radius: 4px;
+    }
+    .arch-flow-content:active {
+      cursor: grabbing;
+    }
+    .arch-pre {
+      margin: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      color: #00e676;
+      white-space: pre;
+      display: inline-block;
+      min-width: max-content;
     }
 
     /* Resume Bullet Box */
@@ -295,8 +402,11 @@ interface ProjectCaseStudy {
       border-radius: 10px;
       padding: 1.4rem;
       margin-top: 1rem;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
-    .bullet-header {
+    .bullet-title {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
       color: #3b82f6;
@@ -321,6 +431,9 @@ interface ProjectCaseStudy {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
     }
     .metric-chip {
       padding: 1.2rem;
@@ -340,14 +453,15 @@ interface ProjectCaseStudy {
       color: #8e8e9f;
     }
 
-    /* Project Image with Zoom Focus */
+    /* Full-Width High-Resolution Project Image */
     .project-image {
       width: 100%;
-      height: 420px;
+      height: 480px;
       object-fit: cover;
       object-position: top;
       display: block;
     }
+
     .image-overlay-caption {
       position: absolute;
       bottom: 0;
@@ -366,7 +480,7 @@ interface ProjectCaseStudy {
       display: flex;
       flex-wrap: wrap;
       gap: 0.6rem;
-      margin: 2rem 0;
+      margin: 2.2rem 0;
     }
     .tech-pill {
       background: rgba(255, 255, 255, 0.05);
@@ -382,6 +496,9 @@ interface ProjectCaseStudy {
     .interactive-deepdive {
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       padding-top: 2rem;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .deepdive-nav {
       margin-bottom: 2rem;
@@ -401,33 +518,35 @@ interface ProjectCaseStudy {
     }
     .tab-btn {
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: #8e8e9f;
-      padding: 0.55rem 1.2rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
       font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    .tab-btn.active {
-      background: #ffffff;
-      color: #000000;
-      border-color: #ffffff;
-      font-weight: 700;
-    }
-    .tab-btn:hover:not(.active) {
+    .tab-btn:hover {
       background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+    .tab-btn.active {
+      background: #3b82f6;
+      border-color: #3b82f6;
       color: #ffffff;
     }
     .deepdive-view {
       display: grid;
-      grid-template-columns: 1fr 1.6fr;
-      gap: 2.5rem;
-      align-items: flex-start;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 2rem;
+      align-items: start;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .view-explanation h3 {
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       font-weight: 700;
       color: #ffffff;
       margin-bottom: 0.8rem;
@@ -444,6 +563,9 @@ interface ProjectCaseStudy {
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 10px;
       overflow: hidden;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .code-header {
       background: rgba(255, 255, 255, 0.03);
@@ -484,14 +606,38 @@ interface ProjectCaseStudy {
       color: #d1d5db;
       overflow-x: auto;
       white-space: pre-wrap;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     @media (max-width: 1024px) {
       .page-title { font-size: 2.8rem; }
-      .case-header { grid-template-columns: 1fr; }
+      .case-header { grid-template-columns: 1fr; gap: 1.5rem; }
       .deepdive-view { grid-template-columns: 1fr; }
       .project-image { height: 280px; }
       .meta-badge-row { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+      .stacked-card { position: static; }
+    }
+
+    @media (max-width: 768px) {
+      .work-stage { padding: 3rem 0 6rem; width: 100%; overflow-x: hidden; }
+      .content-container { padding: 0 1rem; width: 100%; max-width: 100%; }
+      .page-title { font-size: 2.1rem; line-height: 1.2; }
+      .case-study-card { padding: 1.5rem 1rem; margin-bottom: 2rem; border-radius: 14px; box-sizing: border-box; width: 100%; max-width: 100%; overflow-x: hidden; }
+      .case-header { grid-template-columns: 1fr; gap: 1.2rem; width: 100%; }
+      .case-title { font-size: 1.55rem; word-break: break-word; }
+      .case-overview { font-size: 0.88rem; }
+      .project-image { height: 220px; }
+      .case-metrics { grid-template-columns: 1fr; gap: 0.6rem; width: 100%; }
+      .arch-flow-box { max-width: 100%; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .arch-flow-content { padding: 0.8rem; max-width: 100%; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .arch-pre { font-size: 0.65rem; }
+      .bullet-points-box { padding: 1rem; width: 100%; box-sizing: border-box; }
+      .bullet-list li { font-size: 0.82rem; }
+      .code-content { padding: 1rem; font-size: 0.75rem; word-break: break-all; width: 100%; }
+      .deepdive-nav .tabs-list { flex-direction: column; width: 100%; }
+      .tab-btn { width: 100%; text-align: left; }
     }
   `]
 })
@@ -505,7 +651,8 @@ export class WorkComponent implements AfterViewInit, OnDestroy {
       repoUrl: 'https://github.com/UtkarshD18/B1G-CRM',
       title: 'B1GCRM — Enterprise Multi-Agent Architecture Project',
       subtitle: 'StateGraph-Based Routing · 98% Triage Accuracy · 208K+ LoC',
-      imageUrl: '/assets/projects/b1gcrm-builder.png',
+      imageUrl: '/assets/projects/b1gcrm-clean-flow.png',
+      isB1gCrm: true,
       scrollDirection: 'left',
       overview: 'Self-driven enterprise multi-tenant CRM platform integrating LangGraph & LangChain multi-agent systems with real-time omni-channel messaging, PostgreSQL pgvector RAG semantic search, and an interactive React Flow automation builder.',
       tags: ['React', 'Node.js', 'PostgreSQL', 'LangGraph', 'LangChain', 'pgvector (RAG)', 'Socket.io', 'React Flow', 'Zustand'],
@@ -515,6 +662,16 @@ export class WorkComponent implements AfterViewInit, OnDestroy {
         { label: 'Routing Accuracy', value: '98%' },
         { label: 'Fallback Bridge', value: '5 ms' }
       ],
+      architectureFlow: `┌─────────────────┐       ┌────────────────────────┐       ┌────────────────────────────────┐
+│  Client Query   │ ────> │  Triage Router (State) │ ────> │ Support RAG (pgvector Cosine)  │
+│ (WhatsApp/Insta)│       │ (98% Routing Accuracy) │       │ Sales Specialist (CRM Pipeline)│
+└─────────────────┘       └────────────────────────┘       │ SQL Order Tracker (PostgreSQL) │
+                                      │                    └────────────────────────────────┘
+                                      ▼                                     │
+                          ┌────────────────────────┐                        ▼
+                          │ 5ms Fallback Boundary  │ ─────────────> ┌───────────────────────┐
+                          │  (Deterministic SQL)   │                │ Omni-Channel Response │
+                          └────────────────────────┘                └───────────────────────┘`,
       bulletPoints: [
         'Agentic Orchestration: Architected a StateGraph-based multi-agent routing system with LangGraph and LangChain, cutting synthesis prompt token size by 45% and LLM API costs by 30%.',
         'Query Triage: Built a Triage Router directing client queries to specialist agents (Support RAG, Sales, SQL Order Tracker) with 98% routing accuracy, eliminating order-status hallucinations via direct PostgreSQL retrieval.',
@@ -617,6 +774,16 @@ export async function executeAgentWithFallback(query: string, tenantId: string):
         { label: 'CI/CD Speedup', value: '80% Faster' },
         { label: 'Payment Gateways', value: '2 Integrated' }
       ],
+      architectureFlow: `┌──────────────────┐       ┌────────────────────────┐       ┌────────────────────────────────┐
+│ Next.js Client   │ ────> │ JWT Auth Middleware    │ ────> │ RBAC Role Enforcer (Customer/  │
+│ (5,000+ MAU)     │       │ (Bearer & httpOnly)    │       │ Admin / Warehouse Staff)       │
+└──────────────────┘       └────────────────────────┘       └────────────────────────────────┘
+                                                                            │
+                                                                            ▼
+                                                            ┌────────────────────────────────┐
+                                                            │ Payment Gateways (Stripe/Razor)│
+                                                            │ MongoDB Cluster / Cloudinary   │
+                                                            └────────────────────────────────┘`,
       bulletPoints: [
         'Developed and deployed a production e-commerce platform with 5,000+ MAU; integrated 2 payment gateways with JWT auth and RBAC, improving API/DB performance by 40%.',
         'Automated CI/CD with GitHub Actions, cutting deployment time by 80% and resolving 100+ production/testing issues.'
@@ -624,31 +791,37 @@ export async function executeAgentWithFallback(query: string, tenantId: string):
       snippets: [
         {
           id: 'bogecom_auth',
-          tabLabel: 'Payment & RBAC JWT Auth',
-          title: 'Secure JWT Middleware & Role-Based Access Control',
-          explanation: 'Protects checkout and inventory management endpoints with cryptographic JWT token verification and user role enforcement.',
-          language: 'typescript',
-          code: `// Express / Next.js JWT RBAC Authentication Middleware
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+          tabLabel: 'JWT Bearer & Cookie Middleware',
+          title: 'Production JWT Authentication & Header/Cookie Parser',
+          explanation: 'Genuine bogEcom authentication middleware verifying cryptographic tokens across Authorization headers and httpOnly cookies with secret rotation.',
+          language: 'javascript',
+          code: `// bogEcom/server/middlewares/auth.js — Production Auth Middleware
+import jwt from "jsonwebtoken";
+import { getAccessTokenSecret } from "../config/authSecrets.js";
 
-export function authorizeRoles(...allowedRoles: string[]) {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const token = req.cookies.auth_token || req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(401).json({ error: 'Unauthorized access' });
+export const auth = async (req, res, next) => {
+  let token = null;
+  // Support Bearer authorization header
+  if (req.headers?.authorization?.toLowerCase().startsWith("bearer ")) {
+    token = req.headers.authorization.slice(7).trim();
+  }
+  // Support secure httpOnly accessToken cookie fallback
+  if (!token && req.cookies?.accessToken) {
+    token = req.cookies.accessToken;
+  }
 
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string; role: string };
-      if (!allowedRoles.includes(decoded.role)) {
-        return res.status(403).json({ error: 'Forbidden: Insufficient privileges' });
-      }
-      req.user = decoded;
-      next();
-    } catch (err) {
-      return res.status(401).json({ error: 'Invalid or expired token' });
-    }
-  };
-}`
+  if (!token) {
+    return res.status(401).json({ message: "Please provide token", error: true, success: false });
+  }
+
+  try {
+    const decoded = jwt.verify(token, getAccessTokenSecret());
+    req.userId = decoded.id;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid or expired token", error: true, success: false });
+  }
+};`
         }
       ]
     },
@@ -670,6 +843,16 @@ export function authorizeRoles(...allowedRoles: string[]) {
         { label: 'Duplicate Lookups', value: 'O(1) SHA256' },
         { label: 'Job Queue', value: 'SQLite FIFO' }
       ],
+      architectureFlow: `┌──────────────────┐       ┌────────────────────────┐       ┌────────────────────────────────┐
+│ File Drop / Watch│ ────> │ SQLite FIFO Queue      │ ────> │ Transcode Worker Thread        │
+│ (Local Media)    │       │ (ACID, Thread-Isolated)│       │ (FFmpeg Subprocess, <73MB RAM) │
+└──────────────────┘       └────────────────────────┘       └────────────────────────────────┘
+                                                                            │
+                                                                            ▼
+                                                            ┌────────────────────────────────┐
+                                                            │ SHA256 Deduplication Table     │
+                                                            │ Unix Socket IPC -> PySide6 UI  │
+                                                            └────────────────────────────────┘`,
       bulletPoints: [
         'Independently designed a thread-isolated background daemon with a filesystem watchdog, SQLite-backed FIFO job queue, Unix Domain Socket IPC, and a worker-thread pool for concurrent, non-blocking processing.',
         'Built wrapper classes with automated GPU detection/CPU fallback and SHA256-based duplicate detection (O(1) lookups); stress-tested against 100 concurrent files, peak RAM under 73MB.'
@@ -687,19 +870,18 @@ import sqlite3, subprocess, hashlib, os
 class TranscodingDaemon:
     def __init__(self, db_path="queue.db"):
         self.conn = sqlite3.connect(db_path, check_same_thread=False)
-        self.has_gpu = self._detect_gpu()
+        self._init_db()
 
-    def _detect_gpu(self) -> bool:
-        try:
-            res = subprocess.run(["nvidia-smi"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            return res.returncode == 0
-        except FileNotFoundError:
-            return False
-
-    def process_job(self, input_file: str, output_file: str):
-        vcodec = "h264_nvenc" if self.has_gpu else "libx264"
-        cmd = ["ffmpeg", "-y", "-i", input_file, "-c:v", vcodec, "-preset", "fast", output_file]
-        subprocess.run(cmd, check=True)`
+    def _init_db(self):
+        with self.conn:
+            self.conn.execute("""
+                CREATE TABLE IF NOT EXISTS job_queue (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    file_path TEXT NOT NULL,
+                    sha256_hash TEXT UNIQUE,
+                    status TEXT DEFAULT 'PENDING'
+                )
+            """)`
         }
       ]
     },
@@ -858,11 +1040,17 @@ export async function bookEventTicket(req, res) {
             }
           });
         },
-        { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
+        { threshold: 0.05, rootMargin: '100px 0px -40px 0px' }
       );
 
       const targets = document.querySelectorAll('.reveal-target');
-      targets.forEach((t) => this.observer?.observe(t));
+      targets.forEach((t) => {
+        const rect = t.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          t.classList.add('scroll-visible');
+        }
+        this.observer?.observe(t);
+      });
     }
   }
 

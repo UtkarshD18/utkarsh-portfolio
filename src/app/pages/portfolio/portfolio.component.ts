@@ -5,64 +5,106 @@ import { NavigationComponent } from '../../components/navigation/navigation.comp
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ActivityStatsComponent } from '../../components/activity-stats/activity-stats.component';
 
+interface ProjectPreview {
+  number: string;
+  title: string;
+  category: string;
+  description: string;
+  tags: string[];
+  repoUrl: string;
+  routeLink: string;
+  status: string;
+}
+
+interface BuildLogItem {
+  date: string;
+  project: string;
+  badge: string;
+  summary: string;
+}
+
 @Component({
   selector: 'app-portfolio',
   standalone: true,
   imports: [CommonModule, RouterModule, NavigationComponent, FooterComponent, ActivityStatsComponent],
   template: `
     <div class="page-viewport">
-      <!-- Universal Navigation -->
       <app-navigation></app-navigation>
 
-      <!-- Hero Stage -->
+      <!-- 1. Editorial Hero Section (Substantive Authority) -->
       <main class="hero-stage">
         <div class="hero-container">
-          <!-- Availability Pill -->
           <div class="status-pill liquid-glass">
             <span class="status-dot"></span>
-            <span>AI / ML Developer &amp; Backend Engineer · B.Tech CSE (2026)</span>
+            <span>SOFTWARE ENGINEER · B.TECH CSE (2026)</span>
           </div>
 
-          <!-- Bold Kinetic Typography Headline -->
           <h1 class="hero-heading">
-            I engineer <span class="highlight-blue">multi-agent AI pipelines</span> &amp; <span class="highlight-sand">scalable backends</span>.
+            Utkarsh Dwivedi
           </h1>
 
-          <p class="hero-subtext">
-            B.Tech CSE student specializing in StateGraph-based multi-agent routing with LangGraph/LangChain, PostgreSQL pgvector RAG semantic search, and full-stack production systems.
+          <p class="hero-tagline">
+            Building backend systems, distributed architectures &amp; AI tooling.
           </p>
 
-          <!-- Hero Action CTAs -->
+          <p class="hero-subtext">
+            I like understanding how systems work under the hood — from database isolation and Linux internals to LLM orchestration, local model inference, and low-latency developer tooling.
+          </p>
+
+          <!-- Hero Action CTAs (Magnetic Hover Interaction) -->
           <div class="hero-cta-row">
-            <a routerLink="/work" class="primary-btn">
-              <span>View Production Codebases →</span>
+            <a routerLink="/work" class="primary-btn magnetic-btn">
+              <span>View Selected Work →</span>
             </a>
-            <a href="https://github.com/UtkarshD18" target="_blank" class="secondary-btn liquid-glass">
-              <span>GitHub (12 Repos) ↗</span>
+            <a href="https://github.com/UtkarshD18" target="_blank" class="secondary-btn magnetic-btn liquid-glass">
+              <span>GitHub (11 Repos) ↗</span>
             </a>
-            <a href="https://www.linkedin.com/in/utkarsh-dwivedi-01489524b/" target="_blank" class="secondary-btn liquid-glass">
-              <span>LinkedIn Profile ↗</span>
+            <a href="/assets/Utkarsh_Dwivedi_Resume.pdf" target="_blank" class="secondary-btn resume-btn magnetic-btn liquid-glass">
+              <span>Resume (PDF) 📄</span>
             </a>
-            <a routerLink="/contact" class="secondary-btn liquid-glass">
+            <a routerLink="/contact" class="secondary-btn magnetic-btn liquid-glass">
               <span>Get In Touch ✉</span>
             </a>
           </div>
 
-          <!-- Key Metrics Grid from Resume -->
+          <!-- Verified Engineering Benchmarks (Substantive Metrics) -->
           <div class="metrics-ribbon">
-            <div class="metric-box liquid-glass">
+            <div 
+              class="metric-box spotlight-card"
+              #mBox1
+              (mousemove)="onMouseMove($event, mBox1)"
+              (mouseleave)="onMouseLeave(mBox1)"
+            >
               <span class="metric-val">-45%</span>
-              <span class="metric-label">Prompt Token Reduction (LangGraph)</span>
+              <span class="metric-label">Prompt Token Overhead (LangGraph)</span>
             </div>
-            <div class="metric-box liquid-glass">
+
+            <div 
+              class="metric-box spotlight-card"
+              #mBox2
+              (mousemove)="onMouseMove($event, mBox2)"
+              (mouseleave)="onMouseLeave(mBox2)"
+            >
               <span class="metric-val">98%</span>
-              <span class="metric-label">Multi-Agent Triage Routing Accuracy</span>
+              <span class="metric-label">Multi-Agent Query Triage Accuracy</span>
             </div>
-            <div class="metric-box liquid-glass">
-              <span class="metric-val">5,000+</span>
-              <span class="metric-label">Monthly Active Users (BogEcom)</span>
+
+            <div 
+              class="metric-box spotlight-card"
+              #mBox3
+              (mousemove)="onMouseMove($event, mBox3)"
+              (mouseleave)="onMouseLeave(mBox3)"
+            >
+              <span class="metric-val">&lt; 73 MB</span>
+              <span class="metric-label">Peak Daemon RAM (MediaForge)</span>
             </div>
-            <div class="metric-box liquid-glass">
+
+            <div 
+              class="metric-box spotlight-card"
+              #mBox4
+              (mousemove)="onMouseMove($event, mBox4)"
+              (mouseleave)="onMouseLeave(mBox4)"
+            >
               <span class="metric-val">100+</span>
               <span class="metric-label">DSA Solved (LeetCode &amp; Code360)</span>
             </div>
@@ -70,82 +112,221 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
         </div>
       </main>
 
-      <!-- Section: Featured Works Preview -->
+      <!-- 2. Currently Building & Exploring (Technical Trajectory) -->
+      <section class="trajectory-section">
+        <div class="content-container">
+          <div class="section-top">
+            <span class="section-tag">[ 01 · ACTIVE ENGINEERING TRAJECTORY ]</span>
+            <h2 class="section-title">What I’m Building &amp; Exploring</h2>
+            <p class="section-desc">
+              Focus areas where I actively spend time designing, benchmarking, and shipping code.
+            </p>
+          </div>
+
+          <div class="trajectory-grid">
+            <div 
+              class="trajectory-card spotlight-card"
+              #tCard1
+              (mousemove)="onMouseMove($event, tCard1)"
+              (mouseleave)="onMouseLeave(tCard1)"
+            >
+              <div class="card-icon-header">
+                <span class="track-index">01</span>
+                <span class="track-tag">AI ENGINEERING &amp; TOOLING</span>
+              </div>
+              <h3 class="track-title">LLM Orchestration &amp; Inference</h3>
+              <p class="track-desc">
+                StateGraph-based multi-agent routing (LangGraph/LangChain), semantic RAG with PostgreSQL pgvector cosine search, local model inference with Ollama, and deterministic fallback bridges.
+              </p>
+              <div class="track-chips">
+                <span>LangGraph</span><span>pgvector</span><span>Ollama</span><span>FastAPI</span><span>Context Truncation</span>
+              </div>
+            </div>
+
+            <div 
+              class="trajectory-card spotlight-card"
+              #tCard2
+              (mousemove)="onMouseMove($event, tCard2)"
+              (mouseleave)="onMouseLeave(tCard2)"
+            >
+              <div class="card-icon-header">
+                <span class="track-index">02</span>
+                <span class="track-tag">BACKEND &amp; INFRASTRUCTURE</span>
+              </div>
+              <h3 class="track-title">Systems &amp; Data Boundaries</h3>
+              <p class="track-desc">
+                Controller-service layer separation, thread-isolated background daemons, SQLite FIFO job queues, Unix domain sockets, and cryptographic JWT RBAC auth.
+              </p>
+              <div class="track-chips">
+                <span>Node.js</span><span>Python</span><span>Spring Boot</span><span>PostgreSQL</span><span>Linux / POSIX</span>
+              </div>
+            </div>
+
+            <div 
+              class="trajectory-card spotlight-card"
+              #tCard3
+              (mousemove)="onMouseMove($event, tCard3)"
+              (mouseleave)="onMouseLeave(tCard3)"
+            >
+              <div class="card-icon-header">
+                <span class="track-index">03</span>
+                <span class="track-tag">COMPUTER SCIENCE FOUNDATIONS</span>
+              </div>
+              <h3 class="track-title">Algorithms &amp; Core Systems</h3>
+              <p class="track-desc">
+                100+ verified DSA problems solved across LeetCode &amp; Naukri Code360. Deep focus on Tree/Graph algorithms, Dynamic Programming, DBMS ACID properties, and Operating Systems.
+              </p>
+              <div class="track-chips">
+                <span>C++</span><span>Java</span><span>Data Structures</span><span>DBMS</span><span>OS Internals</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Featured Codebases Grid -->
       <section class="featured-section">
         <div class="content-container">
           <div class="section-top">
-            <span class="section-tag">[ 01 · FEATURED REPOSITORIES ]</span>
-            <h2 class="section-title">Verified Production Systems</h2>
+            <span class="section-tag">[ 02 · PRODUCTION CODEBASES &amp; CASE STUDIES ]</span>
+            <h2 class="section-title">Selected Engineering Projects</h2>
             <p class="section-desc">
-              StateGraph multi-agent routing, pgvector RAG search, and full-stack production platforms.
+              Real codebases with architectural deep-dives, verifiable repositories, and genuine screenshots.
             </p>
           </div>
 
           <div class="featured-grid">
-            <!-- 1. B1GCRM -->
-            <div class="project-card liquid-glass">
-              <div class="card-meta">
-                <span class="category-tag">MULTI-AGENT AI / LANGGRAPH / PGVECTOR</span>
-                <span class="status-tag">208K+ LINES</span>
+            @for (project of featuredProjects; track project.number) {
+              <div 
+                class="project-card spotlight-card"
+                #pCard
+                (mousemove)="onMouseMove($event, pCard)"
+                (mouseleave)="onMouseLeave(pCard)"
+              >
+                <div class="card-meta">
+                  <span class="category-tag">{{ project.number }} · {{ project.category }}</span>
+                  <span class="status-tag">{{ project.status }}</span>
+                </div>
+                <h3 class="card-title">{{ project.title }}</h3>
+                <p class="card-desc">{{ project.description }}</p>
+                <div class="card-pills">
+                  @for (tag of project.tags; track tag) {
+                    <span class="pill">{{ tag }}</span>
+                  }
+                </div>
+                <div class="card-footer">
+                  <a [routerLink]="project.routeLink" class="card-link magnetic-btn">
+                    <span>Explore Architecture &amp; Code →</span>
+                  </a>
+                </div>
               </div>
-              <h3 class="card-title">B1GCRM — Multi-Agent Enterprise Platform</h3>
-              <p class="card-desc">
-                StateGraph-based multi-agent routing system with LangGraph &amp; LangChain (cutting prompt tokens by 45% &amp; costs by 30%), 98% triage accuracy to specialist agents, PostgreSQL pgvector RAG knowledge base, and React Flow visual automation.
-              </p>
-              <div class="card-pills">
-                <span class="pill">LangGraph</span>
-                <span class="pill">LangChain</span>
-                <span class="pill">pgvector</span>
-                <span class="pill">React</span>
-                <span class="pill">Node.js</span>
-                <span class="pill">Socket.io</span>
-              </div>
-              <div class="card-footer">
-                <a routerLink="/work" fragment="b1gcrm" class="card-link">View Architecture &amp; Code →</a>
-              </div>
-            </div>
+            }
+          </div>
+        </div>
+      </section>
 
-            <!-- 2. BogEcom -->
-            <div class="project-card liquid-glass">
-              <div class="card-meta">
-                <span class="category-tag">PRODUCTION E-COMMERCE / NEXT.JS / GCP</span>
-                <span class="status-tag">5,000+ MAU</span>
+      <!-- 4. Engineering Build Log (Chronological Changelog) -->
+      <section class="buildlog-section">
+        <div class="content-container">
+          <div class="section-top">
+            <span class="section-tag">[ 03 · CHRONOLOGICAL BUILD LOG ]</span>
+            <h2 class="section-title">Recent Engineering Changelog</h2>
+            <p class="section-desc">
+              Concrete milestones, refactorings, and architectural improvements shipped across projects.
+            </p>
+          </div>
+
+          <div class="buildlog-timeline">
+            @for (item of buildLogs; track item.summary) {
+              <div 
+                class="log-item spotlight-card"
+                #lItem
+                (mousemove)="onMouseMove($event, lItem)"
+                (mouseleave)="onMouseLeave(lItem)"
+              >
+                <div class="log-date-col">
+                  <span class="log-date">{{ item.date }}</span>
+                  <span class="log-badge">{{ item.badge }}</span>
+                </div>
+                <div class="log-content-col">
+                  <h4 class="log-proj-title">{{ item.project }}</h4>
+                  <p class="log-summary-text">{{ item.summary }}</p>
+                </div>
               </div>
-              <h3 class="card-title">BogEcom — Production E-Commerce Platform</h3>
-              <p class="card-desc">
-                Production-deployed e-commerce platform with 5,000+ MAU, 2 integrated payment gateways with JWT auth &amp; RBAC (+40% API/DB boost), and automated GitHub Actions CI/CD (80% faster deployments).
-              </p>
-              <div class="card-pills">
-                <span class="pill">Next.js</span>
-                <span class="pill">React</span>
-                <span class="pill">Firebase</span>
-                <span class="pill">GCP</span>
-                <span class="pill">JWT Auth</span>
-                <span class="pill">GitHub Actions</span>
-              </div>
-              <div class="card-footer">
-                <a routerLink="/work" fragment="bogecom" class="card-link">View Architecture &amp; Code →</a>
-              </div>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. How I Think & Build -->
+      <section class="philosophy-section">
+        <div class="content-container">
+          <div class="section-top">
+            <span class="section-tag">[ 04 · ENGINEERING PRINCIPLES ]</span>
+            <h2 class="section-title">How I Think &amp; Build</h2>
+            <p class="section-desc">
+              The mental models that guide how I architect, debug, and scale systems.
+            </p>
+          </div>
+
+          <div class="principles-grid">
+            <div 
+              class="principle-card spotlight-card"
+              #prCard1
+              (mousemove)="onMouseMove($event, prCard1)"
+              (mouseleave)="onMouseLeave(prCard1)"
+            >
+              <span class="principle-num">01</span>
+              <h4>Understand the Problem First</h4>
+              <p>I don't start by choosing a framework. I first identify constraints, data boundaries, throughput requirements, and expected failure modes.</p>
+            </div>
+            <div 
+              class="principle-card spotlight-card"
+              #prCard2
+              (mousemove)="onMouseMove($event, prCard2)"
+              (mouseleave)="onMouseLeave(prCard2)"
+            >
+              <span class="principle-num">02</span>
+              <h4>Design Boundaries &amp; Data Flow</h4>
+              <p>Clean separation between ingestion, business controllers, and storage. Explicit schemas and deterministic fallback bridges precede implementation.</p>
+            </div>
+            <div 
+              class="principle-card spotlight-card"
+              #prCard3
+              (mousemove)="onMouseMove($event, prCard3)"
+              (mouseleave)="onMouseLeave(prCard3)"
+            >
+              <span class="principle-num">03</span>
+              <h4>Build with Isolation &amp; Safety</h4>
+              <p>Thread isolation, transaction atomicity, memory limits, and idempotency to guarantee resilience against timeouts and unexpected payloads.</p>
+            </div>
+            <div 
+              class="principle-card spotlight-card"
+              #prCard4
+              (mousemove)="onMouseMove($event, prCard4)"
+              (mouseleave)="onMouseLeave(prCard4)"
+            >
+              <span class="principle-num">04</span>
+              <h4>Measure Real Numbers</h4>
+              <p>Automated test suites, memory profiling, token reduction benchmarks, and latency logs determine optimization — not marketing assumptions.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Section: GitHub & LeetCode Activity Metrics -->
-      <section class="activity-wrapper">
-        <div class="content-container">
-          <app-activity-stats></app-activity-stats>
-        </div>
-      </section>
+      <!-- 6. Live Activity & GitHub Stats -->
+      <div class="content-container">
+        <app-activity-stats></app-activity-stats>
+      </div>
 
-      <!-- Universal Footer -->
+      <!-- Footer -->
       <app-footer></app-footer>
     </div>
   `,
   styles: [`
     .page-viewport {
       min-height: 100vh;
-      background: #070709;
+      background: transparent;
       color: #f5f5f7;
     }
     .hero-stage {
@@ -161,7 +342,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
-      padding: 0.4rem 1rem;
+      padding: 0.45rem 1.1rem;
       border-radius: 999px;
       font-size: 0.75rem;
       font-family: 'JetBrains Mono', monospace;
@@ -181,27 +362,26 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       50% { opacity: 0.3; }
     }
     .hero-heading {
-      font-size: 4.2rem;
+      font-size: 4.4rem;
       font-weight: 800;
-      line-height: 1.12;
+      line-height: 1.08;
       letter-spacing: -0.03em;
-      max-width: 1050px;
-      margin-bottom: 1.8rem;
+      margin-bottom: 1rem;
       color: #ffffff;
     }
-    .highlight-blue {
-      color: #3b82f6;
-    }
-    .highlight-sand {
-      color: #e5e5d8;
+    .hero-tagline {
+      font-size: 1.8rem;
       font-family: 'Instrument Serif', serif;
       font-style: italic;
-      font-weight: 400;
+      color: #e5e5d8;
+      margin-bottom: 1.6rem;
+      max-width: 900px;
+      line-height: 1.3;
     }
     .hero-subtext {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       color: #8e8e9f;
-      max-width: 760px;
+      max-width: 780px;
       line-height: 1.7;
       margin-bottom: 2.8rem;
     }
@@ -221,11 +401,9 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       font-weight: 700;
       text-decoration: none;
       box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
-      transition: all 0.25s ease;
     }
     .primary-btn:hover {
       background: #e5e5d8;
-      transform: translateY(-2px);
     }
     .secondary-btn {
       padding: 0.85rem 1.6rem;
@@ -236,7 +414,11 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       text-decoration: none;
     }
     .secondary-btn:hover {
-      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .resume-btn {
+      border-color: rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
     }
     .metrics-ribbon {
       display: grid;
@@ -245,7 +427,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     }
     .metric-box {
       padding: 1.8rem 1.6rem;
-      border-radius: 12px;
+      border-radius: 14px;
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
@@ -253,30 +435,27 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     .metric-val {
       font-size: 2rem;
       font-weight: 800;
-      color: #ffffff;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: -0.03em;
+      color: #ffffff;
     }
     .metric-label {
       font-size: 0.8rem;
       color: #8e8e9f;
+      line-height: 1.4;
     }
 
-    /* Featured Section */
-    .featured-section {
-      padding: 6rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
+    /* Section Headers */
     .section-top {
       margin-bottom: 3.5rem;
     }
     .section-tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: clamp(0.65rem, 2.5vw, 0.75rem);
       color: #3b82f6;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       margin-bottom: 0.6rem;
-      display: block;
+      display: inline-block;
+      white-space: nowrap;
     }
     .section-title {
       font-size: 2.4rem;
@@ -288,25 +467,81 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     .section-desc {
       font-size: 1rem;
       color: #8e8e9f;
-      max-width: 620px;
+      max-width: 680px;
+      line-height: 1.6;
     }
+
+    /* Trajectory Section */
+    .trajectory-section, .featured-section, .buildlog-section, .philosophy-section {
+      padding: 5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .trajectory-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+    }
+    .trajectory-card {
+      padding: 2.2rem;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .card-icon-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+    }
+    .track-index {
+      color: #3b82f6;
+      font-weight: 700;
+    }
+    .track-tag {
+      color: #8e8e9f;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+    }
+    .track-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .track-desc {
+      font-size: 0.9rem;
+      color: #8e8e9f;
+      line-height: 1.6;
+    }
+    .track-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+    .track-chips span {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.3rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #8e8e9f;
+    }
+
+    /* Featured Projects */
     .featured-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 2rem;
     }
     .project-card {
-      padding: 2.6rem;
-      border-radius: 14px;
+      padding: 2.4rem;
+      border-radius: 16px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 1.5rem;
-      transition: all 0.3s ease;
-    }
-    .project-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(255, 255, 255, 0.25);
+      gap: 1.2rem;
     }
     .card-meta {
       display: flex;
@@ -315,27 +550,29 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     }
     .category-tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       color: #3b82f6;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
     }
     .status-tag {
+      font-size: 0.68rem;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      color: #8e8e9f;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
+      background: rgba(0, 230, 118, 0.1);
+      color: #00e676;
+      border: 1px solid rgba(0, 230, 118, 0.2);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
     }
     .card-title {
-      font-size: 1.55rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: #ffffff;
+      line-height: 1.3;
     }
     .card-desc {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: #8e8e9f;
-      line-height: 1.7;
+      line-height: 1.6;
     }
     .card-pills {
       display: flex;
@@ -343,34 +580,205 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       gap: 0.5rem;
     }
     .pill {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 0.3rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
       font-family: 'JetBrains Mono', monospace;
-      color: #f5f5f7;
+      color: #8e8e9f;
     }
     .card-footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding-top: 1.2rem;
+      margin-top: auto;
+      padding-top: 1rem;
     }
     .card-link {
-      color: #ffffff;
-      text-decoration: none;
       font-size: 0.85rem;
       font-weight: 600;
-      transition: color 0.2s ease;
+      color: #3b82f6;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
     .card-link:hover {
-      color: #3b82f6;
+      color: #60a5fa;
+    }
+
+    /* Build Log */
+    .buildlog-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .log-item {
+      padding: 1.6rem 2rem;
+      border-radius: 14px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    .log-date-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .log-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #8e8e9f;
+    }
+    .log-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      background: rgba(59, 130, 246, 0.1);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      width: fit-content;
+    }
+    .log-proj-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.3rem;
+    }
+    .log-summary-text {
+      font-size: 0.88rem;
+      color: #8e8e9f;
+      line-height: 1.5;
+    }
+
+    /* Principles Grid */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .principle-card {
+      padding: 2rem 1.6rem;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .principle-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.15);
+    }
+    .principle-card h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .principle-card p {
+      font-size: 0.85rem;
+      color: #8e8e9f;
+      line-height: 1.6;
     }
 
     @media (max-width: 1024px) {
-      .hero-heading { font-size: 3.2rem; }
+      .hero-heading { font-size: 3.4rem; }
       .metrics-ribbon { grid-template-columns: repeat(2, 1fr); }
+      .trajectory-grid { grid-template-columns: 1fr; }
       .featured-grid { grid-template-columns: 1fr; }
+      .principles-grid { grid-template-columns: repeat(2, 1fr); }
+      .log-item { grid-template-columns: 1fr; gap: 0.8rem; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-stage { padding: 4.5rem 0 3.5rem; }
+      .hero-heading { font-size: 2.4rem; }
+      .hero-tagline { font-size: 1.35rem; }
+      .hero-subtext { font-size: 0.98rem; }
+      .hero-cta-row { flex-direction: column; align-items: stretch; gap: 0.8rem; }
+      .hero-cta-row a { text-align: center; justify-content: center; }
+      .metrics-ribbon { grid-template-columns: 1fr; gap: 0.8rem; }
+      .section-title { font-size: 1.8rem; }
+      .principles-grid { grid-template-columns: 1fr; }
     }
   `]
 })
-export class PortfolioComponent {}
+export class PortfolioComponent {
+  featuredProjects: ProjectPreview[] = [
+    {
+      number: '01',
+      title: 'B1GCRM Multi-Agent Architecture',
+      category: 'MULTI-AGENT AI & CRM',
+      description: 'Modernized multi-agent customer platform replacing sequential prompts with a StateGraph architecture, reducing token overhead by 45% with pgvector semantic triage.',
+      tags: ['LangGraph', 'PostgreSQL', 'pgvector', 'React', 'Node.js'],
+      repoUrl: 'https://github.com/UtkarshD18/B1GCRM',
+      routeLink: '/work#b1gcrm',
+      status: 'VERIFIED REPO'
+    },
+    {
+      number: '02',
+      title: 'MediaForge Video & Asset Daemon',
+      category: 'SYSTEMS & BACKGROUND WORKERS',
+      description: 'High-throughput media ingestion and short-form video assembly engine running in an isolated background process under 73 MB RAM with SQLite job queues.',
+      tags: ['TypeScript', 'Node.js', 'FFmpeg', 'SQLite FIFO', 'POSIX IPC'],
+      repoUrl: 'https://github.com/UtkarshD18/MediaForge',
+      routeLink: '/work#mediaforge',
+      status: 'VERIFIED REPO'
+    },
+    {
+      number: '03',
+      title: 'BogEcom High-Concurrency Platform',
+      category: 'ENTERPRISE JAVA & BACKEND',
+      description: 'Clean Architecture e-commerce backend built with Java 21, Spring Boot 3, and PostgreSQL, featuring transactional order isolation and JWT security.',
+      tags: ['Java 21', 'Spring Boot 3', 'PostgreSQL', 'Hibernate', 'JWT RBAC'],
+      repoUrl: 'https://github.com/UtkarshD18/BogEcom',
+      routeLink: '/work#bogecom',
+      status: 'VERIFIED REPO'
+    },
+    {
+      number: '04',
+      title: 'HobbyFi Vendor AI Copilot',
+      category: 'SEMANTIC SEARCH & RAG',
+      description: 'Real-time vendor copilot for catalog management with natural language querying, SQL generation with strict schema boundary validation, and pgvector cosine search.',
+      tags: ['Python', 'FastAPI', 'pgvector', 'PostgreSQL', 'LangChain'],
+      repoUrl: 'https://github.com/UtkarshD18/HobbyFi',
+      routeLink: '/work#hobbyfi',
+      status: 'VERIFIED REPO'
+    }
+  ];
+
+  buildLogs: BuildLogItem[] = [
+    {
+      date: 'AUG 2026',
+      project: 'MediaForge',
+      badge: 'RELEASE v0.1.0',
+      summary: 'Shipped isolated background daemon with SQLite FIFO queue and POSIX pipe messaging; capped daemon heap at 73 MB.'
+    },
+    {
+      date: 'JUL 2026',
+      project: 'B1GCRM',
+      badge: 'ARCHITECTURE REFACTOR',
+      summary: 'Re-architected prompt chaining into StateGraph-based LangGraph router with pgvector semantic similarity caching, cutting token overhead by 45%.'
+    },
+    {
+      date: 'JUN 2026',
+      project: 'BogEcom',
+      badge: 'TRANSACTION ISOLATION',
+      summary: 'Implemented ACID-compliant order booking with pessimistic row locks to eliminate race conditions under concurrent load testing.'
+    }
+  ];
+
+  onMouseMove(e: MouseEvent, target: HTMLElement): void {
+    if (typeof window === 'undefined' || window.innerWidth < 768) return;
+    const rect = target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    target.style.setProperty('--mouse-x', `${x}px`);
+    target.style.setProperty('--mouse-y', `${y}px`);
+  }
+
+  onMouseLeave(target: HTMLElement): void {
+    target.style.removeProperty('--mouse-x');
+    target.style.removeProperty('--mouse-y');
+  }
+}

@@ -161,14 +161,15 @@ import { CommonModule } from '@angular/common';
     }
     .activity-kicker {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: clamp(0.65rem, 2.5vw, 0.75rem);
       color: #3b82f6;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       margin-bottom: 0.6rem;
-      display: block;
+      display: inline-block;
+      white-space: nowrap;
     }
     .activity-title {
-      font-size: 2.3rem;
+      font-size: clamp(1.8rem, 5vw, 2.3rem);
       font-weight: 800;
       color: #ffffff;
       margin-bottom: 0.8rem;
@@ -423,6 +424,32 @@ import { CommonModule } from '@angular/common';
     @media (max-width: 1024px) {
       .activity-grid { grid-template-columns: 1fr; }
       .github-metrics-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .stats-card {
+        padding: 1.5rem 1.2rem;
+        box-sizing: border-box;
+      }
+      .card-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+      }
+      .profile-top-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.2rem;
+      }
+      .sub-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+      }
+      .gh-chart-container {
+        overflow-x: auto;
+        max-width: 100%;
+      }
     }
   `]
 })

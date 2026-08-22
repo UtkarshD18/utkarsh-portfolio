@@ -113,8 +113,12 @@ import { FooterComponent } from '../../components/footer/footer.component';
                     ></textarea>
                   </div>
 
-                  <button type="submit" class="submit-btn" [disabled]="!formData.name || !formData.email || !formData.message">
-                    <span>Send Message →</span>
+                  <button
+                    type="submit"
+                    class="submit-btn"
+                    [disabled]="isSubmitting() || !formData.name || !formData.email || !formData.message"
+                  >
+                    <span>{{ isSubmitting() ? 'Dispatching Message...' : 'Send Message →' }}</span>
                   </button>
                 </form>
               }
@@ -129,7 +133,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
   styles: [`
     .page-viewport {
       min-height: 100vh;
-      background: #070709;
+      background: transparent;
       color: #f5f5f7;
     }
     .contact-stage {
@@ -139,20 +143,30 @@ import { FooterComponent } from '../../components/footer/footer.component';
       max-width: 1240px;
       margin: 0 auto;
       padding: 0 2rem;
+      width: 100%;
+      box-sizing: border-box;
     }
     .contact-grid {
       display: grid;
       grid-template-columns: 1.1fr 1.2fr;
       gap: 4rem;
       align-items: flex-start;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .contact-info, .form-container {
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
     }
     .page-kicker {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: clamp(0.65rem, 2.5vw, 0.75rem);
       color: #3b82f6;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       margin-bottom: 0.6rem;
-      display: block;
+      display: inline-block;
+      white-space: nowrap;
     }
     .page-title {
       font-size: 3.2rem;
@@ -177,6 +191,8 @@ import { FooterComponent } from '../../components/footer/footer.component';
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
+      width: 100%;
+      box-sizing: border-box;
     }
     .tz-header {
       display: flex;
@@ -193,20 +209,20 @@ import { FooterComponent } from '../../components/footer/footer.component';
     .tz-title {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
-      color: #8e8e9f;
-      letter-spacing: 0.15em;
+      color: #3b82f6;
+      letter-spacing: 0.1em;
     }
     .tz-time {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       color: #ffffff;
     }
     .tz-status {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: #8e8e9f;
     }
 
-    /* Channels */
+    /* Direct Channels */
     .channels-list {
       display: flex;
       flex-direction: column;
@@ -219,22 +235,23 @@ import { FooterComponent } from '../../components/footer/footer.component';
     }
     .channel-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: #8e8e9f;
       letter-spacing: 0.12em;
     }
     .channel-val {
-      color: #ffffff;
+      color: #f5f5f7;
       text-decoration: none;
       font-size: 0.95rem;
-      font-weight: 600;
+      font-weight: 500;
       transition: color 0.2s ease;
+      word-break: break-all;
     }
     .channel-val:hover {
       color: #3b82f6;
     }
 
-    /* Form Container */
+    /* Right Form Container */
     .form-container {
       padding: 3rem;
       border-radius: 18px;
@@ -259,82 +276,80 @@ import { FooterComponent } from '../../components/footer/footer.component';
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
       color: #8e8e9f;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
     }
     .form-group input,
     .form-group select,
     .form-group textarea {
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
       padding: 0.85rem 1rem;
       color: #ffffff;
       font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-      font-size: 0.9rem;
-      transition: all 0.2s ease;
+      font-size: 0.95rem;
       outline: none;
-    }
-    .form-group select {
-      cursor: pointer;
-    }
-    .form-group select option {
-      background: #0d0d12;
-      color: #ffffff;
+      transition: all 0.2s ease;
+      width: 100%;
+      box-sizing: border-box;
     }
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
       border-color: #3b82f6;
+      background: rgba(255, 255, 255, 0.06);
       box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+    }
+    .form-group select option {
+      background: #09090d;
+      color: #ffffff;
     }
     .submit-btn {
       background: #ffffff;
-      border: none;
       color: #000000;
-      padding: 0.95rem 1.8rem;
-      border-radius: 999px;
-      font-weight: 700;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 8px;
       font-size: 0.9rem;
+      font-weight: 700;
       cursor: pointer;
-      margin-top: 0.8rem;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
+      margin-top: 0.5rem;
+      transition: all 0.2s ease;
+      width: 100%;
     }
     .submit-btn:hover:not(:disabled) {
       background: #e5e5d8;
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(255, 255, 255, 0.4);
     }
     .submit-btn:disabled {
-      opacity: 0.4;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
-    /* Success State */
+    /* Success Screen */
     .success-message {
+      text-align: center;
+      padding: 3rem 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
       gap: 1rem;
-      padding: 3rem 1rem;
     }
     .success-icon {
       width: 50px;
       height: 50px;
       border-radius: 50%;
       background: rgba(0, 230, 118, 0.15);
-      border: 1px solid #00e676;
       color: #00e676;
       font-size: 1.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 900;
+      border: 1px solid rgba(0, 230, 118, 0.3);
     }
     .success-message h3 {
-      font-size: 1.8rem;
-      font-weight: 800;
+      font-size: 1.4rem;
+      font-weight: 700;
       color: #ffffff;
     }
     .success-message p {
@@ -351,10 +366,17 @@ import { FooterComponent } from '../../components/footer/footer.component';
       cursor: pointer;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1024px) {
       .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .page-title { font-size: 2.6rem; }
-      .form-container { padding: 2rem; }
+    }
+
+    @media (max-width: 768px) {
+      .contact-stage { padding: 3.5rem 0 6rem; width: 100%; overflow-x: hidden; }
+      .content-container { padding: 0 1.2rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .page-title { font-size: 2.2rem; line-height: 1.2; }
+      .form-container { padding: 1.6rem 1.2rem; }
+      .timezone-card { padding: 1.2rem; }
     }
   `]
 })
@@ -366,11 +388,47 @@ export class ContactComponent {
     message: ''
   };
 
+  readonly isSubmitting = signal<boolean>(false);
   readonly isSubmitted = signal<boolean>(false);
 
-  submitMessage(): void {
+  async submitMessage(): Promise<void> {
     if (!this.formData.name || !this.formData.email || !this.formData.message) return;
+    this.isSubmitting.set(true);
+
+    try {
+      // Asynchronous API delivery to inbox (utkarshdwivedi.182@gmail.com)
+      const res = await fetch('https://formspree.io/f/mqaeveoq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: this.formData.name,
+          email: this.formData.email,
+          inquiryType: this.formData.projectType,
+          message: this.formData.message,
+          _subject: `[Portfolio Inquiry] ${this.formData.projectType.toUpperCase()} from ${this.formData.name}`
+        })
+      });
+
+      if (res.ok) {
+        this.isSubmitted.set(true);
+      } else {
+        this.fallbackMailto();
+      }
+    } catch {
+      this.fallbackMailto();
+    } finally {
+      this.isSubmitting.set(false);
+    }
+  }
+
+  private fallbackMailto(): void {
     this.isSubmitted.set(true);
+    const subject = encodeURIComponent(`[Portfolio Inquiry] ${this.formData.projectType.toUpperCase()} — ${this.formData.name}`);
+    const body = encodeURIComponent(`Hi Utkarsh,\n\nSender: ${this.formData.name}\nEmail: ${this.formData.email}\nInquiry: ${this.formData.projectType}\n\nMessage:\n${this.formData.message}\n`);
+    window.location.href = `mailto:utkarshdwivedi.182@gmail.com?subject=${subject}&body=${body}`;
   }
 
   resetForm(): void {
