@@ -1,4 +1,4 @@
-import { Component, signal, HostListener, PLATFORM_ID, inject, ElementRef, ViewChild } from '@angular/core';
+import { Component, signal, HostListener, PLATFORM_ID, inject, ElementRef, ViewChild, computed } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -9,6 +9,7 @@ interface ArchitectureStep {
   badge: string;
   details: string;
   codeSnippet: string;
+  metric: string;
 }
 
 @Component({
@@ -16,188 +17,158 @@ interface ArchitectureStep {
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <section class="bogecom-stage-section" #stageSection>
-      <div class="content-container">
-        
-        <!-- Section Header -->
-        <div class="section-top">
-          <span class="section-tag">[ ARCHITECTURAL SPOTLIGHT · 5,000+ MAU PLATFORM ]</span>
-          <h2 class="section-title">BogEcom — Production E-Commerce Architecture</h2>
-          <p class="section-desc">
-            High-concurrency MERN &amp; Next.js architecture with dual-token JWT authentication, Role-Based Access Control (RBAC), and multi-gateway payment orchestration.
-          </p>
-        </div>
-
-        <!-- Pinned / Sticky Interactive Canvas -->
-        <div class="showcase-card spotlight-card" #showcaseCard (mousemove)="onMouseMove($event)" (mouseleave)="onMouseLeave()">
+    <!-- 250vh Scroll Track Container for Physical Scroll Physics -->
+    <div class="bogecom-scroll-track" #trackRef>
+      
+      <!-- Pinned Viewport Stage (Sticky during 250vh scroll traversal) -->
+      <section class="bogecom-sticky-stage">
+        <div class="stage-inner">
           
-          <!-- Top Architecture Header -->
-          <div class="stage-header">
-            <div class="header-left">
-              <div class="repo-badge">
-                <span class="pulse-indicator"></span>
-                <span>PRODUCTION SYSTEM · 5,000+ MAU</span>
+          <!-- Top Section Header -->
+          <div class="stage-top-bar">
+            <div>
+              <div class="badge-row">
+                <span class="system-status-dot"></span>
+                <span class="system-tag">SCROLL-TIED ARCHITECTURE STAGE · 5,000+ MAU</span>
               </div>
-              <h3 class="stage-title">End-to-End Request &amp; Auth Pipeline</h3>
+              <h2 class="stage-heading">BogEcom High-Concurrency Pipeline</h2>
             </div>
-            <div class="header-right">
-              <button 
-                class="simulate-btn magnetic-btn"
-                [class.is-simulating]="isSimulating()"
-                (click)="triggerSimulation()"
-              >
-                <span>{{ isSimulating() ? 'Dispatching Inbound Packet...' : '▶ Simulate Order Checkout' }}</span>
-              </button>
+
+            <!-- Real-time Physical Scroll Telemetry -->
+            <div class="scroll-telemetry">
+              <span class="telemetry-label">SCROLL SCRUB:</span>
+              <span class="telemetry-pct">{{ (scrollProgress() * 100).toFixed(0) }}%</span>
+              <span class="phase-pill">PHASE {{ activePhaseIndex() + 1 }} OF 3</span>
             </div>
           </div>
 
-          <!-- Interactive Pipeline Stages -->
-          <div class="pipeline-grid">
-            @for (step of steps; track step.stepNum; let i = $index) {
-              <div 
-                class="pipeline-node"
-                [class.is-active]="activeStepIndex() === i || isSimulating()"
-                [class.is-highlighted]="simulatedStep() === i"
-                (click)="selectStep(i)"
-              >
-                <div class="node-header">
-                  <span class="node-num">{{ step.stepNum }}</span>
-                  <span class="node-badge">{{ step.badge }}</span>
+          <!-- Physical Scrub Progress Line -->
+          <div class="scrub-line-container">
+            <div class="scrub-line-fill" [style.width.%]="scrollProgress() * 100"></div>
+          </div>
+
+          <!-- Central Architectural Canvas with Dynamic Parallax Scale -->
+          <div 
+            class="architecture-canvas spotlight-card"
+            [style.transform]="canvasTransform()"
+          >
+            <!-- 3-Phase Interactive Pipeline Steps -->
+            <div class="pipeline-track">
+              @for (step of steps; track step.stepNum; let i = $index) {
+                <div 
+                  class="step-card"
+                  [class.is-active]="activePhaseIndex() === i"
+                  (click)="scrollToPhase(i)"
+                >
+                  <div class="step-meta">
+                    <span class="step-num">0{{ i + 1 }}</span>
+                    <span class="step-badge">{{ step.badge }}</span>
+                  </div>
+                  <h4 class="step-name">{{ step.name }}</h4>
+                  <span class="step-role">{{ step.role }}</span>
+                  <p class="step-desc">{{ step.details }}</p>
+                  
+                  <div class="step-status">
+                    <span class="metric-tag">{{ step.metric }}</span>
+                    @if (activePhaseIndex() === i) {
+                      <span class="active-indicator">● LIVE PHASE</span>
+                    }
+                  </div>
                 </div>
-                <h4 class="node-name">{{ step.name }}</h4>
-                <span class="node-role">{{ step.role }}</span>
-                <p class="node-details">{{ step.details }}</p>
-                
-                @if (i < steps.length - 1) {
-                  <div class="flow-arrow">⟶</div>
-                }
-              </div>
-            }
-          </div>
+              }
+            </div>
 
-          <!-- Active Step Deep Dive & Live Code Inspector -->
-          <div class="stage-inspector">
-            <div class="inspector-header">
-              <div class="tab-indicator">
-                <span class="tab-label">ACTIVE SUB-SYSTEM:</span>
-                <span class="tab-val">{{ currentStep.name }} ({{ currentStep.badge }})</span>
+            <!-- Dynamic Live Code & Transaction Inspector -->
+            <div class="inspector-panel">
+              <div class="inspector-header">
+                <div class="terminal-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                  <span class="terminal-title">bogEcom/production/{{ currentStep().name.toLowerCase().replace(' ', '_') }}.js</span>
+                </div>
+                <div class="inspector-metrics">
+                  <span class="tag-live">+40% API / DB THROUGHPUT</span>
+                  <span class="tag-live">2 PAYMENT GATEWAYS</span>
+                </div>
               </div>
-              <div class="metrics-mini">
-                <span class="metric-pill">+40% DB/API BOOST</span>
-                <span class="metric-pill">2 PAYMENT GATEWAYS</span>
-                <span class="metric-pill">80% FASTER CI/CD</span>
+
+              <div class="code-viewport">
+                <pre class="code-content"><code>{{ currentStep().codeSnippet }}</code></pre>
               </div>
             </div>
 
-            <div class="code-viewport">
-              <div class="code-header">
-                <span class="code-dot red"></span>
-                <span class="code-dot yellow"></span>
-                <span class="code-dot green"></span>
-                <span class="code-filename">bogEcom/server/middlewares/auth.js</span>
-              </div>
-              <pre class="code-block"><code>{{ currentStep.codeSnippet }}</code></pre>
+            <!-- Bottom Navigation Prompt -->
+            <div class="canvas-footer">
+              <span class="scroll-instruction">
+                Turn mouse wheel to physically scrub through all 3 architecture phases ↓
+              </span>
+              <a routerLink="/work" fragment="bogecom" class="explore-btn magnetic-btn">
+                <span>View Full BogEcom Case Study in /work →</span>
+              </a>
             </div>
-          </div>
 
-          <!-- Card Footer Action -->
-          <div class="stage-footer">
-            <div class="footer-note">
-              <span>Verified codebase running Next.js, Node.js, Express, MongoDB, and automated GitHub Actions CI/CD.</span>
-            </div>
-            <a routerLink="/work" fragment="bogecom" class="explore-link magnetic-btn">
-              <span>Explore Complete BogEcom Deep-Dive in Work →</span>
-            </a>
           </div>
 
         </div>
+      </section>
 
-      </div>
-    </section>
+    </div>
   `,
   styles: [`
-    .bogecom-stage-section {
-      padding: 5.5rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    /* 250vh Physical Scroll Track */
+    .bogecom-scroll-track {
       position: relative;
+      min-height: 250vh;
+      width: 100%;
+      background: transparent;
     }
 
-    .content-container {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    .section-top {
-      margin-bottom: 3rem;
-    }
-
-    .section-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: #3b82f6;
-      letter-spacing: 0.12em;
-      margin-bottom: 0.6rem;
-      display: inline-block;
-    }
-
-    .section-title {
-      font-size: 2.3rem;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 0.8rem;
-      letter-spacing: -0.02em;
-    }
-
-    .section-desc {
-      font-size: 1rem;
-      color: #8e8e9f;
-      max-width: 760px;
-      line-height: 1.6;
-    }
-
-    /* Main Showcase Card */
-    .showcase-card {
-      padding: 3rem;
-      background: rgba(14, 14, 20, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
+    /* Sticky Viewport Container (Locks in place while user scrolls through 250vh) */
+    .bogecom-sticky-stage {
+      position: sticky;
+      top: 75px;
+      height: calc(100vh - 90px);
+      width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 2.2rem;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      padding: 1.5rem 2rem;
+      box-sizing: border-box;
+      z-index: 10;
     }
 
-    .stage-header {
+    .stage-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    /* Top Stage Bar */
+    .stage-top-bar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
       flex-wrap: wrap;
-      gap: 1.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      padding-bottom: 1.8rem;
+      gap: 1rem;
     }
 
-    .repo-badge {
-      display: inline-flex;
+    .badge-row {
+      display: flex;
       align-items: center;
-      gap: 0.6rem;
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.25);
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      color: #93c5fd;
-      margin-bottom: 0.6rem;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
-    .pulse-indicator {
+    .system-status-dot {
       width: 6px;
       height: 6px;
-      background: #3b82f6;
       border-radius: 50%;
-      box-shadow: 0 0 8px #3b82f6;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
       animation: pulse 2s infinite;
     }
 
@@ -206,128 +177,180 @@ interface ArchitectureStep {
       50% { opacity: 0.3; }
     }
 
-    .stage-title {
-      font-size: 1.6rem;
+    .system-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #38bdf8;
+      letter-spacing: 0.1em;
       font-weight: 700;
-      color: #ffffff;
     }
 
-    .simulate-btn {
-      background: #ffffff;
-      color: #000000;
-      padding: 0.75rem 1.6rem;
+    .stage-heading {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    .scroll-telemetry {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.35rem 0.85rem;
       border-radius: 999px;
-      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+    }
+
+    .telemetry-label {
+      color: #8e8e9f;
+    }
+
+    .telemetry-pct {
+      color: #38bdf8;
+      font-weight: 800;
+    }
+
+    .phase-pill {
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
       font-weight: 700;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
     }
 
-    .simulate-btn:hover {
-      background: #e5e5d8;
+    /* Scrub Line Container */
+    .scrub-line-container {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
     }
 
-    .simulate-btn.is-simulating {
-      background: #3b82f6;
-      color: #ffffff;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+    .scrub-line-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8, #3b82f6, #60a5fa);
+      transition: width 0.08s linear;
     }
 
-    /* Pipeline 4-Step Grid */
-    .pipeline-grid {
+    /* Architecture Canvas */
+    .architecture-canvas {
+      background: rgba(14, 14, 20, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 20px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+      will-change: transform;
+      transition: transform 0.15s ease-out;
+    }
+
+    /* 3 Pipeline Steps Grid */
+    .pipeline-track {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.2rem;
-      position: relative;
     }
 
-    .pipeline-node {
+    .step-card {
       background: rgba(255, 255, 255, 0.025);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 14px;
-      padding: 1.5rem;
+      padding: 1.4rem;
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
       cursor: pointer;
-      position: relative;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .pipeline-node:hover {
+    .step-card:hover {
       background: rgba(255, 255, 255, 0.05);
       border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .step-card.is-active {
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
       transform: translateY(-3px);
     }
 
-    .pipeline-node.is-active {
-      border-color: rgba(59, 130, 246, 0.4);
-      background: rgba(59, 130, 246, 0.05);
-    }
-
-    .pipeline-node.is-highlighted {
-      border-color: #38bdf8;
-      background: rgba(56, 189, 248, 0.12);
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.25);
-      transform: scale(1.02);
-    }
-
-    .node-header {
+    .step-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .node-num {
+    .step-num {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8rem;
-      font-weight: 700;
-      color: #3b82f6;
+      font-weight: 800;
+      color: #38bdf8;
     }
 
-    .node-badge {
+    .step-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.06);
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
       color: #8e8e9f;
     }
 
-    .node-name {
-      font-size: 1.05rem;
+    .step-name {
+      font-size: 1.15rem;
       font-weight: 700;
       color: #ffffff;
     }
 
-    .node-role {
-      font-size: 0.78rem;
+    .step-role {
       font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
       color: #93c5fd;
     }
 
-    .node-details {
+    .step-desc {
       font-size: 0.82rem;
       color: #8e8e9f;
       line-height: 1.5;
     }
 
-    .flow-arrow {
-      position: absolute;
-      right: -14px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.2);
-      z-index: 3;
+    .step-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 0.4rem;
     }
 
-    /* Inspector & Code Section */
-    .stage-inspector {
-      background: #08080c;
+    .metric-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      background: rgba(0, 230, 118, 0.08);
+      color: #00e676;
+      border: 1px solid rgba(0, 230, 118, 0.2);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+    }
+
+    .active-indicator {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: #38bdf8;
+      font-weight: 700;
+    }
+
+    /* Inspector & Code Block */
+    .inspector-panel {
+      background: #060608;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
+      border-radius: 12px;
       overflow: hidden;
     }
 
@@ -335,154 +358,116 @@ interface ArchitectureStep {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.6rem;
+      padding: 0.8rem 1.4rem;
       background: rgba(255, 255, 255, 0.02);
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      flex-wrap: wrap;
-      gap: 1rem;
     }
 
-    .tab-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      color: #8e8e9f;
-      margin-right: 0.5rem;
-    }
-
-    .tab-val {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      color: #38bdf8;
-      font-weight: 700;
-    }
-
-    .metrics-mini {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-    }
-
-    .metric-pill {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      background: rgba(0, 230, 118, 0.08);
-      color: #00e676;
-      border: 1px solid rgba(0, 230, 118, 0.2);
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
-    }
-
-    .code-viewport {
-      padding: 1.4rem;
-    }
-
-    .code-header {
+    .terminal-dots {
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      margin-bottom: 1rem;
     }
 
-    .code-dot {
+    .dot {
       width: 10px;
       height: 10px;
       border-radius: 50%;
     }
-    .code-dot.red { background: #ef4444; }
-    .code-dot.yellow { background: #f59e0b; }
-    .code-dot.green { background: #10b981; }
+    .dot.red { background: #ef4444; }
+    .dot.yellow { background: #f59e0b; }
+    .dot.green { background: #10b981; }
 
-    .code-filename {
+    .terminal-title {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
       color: #8e8e9f;
       margin-left: 0.6rem;
     }
 
-    .code-block {
+    .inspector-metrics {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tag-live {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      background: rgba(59, 130, 246, 0.1);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+    }
+
+    .code-viewport {
+      padding: 1.2rem 1.4rem;
+    }
+
+    .code-content {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.78rem;
-      color: #d1d5db;
+      color: #e2e8f0;
       line-height: 1.6;
       overflow-x: auto;
     }
 
-    /* Stage Footer */
-    .stage-footer {
+    /* Footer */
+    .canvas-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 1.2rem;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding-top: 1.5rem;
+      padding-top: 1rem;
     }
 
-    .footer-note {
-      font-size: 0.85rem;
+    .scroll-instruction {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
       color: #8e8e9f;
     }
 
-    .explore-link {
-      color: #3b82f6;
-      font-size: 0.85rem;
-      font-weight: 600;
+    .explore-btn {
+      color: #38bdf8;
+      font-size: 0.82rem;
+      font-weight: 700;
       text-decoration: none;
     }
 
-    .explore-link:hover {
+    .explore-btn:hover {
       color: #60a5fa;
     }
 
     @media (max-width: 1024px) {
-      .pipeline-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .flow-arrow {
-        display: none;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .showcase-card {
-        padding: 1.6rem;
-      }
-      .pipeline-grid {
+      .pipeline-track {
         grid-template-columns: 1fr;
       }
-      .section-title {
-        font-size: 1.8rem;
+      .bogecom-sticky-stage {
+        height: auto;
+        position: relative;
+        top: 0;
       }
-      .stage-title {
-        font-size: 1.3rem;
-      }
-      .stage-header, .stage-footer {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .simulate-btn {
-        width: 100%;
-        text-align: center;
+      .bogecom-scroll-track {
+        min-height: auto;
       }
     }
   `]
 })
 export class BogecomShowcaseComponent {
   private readonly platformId = inject(PLATFORM_ID);
-  @ViewChild('showcaseCard') showcaseCardRef?: ElementRef<HTMLElement>;
+  @ViewChild('trackRef') trackRef?: ElementRef<HTMLElement>;
 
-  readonly activeStepIndex = signal<number>(1);
-  readonly isSimulating = signal<boolean>(false);
-  readonly simulatedStep = signal<number>(-1);
-
+  readonly scrollProgress = signal<number>(0);
+  
   readonly steps: ArchitectureStep[] = [
     {
       stepNum: '01',
-      name: 'Client Layer',
-      role: 'Next.js 14 SSR / SPA',
+      name: 'Client Storefront',
+      role: 'Next.js 14 SSR & Realtime Cart',
       badge: '5,000+ MAU',
-      details: 'High-speed storefront rendering, responsive catalog state, and optimistic UI cart updates.',
-      codeSnippet: `// bogEcom Client State Checkout Dispatch
+      details: 'Optimistic cart mutations, dual payment gateway checkout triggers, and low-latency API hydration.',
+      metric: '5,000+ ACTIVE USERS',
+      codeSnippet: `// bogEcom Client State Checkout Dispatch (Next.js)
 export async function dispatchCheckoutPayload(orderData) {
   const response = await fetch('/api/orders/checkout', {
     method: 'POST',
@@ -497,17 +482,18 @@ export async function dispatchCheckoutPayload(orderData) {
     },
     {
       stepNum: '02',
-      name: 'Auth Middleware',
-      role: 'Dual Bearer & httpOnly',
+      name: 'Auth & RBAC Middleware',
+      role: 'Bearer & Cookie Verification',
       badge: 'CRYPTO VERIFIED',
-      details: 'Inspects authorization headers and httpOnly cookies with HMAC secret rotation and token expiry.',
-      codeSnippet: `// bogEcom/server/middlewares/auth.js
+      details: 'Inspects authorization headers and httpOnly cookies with secret rotation, verifying Customer/Admin roles.',
+      metric: 'CRYPTO SECURE',
+      codeSnippet: `// bogEcom/server/middlewares/auth.js — Production Security Guard
 export const auth = async (req, res, next) => {
   let token = req.headers?.authorization?.startsWith("Bearer ")
     ? req.headers.authorization.slice(7).trim()
     : req.cookies?.accessToken;
 
-  if (!token) return res.status(401).json({ error: "Missing auth token" });
+  if (!token) return res.status(401).json({ error: "Missing authentication token" });
 
   try {
     const decoded = jwt.verify(token, getAccessTokenSecret());
@@ -515,37 +501,18 @@ export const auth = async (req, res, next) => {
     req.userRole = decoded.role;
     next();
   } catch (err) {
-    return res.status(401).json({ error: "Invalid token payload" });
+    return res.status(401).json({ error: "Invalid cryptographic token payload" });
   }
 };`
     },
     {
       stepNum: '03',
-      name: 'RBAC Enforcement',
-      role: 'Role Isolation Guard',
-      badge: 'ACCESS CONTROL',
-      details: 'Strict permission boundary verifying Customer, Vendor, and Admin authorization per route.',
-      codeSnippet: `// bogEcom Role-Based Access Control Guard
-export const checkRole = (allowedRoles = []) => {
-  return (req, res, next) => {
-    if (!allowedRoles.includes(req.userRole)) {
-      return res.status(403).json({ 
-        error: "Forbidden: Insufficient privileges",
-        required: allowedRoles,
-        current: req.userRole 
-      });
-    }
-    next();
-  };
-};`
-    },
-    {
-      stepNum: '04',
-      name: 'Order & DB Engine',
-      role: 'ACID Transactional Lock',
+      name: 'Order & Transaction Lock',
+      role: 'ACID Settlement & Inventory Guard',
       badge: 'POSTGRES / MONGO',
-      details: 'Dual payment gateway settlement (Stripe/Razorpay) with inventory verification.',
-      codeSnippet: `// bogEcom Transactional Order Settlement
+      details: 'Dual payment webhook confirmation with pessimistic inventory lock to prevent stock race conditions.',
+      metric: '+40% DB THROUGHPUT',
+      codeSnippet: `// bogEcom Transactional Order Settlement Engine
 export async function settleOrder(orderPayload) {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -563,50 +530,40 @@ export async function settleOrder(orderPayload) {
     }
   ];
 
-  get currentStep(): ArchitectureStep {
-    return this.steps[this.activeStepIndex()];
+  readonly activePhaseIndex = computed<number>(() => {
+    const p = this.scrollProgress();
+    if (p < 0.33) return 0;
+    if (p < 0.66) return 1;
+    return 2;
+  });
+
+  readonly currentStep = computed<ArchitectureStep>(() => {
+    return this.steps[this.activePhaseIndex()];
+  });
+
+  readonly canvasTransform = computed<string>(() => {
+    const p = this.scrollProgress();
+    const scale = 1 + (p * 0.035);
+    return `scale(${scale.toFixed(3)})`;
+  });
+
+  @HostListener('window:scroll')
+  onScroll(): void {
+    if (!isPlatformBrowser(this.platformId) || !this.trackRef) return;
+    const rect = this.trackRef.nativeElement.getBoundingClientRect();
+    const totalScrollable = rect.height - window.innerHeight;
+    const currentScrolled = -rect.top;
+    
+    // Normalized 0.0 -> 1.0 progress strictly within this 250vh stage
+    const progress = Math.max(0, Math.min(1, currentScrolled / Math.max(1, totalScrollable)));
+    this.scrollProgress.set(progress);
   }
 
-  selectStep(index: number): void {
-    this.activeStepIndex.set(index);
-  }
-
-  triggerSimulation(): void {
-    if (this.isSimulating()) return;
-    this.isSimulating.set(true);
-
-    let current = 0;
-    this.simulatedStep.set(0);
-    this.activeStepIndex.set(0);
-
-    const interval = setInterval(() => {
-      current++;
-      if (current < this.steps.length) {
-        this.simulatedStep.set(current);
-        this.activeStepIndex.set(current);
-      } else {
-        clearInterval(interval);
-        setTimeout(() => {
-          this.simulatedStep.set(-1);
-          this.isSimulating.set(false);
-        }, 800);
-      }
-    }, 650);
-  }
-
-  onMouseMove(e: MouseEvent): void {
-    if (!isPlatformBrowser(this.platformId) || window.innerWidth < 768) return;
-    if (!this.showcaseCardRef) return;
-    const rect = this.showcaseCardRef.nativeElement.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    this.showcaseCardRef.nativeElement.style.setProperty('--mouse-x', `${x}px`);
-    this.showcaseCardRef.nativeElement.style.setProperty('--mouse-y', `${y}px`);
-  }
-
-  onMouseLeave(): void {
-    if (!this.showcaseCardRef) return;
-    this.showcaseCardRef.nativeElement.style.removeProperty('--mouse-x');
-    this.showcaseCardRef.nativeElement.style.removeProperty('--mouse-y');
+  scrollToPhase(index: number): void {
+    if (!isPlatformBrowser(this.platformId) || !this.trackRef) return;
+    const rect = this.trackRef.nativeElement.getBoundingClientRect();
+    const trackTop = window.scrollY + rect.top;
+    const targetScrollY = trackTop + (index * 0.35 * (rect.height - window.innerHeight));
+    window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
   }
 }

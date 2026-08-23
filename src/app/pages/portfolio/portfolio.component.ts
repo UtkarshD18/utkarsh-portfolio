@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { NavigationComponent } from '../../components/navigation/navigation.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ActivityStatsComponent } from '../../components/activity-stats/activity-stats.component';
-import { BogecomShowcaseComponent } from '../../components/bogecom-showcase/bogecom-showcase.component';
 
 interface ProjectPreview {
   number: string;
@@ -27,14 +26,7 @@ interface BuildLogItem {
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    NavigationComponent,
-    FooterComponent,
-    ActivityStatsComponent,
-    BogecomShowcaseComponent
-  ],
+  imports: [CommonModule, RouterModule, NavigationComponent, FooterComponent, ActivityStatsComponent],
   template: `
     <div class="page-viewport">
       <app-navigation></app-navigation>
@@ -233,10 +225,7 @@ interface BuildLogItem {
         </div>
       </section>
 
-      <!-- 4. Architectural Spotlight: BogEcom High-Concurrency Platform -->
-      <app-bogecom-showcase></app-bogecom-showcase>
-
-      <!-- 5. Engineering Build Log (Chronological Changelog) -->
+      <!-- 4. Engineering Build Log (Chronological Changelog) -->
       <section class="buildlog-section">
         <div class="content-container">
           <div class="section-top">
