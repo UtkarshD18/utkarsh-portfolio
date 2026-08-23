@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { NavigationComponent } from '../../components/navigation/navigation.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ActivityStatsComponent } from '../../components/activity-stats/activity-stats.component';
+import { StackingShowcaseComponent } from '../../components/stacking-showcase/stacking-showcase.component';
 
 interface ProjectPreview {
   number: string;
@@ -26,7 +27,14 @@ interface BuildLogItem {
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavigationComponent, FooterComponent, ActivityStatsComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NavigationComponent,
+    FooterComponent,
+    ActivityStatsComponent,
+    StackingShowcaseComponent
+  ],
   template: `
     <div class="page-viewport">
       <app-navigation></app-navigation>
@@ -225,7 +233,10 @@ interface BuildLogItem {
         </div>
       </section>
 
-      <!-- 4. Engineering Build Log (Chronological Changelog) -->
+      <!-- 4. Architectural Systems Deck (Physical Card Stacking Physics) -->
+      <app-stacking-showcase></app-stacking-showcase>
+
+      <!-- 5. Engineering Build Log (Chronological Changelog) -->
       <section class="buildlog-section">
         <div class="content-container">
           <div class="section-top">
