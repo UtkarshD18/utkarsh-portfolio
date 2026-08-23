@@ -5,6 +5,7 @@ import { NavigationComponent } from '../../components/navigation/navigation.comp
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ActivityStatsComponent } from '../../components/activity-stats/activity-stats.component';
 import { StackingShowcaseComponent } from '../../components/stacking-showcase/stacking-showcase.component';
+import { HowIBuildComponent } from '../../components/how-i-build/how-i-build.component';
 
 interface ProjectPreview {
   number: string;
@@ -33,7 +34,8 @@ interface BuildLogItem {
     NavigationComponent,
     FooterComponent,
     ActivityStatsComponent,
-    StackingShowcaseComponent
+    StackingShowcaseComponent,
+    HowIBuildComponent
   ],
   template: `
     <div class="page-viewport">
@@ -120,7 +122,10 @@ interface BuildLogItem {
         </div>
       </main>
 
-      <!-- 2. Currently Building & Exploring (Technical Trajectory) -->
+      <!-- 2. Sticky 4-Step Methodology (portfolio-scroll-design spec) -->
+      <app-how-i-build></app-how-i-build>
+
+      <!-- 3. Currently Building & Exploring (Technical Trajectory) -->
       <section class="trajectory-section">
         <div class="content-container">
           <div class="section-top">
