@@ -274,63 +274,7 @@ interface BuildLogItem {
         </div>
       </section>
 
-      <!-- 5. How I Think & Build -->
-      <section class="philosophy-section">
-        <div class="content-container">
-          <div class="section-top">
-            <span class="section-tag">[ 04 · ENGINEERING PRINCIPLES ]</span>
-            <h2 class="section-title">How I Think &amp; Build</h2>
-            <p class="section-desc">
-              The mental models that guide how I architect, debug, and scale systems.
-            </p>
-          </div>
-
-          <div class="principles-grid">
-            <div 
-              class="principle-card spotlight-card"
-              #prCard1
-              (mousemove)="onMouseMove($event, prCard1)"
-              (mouseleave)="onMouseLeave(prCard1)"
-            >
-              <span class="principle-num">01</span>
-              <h4>Understand the Problem First</h4>
-              <p>I don't start by choosing a framework. I first identify constraints, data boundaries, throughput requirements, and expected failure modes.</p>
-            </div>
-            <div 
-              class="principle-card spotlight-card"
-              #prCard2
-              (mousemove)="onMouseMove($event, prCard2)"
-              (mouseleave)="onMouseLeave(prCard2)"
-            >
-              <span class="principle-num">02</span>
-              <h4>Design Boundaries &amp; Data Flow</h4>
-              <p>Clean separation between ingestion, business controllers, and storage. Explicit schemas and deterministic fallback bridges precede implementation.</p>
-            </div>
-            <div 
-              class="principle-card spotlight-card"
-              #prCard3
-              (mousemove)="onMouseMove($event, prCard3)"
-              (mouseleave)="onMouseLeave(prCard3)"
-            >
-              <span class="principle-num">03</span>
-              <h4>Build with Isolation &amp; Safety</h4>
-              <p>Thread isolation, transaction atomicity, memory limits, and idempotency to guarantee resilience against timeouts and unexpected payloads.</p>
-            </div>
-            <div 
-              class="principle-card spotlight-card"
-              #prCard4
-              (mousemove)="onMouseMove($event, prCard4)"
-              (mouseleave)="onMouseLeave(prCard4)"
-            >
-              <span class="principle-num">04</span>
-              <h4>Measure Real Numbers</h4>
-              <p>Automated test suites, memory profiling, token reduction benchmarks, and latency logs determine optimization — not marketing assumptions.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 6. Live Activity & GitHub Stats -->
+      <!-- 5. Live Activity & GitHub Stats -->
       <div class="content-container">
         <app-activity-stats></app-activity-stats>
       </div>
@@ -347,6 +291,22 @@ interface BuildLogItem {
     }
     .hero-stage {
       padding: 6.5rem 0 5rem;
+      background: #080a0f;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .trajectory-section {
+      padding: 6rem 0;
+      background: #0a0d13;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .featured-section {
+      padding: 6rem 0;
+      background: #0d1118;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .buildlog-section {
+      padding: 6rem 0;
+      background: #080a0e;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
     .hero-container, .content-container {
@@ -743,22 +703,22 @@ export class PortfolioComponent {
     },
     {
       number: '03',
-      title: 'BogEcom High-Concurrency Platform',
-      category: 'ENTERPRISE JAVA & BACKEND',
-      description: 'Clean Architecture e-commerce backend built with Java 21, Spring Boot 3, and PostgreSQL, featuring transactional order isolation and JWT security.',
-      tags: ['Java 21', 'Spring Boot 3', 'PostgreSQL', 'Hibernate', 'JWT RBAC'],
-      repoUrl: 'https://github.com/UtkarshD18/BogEcom',
+      title: 'BogEcom Production Commerce Platform',
+      category: 'ENTERPRISE NEXT.JS 14 & MERN',
+      description: 'Production e-commerce platform with dual Bearer/httpOnly JWT authorization, Role-Based Access Control (RBAC), and automated GitHub Actions CI/CD.',
+      tags: ['Next.js 14', 'Node.js', 'PostgreSQL', 'MongoDB', 'JWT RBAC'],
+      repoUrl: 'https://github.com/UtkarshD18/bogEcom',
       routeLink: '/work#bogecom',
       status: 'VERIFIED REPO'
     },
     {
       number: '04',
-      title: 'HobbyFi Vendor AI Copilot',
-      category: 'SEMANTIC SEARCH & RAG',
-      description: 'Real-time vendor copilot for catalog management with natural language querying, SQL generation with strict schema boundary validation, and pgvector cosine search.',
-      tags: ['Python', 'FastAPI', 'pgvector', 'PostgreSQL', 'LangChain'],
-      repoUrl: 'https://github.com/UtkarshD18/HobbyFi',
-      routeLink: '/work#hobbyfi',
+      title: 'Two-Way Sync: Airtable ↔ Trello',
+      category: 'PYTHON / REST APIS / AUTOMATION',
+      description: 'Automated synchronization engine eliminating 80–90% of manual updates by auto-creating and updating Trello tasks from Airtable leads via REST APIs with idempotent verification.',
+      tags: ['Python', 'REST APIs', 'Airtable API', 'Trello API', 'Idempotency'],
+      repoUrl: 'https://github.com/UtkarshD18',
+      routeLink: '/work#airtable-trello',
       status: 'VERIFIED REPO'
     }
   ];
