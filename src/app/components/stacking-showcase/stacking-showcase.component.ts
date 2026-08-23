@@ -28,20 +28,20 @@ interface StackingCard {
         <div class="deck-header">
           <div class="header-badge">
             <span class="pulse-dot"></span>
-            <span>SHOPIFY EDITIONS SPEC · PHYSICAL CARD STACKING PHYSICS</span>
+            <span>SHOPIFY EDITIONS SPEC · 3D CARD STACKING &amp; MULTI-LAYER PARALLAX</span>
           </div>
           <h2 class="header-title">Architectural Systems Deck</h2>
           <p class="header-desc">
-            Scroll down to watch independent system architecture cards pin, scale, and stack over each other with physical depth layers.
+            Scroll down to experience multi-component 3D perspective stacking. As cards pin, they rotate slightly in 3D depth, scale down, and stack behind with independent child layer motion.
           </p>
         </div>
 
-        <!-- The Physical Stacking Deck Track -->
+        <!-- The Physical 3D Stacking Deck Track -->
         <div class="cards-stack-track">
           @for (card of cards; track card.number; let i = $index) {
             <div 
               class="stacked-system-card spotlight-card"
-              [style.top.px]="90 + (i * 24)"
+              [style.top.px]="85 + (i * 22)"
               [style.z-index]="i + 1"
               #cardEl
             >
@@ -57,7 +57,7 @@ interface StackingCard {
                 </a>
               </div>
 
-              <!-- Main Card Body Grid -->
+              <!-- Main Card Body Grid (Independent Multi-Component Motion) -->
               <div class="card-main-grid">
                 
                 <!-- Left Details & Metrics Column -->
@@ -66,7 +66,7 @@ interface StackingCard {
                   <p class="card-subtitle">{{ card.subtitle }}</p>
                   <p class="card-overview">{{ card.overview }}</p>
 
-                  <!-- Real Metrics Grid -->
+                  <!-- Real Metrics Grid with Independent Hover Physics -->
                   <div class="card-metrics-grid">
                     @for (m of card.metrics; track m.label) {
                       <div class="metric-box">
@@ -84,7 +84,7 @@ interface StackingCard {
                   </div>
                 </div>
 
-                <!-- Right Interactive Architecture & Code Column -->
+                <!-- Right Interactive Architecture & Code Column (Parallax Layer) -->
                 <div class="col-right">
                   <div class="architecture-flow-box">
                     <div class="flow-header">
@@ -107,7 +107,7 @@ interface StackingCard {
 
               </div>
 
-              <!-- Card Bottom Action -->
+              <!-- Card Bottom Bar -->
               <div class="card-bottom-bar">
                 <span class="stack-indicator">Layer 0{{ i + 1 }} of 03 · Scroll to stack next system card ↓</span>
                 <a [routerLink]="card.routeLink" class="deepdive-link magnetic-btn">
@@ -124,7 +124,7 @@ interface StackingCard {
   `,
   styles: [`
     .stacking-deck-section {
-      padding: 6rem 0 10rem;
+      padding: 6rem 0 12rem;
       position: relative;
       background: transparent;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -179,33 +179,36 @@ interface StackingCard {
     .header-desc {
       font-size: 1.05rem;
       color: #8e8e9f;
-      max-width: 700px;
+      max-width: 720px;
       line-height: 1.6;
     }
 
-    /* Stacking Cards Track */
+    /* Stacking Cards Track with 3D Perspective Context */
     .cards-stack-track {
       display: flex;
       flex-direction: column;
-      gap: 7rem;
+      gap: 8rem;
       position: relative;
+      perspective: 1400px;
+      perspective-origin: 50% 20%;
     }
 
-    /* Individual Sticky Stacking Card */
+    /* Individual Sticky Stacking Card with 3D Physics */
     .stacked-system-card {
       position: sticky;
-      background: rgba(14, 14, 20, 0.94);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(13, 13, 18, 0.96);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.11);
       border-radius: 24px;
       padding: 2.5rem 3rem;
       display: flex;
       flex-direction: column;
       gap: 1.8rem;
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8), 0 30px 80px rgba(0, 0, 0, 0.9);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
-      will-change: transform;
+      box-shadow: 0 -15px 45px rgba(0, 0, 0, 0.85), 0 35px 85px rgba(0, 0, 0, 0.95);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease, box-shadow 0.35s ease;
+      will-change: transform, filter;
+      transform-origin: center top;
     }
 
     .card-top-bar {
@@ -301,6 +304,12 @@ interface StackingCard {
       display: flex;
       flex-direction: column;
       gap: 0.2rem;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .metric-box:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.15);
     }
 
     .metric-val {
@@ -340,10 +349,11 @@ interface StackingCard {
     }
 
     .architecture-flow-box {
-      background: #060609;
+      background: #050508;
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 14px;
       padding: 1.2rem;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
     }
 
     .flow-header {
@@ -372,7 +382,7 @@ interface StackingCard {
     }
 
     .code-preview-box {
-      background: #060609;
+      background: #050508;
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 14px;
       overflow: hidden;
@@ -449,7 +459,7 @@ interface StackingCard {
         padding: 2rem;
       }
       .cards-stack-track {
-        gap: 4rem;
+        gap: 5rem;
       }
     }
 
@@ -590,9 +600,9 @@ export async function pollDaemonTasks() {
     cardsArray.forEach((cardRef, index) => {
       const el = cardRef.nativeElement;
       const rect = el.getBoundingClientRect();
-      const targetTop = 90 + (index * 24);
+      const targetTop = 85 + (index * 22);
 
-      // Check if this card is currently pinned at targetTop
+      // Check if this card is pinned at targetTop
       if (rect.top <= targetTop + 5) {
         // Find if subsequent card is overlapping it
         const nextCard = cardsArray[index + 1];
@@ -601,14 +611,15 @@ export async function pollDaemonTasks() {
           const overlap = Math.max(0, (targetTop + el.offsetHeight) - nextRect.top);
           const progress = Math.min(1, overlap / el.offsetHeight);
           
-          // Apply physical scale reduction and opacity dimming on stacked cards
-          const scale = 1 - (progress * 0.05);
-          const brightness = 1 - (progress * 0.2);
-          el.style.transform = `scale(${scale.toFixed(3)})`;
+          // Physical 3D tilt, scale reduction and depth dimming
+          const scale = 1 - (progress * 0.055);
+          const rotateX = progress * -2.5; // 3D backward tilt
+          const brightness = 1 - (progress * 0.22);
+          el.style.transform = `perspective(1400px) rotateX(${rotateX.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
           el.style.filter = `brightness(${brightness.toFixed(2)})`;
         }
       } else {
-        el.style.transform = 'scale(1)';
+        el.style.transform = 'perspective(1400px) rotateX(0deg) scale(1)';
         el.style.filter = 'brightness(1)';
       }
     });
