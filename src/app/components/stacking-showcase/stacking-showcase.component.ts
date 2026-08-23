@@ -14,6 +14,7 @@ interface StackingCard {
   routeLink: string;
   codeSnippet: string;
   architectureFlow: string;
+  activeTab?: string;
 }
 
 @Component({
@@ -21,22 +22,30 @@ interface StackingCard {
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <section class="stacking-deck-section">
+    <section class="stacking-deck-section" #sectionRef>
+      
+      <!-- Layer 1: Background Parallax Coordinate Lattice (0.20x velocity) -->
+      <div 
+        class="parallax-grid-bg"
+        [style.transform]="'translateY(' + (scrollYOffset() * 0.18) + 'px)'"
+        aria-hidden="true"
+      ></div>
+
       <div class="deck-container">
         
-        <!-- Section Top Header -->
+        <!-- Layer 3: Editorial Typography Anchor (1.00x velocity) -->
         <div class="deck-header">
           <div class="header-badge">
             <span class="pulse-dot"></span>
-            <span>SHOPIFY EDITIONS SPEC · 3D CARD STACKING &amp; MULTI-LAYER PARALLAX</span>
+            <span>SHOPIFY EDITIONS CHOREOGRAPHY · 5-LAYER STACKING PHYSICS</span>
           </div>
           <h2 class="header-title">Architectural Systems Deck</h2>
           <p class="header-desc">
-            Scroll down to experience multi-component 3D perspective stacking. As cards pin, they rotate slightly in 3D depth, scale down, and stack behind with independent child layer motion.
+            Independent layered scroll stage driving 3D card deck compression, background coordinate parallax (0.20x), and floating interactive code inspectors (1.35x).
           </p>
         </div>
 
-        <!-- The Physical 3D Stacking Deck Track -->
+        <!-- Layer 4: 3D Stacking Deck Track (perspective: 1400px) -->
         <div class="cards-stack-track">
           @for (card of cards; track card.number; let i = $index) {
             <div 
@@ -46,7 +55,7 @@ interface StackingCard {
               #cardEl
             >
               
-              <!-- Card Header Bar -->
+              <!-- Card Top Bar -->
               <div class="card-top-bar">
                 <div class="top-meta">
                   <span class="card-num">{{ card.number }}</span>
@@ -57,16 +66,16 @@ interface StackingCard {
                 </a>
               </div>
 
-              <!-- Main Card Body Grid (Independent Multi-Component Motion) -->
+              <!-- Main Card Body Grid -->
               <div class="card-main-grid">
                 
-                <!-- Left Details & Metrics Column -->
+                <!-- Left Column (Overview & Real Metrics) -->
                 <div class="col-left">
                   <h3 class="card-title">{{ card.title }}</h3>
                   <p class="card-subtitle">{{ card.subtitle }}</p>
                   <p class="card-overview">{{ card.overview }}</p>
 
-                  <!-- Real Metrics Grid with Independent Hover Physics -->
+                  <!-- Metric Badges with Spring Physics -->
                   <div class="card-metrics-grid">
                     @for (m of card.metrics; track m.label) {
                       <div class="metric-box">
@@ -84,8 +93,13 @@ interface StackingCard {
                   </div>
                 </div>
 
-                <!-- Right Interactive Architecture & Code Column (Parallax Layer) -->
-                <div class="col-right">
+                <!-- Right Column: Layer 5 Floating UI Props (1.35x Velocity Parallax) -->
+                <div 
+                  class="col-right floating-ui-prop"
+                  [style.transform]="'translateY(' + getPropParallax(i) + 'px)'"
+                >
+                  
+                  <!-- Architecture Topology Box -->
                   <div class="architecture-flow-box">
                     <div class="flow-header">
                       <span class="flow-dot"></span>
@@ -94,15 +108,20 @@ interface StackingCard {
                     <pre class="flow-text"><code>{{ card.architectureFlow }}</code></pre>
                   </div>
 
+                  <!-- Live Code Terminal Preview -->
                   <div class="code-preview-box">
                     <div class="code-top">
-                      <span class="dot-icon red"></span>
-                      <span class="dot-icon yellow"></span>
-                      <span class="dot-icon green"></span>
+                      <div class="terminal-dots">
+                        <span class="dot-icon red"></span>
+                        <span class="dot-icon yellow"></span>
+                        <span class="dot-icon green"></span>
+                      </div>
                       <span class="file-name">subsystem/{{ card.title.toLowerCase().split(' ')[0] }}_engine.js</span>
+                      <span class="live-pill">● 1.35x PARALLAX</span>
                     </div>
                     <pre class="code-view"><code>{{ card.codeSnippet }}</code></pre>
                   </div>
+
                 </div>
 
               </div>
@@ -128,9 +147,25 @@ interface StackingCard {
       position: relative;
       background: transparent;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    /* Layer 1: Background Parallax Coordinate Lattice */
+    .parallax-grid-bg {
+      position: absolute;
+      inset: -20% -10%;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+      background-size: 72px 72px;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform;
     }
 
     .deck-container {
+      position: relative;
+      z-index: 1;
       max-width: 1240px;
       margin: 0 auto;
       padding: 0 2rem;
@@ -193,7 +228,7 @@ interface StackingCard {
       perspective-origin: 50% 20%;
     }
 
-    /* Individual Sticky Stacking Card with 3D Physics */
+    /* Individual Sticky Stacking Card */
     .stacked-system-card {
       position: sticky;
       background: rgba(13, 13, 18, 0.96);
@@ -341,11 +376,13 @@ interface StackingCard {
       color: #cbd5e1;
     }
 
-    /* Right Column Architecture Flow & Code */
+    /* Right Column: Layer 5 Floating UI Props (1.35x Velocity Parallax) */
     .col-right {
       display: flex;
       flex-direction: column;
       gap: 1.2rem;
+      will-change: transform;
+      transition: transform 0.15s ease-out;
     }
 
     .architecture-flow-box {
@@ -391,10 +428,16 @@ interface StackingCard {
     .code-top {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      justify-content: space-between;
       padding: 0.6rem 1rem;
       background: rgba(255, 255, 255, 0.02);
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .terminal-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
     }
 
     .dot-icon {
@@ -410,7 +453,15 @@ interface StackingCard {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
       color: #8e8e9f;
-      margin-left: 0.4rem;
+    }
+
+    .live-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
     }
 
     .code-view {
@@ -481,6 +532,8 @@ interface StackingCard {
 export class StackingShowcaseComponent implements AfterViewInit {
   private readonly platformId = inject(PLATFORM_ID);
   @ViewChildren('cardEl') cardElements?: QueryList<ElementRef<HTMLElement>>;
+
+  readonly scrollYOffset = signal<number>(0);
 
   readonly cards: StackingCard[] = [
     {
@@ -589,8 +642,15 @@ export async function pollDaemonTasks() {
   @HostListener('window:scroll')
   onScroll(): void {
     if (isPlatformBrowser(this.platformId)) {
+      this.scrollYOffset.set(window.scrollY);
       this.updateCardTransforms();
     }
+  }
+
+  getPropParallax(cardIndex: number): number {
+    // 1.35x foreground offset relative to scroll position
+    const baseOffset = (this.scrollYOffset() * 0.035) % 30;
+    return (cardIndex % 2 === 0 ? baseOffset : -baseOffset);
   }
 
   private updateCardTransforms(): void {
