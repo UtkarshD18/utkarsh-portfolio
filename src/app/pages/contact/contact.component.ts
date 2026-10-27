@@ -432,12 +432,13 @@ export class ContactComponent {
           _template: 'table', _honey: this.website, _url: window.location.href })
       });
       const result = await response.json();
+      const serviceMessage = String(result.message ?? '');
+      if (/activat|confirm.*email/i.test(serviceMessage)) {
+        this.submissionError.set('Check your inbox for the FormSubmit activation link to enable email delivery. After activating, try sending your message again.');
+        return;
+      }
       if (!response.ok || !(result.success === true || result.success === 'true')) {
         throw new Error('The email service could not accept this message. Please try again or email me directly.');
-      }
-      if (/activat|confirm.*email/i.test(String(result.message ?? ''))) {
-        this.submissionError.set('Email delivery is awaiting inbox activation by the site owner. Please use the direct email link for now.');
-        return;
       }
       this.isSubmitted.set(true);
     } catch (error) {
