@@ -1,27 +1,27 @@
 :root {
-  /* Sondaven & Dev Shouri Luxury Editorial Palette */
-  --bg-base: #060608;
-  --bg-surface: rgba(14, 14, 18, 0.75);
-  --bg-card: rgba(16, 16, 22, 0.85);
-  --bg-card-hover: rgba(24, 24, 34, 0.95);
-  
-  --text-primary: #fcfcfd;
-  --text-secondary: #9a9ab0;
-  --text-muted: #656578;
-  
-  --accent-gold: #e5e5d8;
-  --accent-blue: #3b82f6;
-  --accent-cyan: #38bdf8;
-  --accent-emerald: #10b981;
-  
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-medium: rgba(255, 255, 255, 0.16);
-  --border-highlight: rgba(255, 255, 255, 0.32);
-
+  color-scheme: light;
+  /* Three-color foundation: ivory canvas, sage surfaces, forest ink. */
+  --palette-ivory: #F7F5EE;
+  --palette-sage: #E2EBDD;
+  --palette-forest: #183E33;
+  --bg-base: var(--palette-ivory);
+  --bg-surface: var(--palette-sage);
+  --bg-card: var(--palette-sage);
+  --bg-card-hover: #D6E2D0;
+  --text-primary: var(--palette-forest);
+  --text-secondary: #4D6555;
+  --text-muted: #566A59;
+  --accent-forest: var(--palette-forest);
+  --accent-gold: var(--palette-forest);
+  --accent-blue: var(--palette-forest);
+  --accent-cyan: var(--palette-forest);
+  --accent-emerald: var(--palette-forest);
+  --border-subtle: rgba(24, 62, 51, 0.14);
+  --border-medium: rgba(24, 62, 51, 0.28);
+  --border-highlight: rgba(24, 62, 51, 0.48);
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
   --font-mono: 'JetBrains Mono', monospace;
-
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-elastic: cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -58,7 +58,7 @@ html {
 }
 
 body {
-  background-color: #08080b;
+  background-color: var(--bg-base);
   color: var(--text-primary);
   font-family: var(--font-sans);
   line-height: 1.65;
@@ -69,8 +69,8 @@ body {
 }
 
 ::selection {
-  background: rgba(59, 130, 246, 0.45);
-  color: #ffffff;
+  background: var(--accent-forest);
+  color: var(--palette-ivory);
 }
 
 /* Custom Minimal Scrollbar */
@@ -79,16 +79,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #060608;
+  background: var(--bg-base);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(24, 62, 51, 0.22);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(24, 62, 51, 0.45);
 }
 
 /* Page Viewport Base */
@@ -102,7 +102,7 @@ body {
 
 /* Disciplined Glass & Border Highlighting */
 .liquid-glass {
-  background: rgba(14, 14, 20, 0.72);
+  background: var(--bg-surface);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-subtle);
@@ -111,15 +111,15 @@ body {
 }
 
 .liquid-glass:hover {
-  background: rgba(20, 20, 28, 0.85);
+  background: var(--bg-surface);
   border-color: var(--border-medium);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(59, 130, 246, 0.08);
+  box-shadow: 0 30px 60px rgba(24, 62, 51, 0.132), 0 0 35px rgba(24, 62, 51, 0.018);
 }
 
 /* Tactile Mouse Spotlight Card */
 .spotlight-card {
   position: relative;
-  background: rgba(14, 14, 20, 0.75);
+  background: var(--bg-surface);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-subtle);
@@ -134,7 +134,7 @@ body {
   inset: 0;
   background: radial-gradient(
     550px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(255, 255, 255, 0.045),
+    rgba(24, 62, 51, 0.045),
     transparent 40%
   );
   opacity: 0;
@@ -148,8 +148,8 @@ body {
 }
 
 .spotlight-card:hover {
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.08);
+  border-color: rgba(24, 62, 51, 0.22);
+  box-shadow: 0 20px 50px rgba(24, 62, 51, 0.132), 0 0 30px rgba(24, 62, 51, 0.018);
 }
 
 /* Magnetic Button Utility */
@@ -182,7 +182,7 @@ body {
   position: sticky;
   top: 110px;
   border-radius: 24px;
-  box-shadow: 0 -15px 40px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 -15px 40px rgba(24, 62, 51, 0.160);
   transition: transform 0.5s var(--ease-spring), opacity 0.5s ease;
   will-change: transform, opacity;
 }
@@ -238,10 +238,10 @@ html, body {
   position: relative;
   overflow: hidden;
   border-radius: 14px;
-  background: #08080c;
+  background: var(--bg-base);
   cursor: crosshair;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(24, 62, 51, 0.12);
+  box-shadow: 0 25px 60px rgba(24, 62, 51, 0.154);
 }
 
 .zoom-target-layer {
@@ -262,7 +262,7 @@ html, body {
   pointer-events: none;
   background: radial-gradient(
     circle 280px at calc(var(--mouse-x, 0.5) * 100%) calc(var(--mouse-y, 0.5) * 100%),
-    rgba(255, 255, 255, 0.12) 0%,
+    rgba(24, 62, 51, 0.12) 0%,
     transparent 70%
   );
   opacity: 0;
@@ -277,11 +277,11 @@ html, body {
   position: absolute;
   top: 14px;
   right: 14px;
-  background: rgba(8, 8, 12, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--bg-surface);
+  border: 1px solid rgba(24, 62, 51, 0.2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  color: #ffffff;
+  color: var(--text-primary);
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.65rem;
   letter-spacing: 0.12em;
@@ -297,9 +297,9 @@ html, body {
 .zoom-badge .pulse {
   width: 6px;
   height: 6px;
-  background: #3b82f6;
+  background: var(--accent-forest);
   border-radius: 50%;
-  box-shadow: 0 0 8px #3b82f6;
+  box-shadow: 0 0 8px var(--accent-forest);
   animation: pulse-badge 1.8s infinite;
 }
 
@@ -307,3 +307,10 @@ html, body {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.4); opacity: 0.5; }
 }
+
+:focus-visible {
+  outline: 2px solid var(--accent-forest);
+  outline-offset: 4px;
+}
+input, textarea, select { caret-color: var(--accent-forest); }
+input::placeholder, textarea::placeholder { color: var(--text-muted); opacity: 1; }

@@ -43,3 +43,29 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 .vercel
+
+# Local workspace files (keep on disk, outside version control)
+/.local/
+/.private/
+.obsidian/
+.trash/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+# Local notes and disposable document exports; project docs stay eligible
+session_save.md
+*_session_save.md
+*.python-docx-backup.docx
+_ppt_write_test.pptx
+# Local credentials; committed examples remain eligible
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.sample
+!.env.template
+# Generated Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/

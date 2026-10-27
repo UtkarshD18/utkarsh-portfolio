@@ -146,7 +146,7 @@ interface StackingCard {
       padding: 6rem 0 12rem;
       position: relative;
       background: transparent;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
       overflow: hidden;
     }
 
@@ -155,8 +155,8 @@ interface StackingCard {
       position: absolute;
       inset: -20% -10%;
       background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+        linear-gradient(to right, rgba(24, 62, 51, 0.018) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(24, 62, 51, 0.018) 1px, transparent 1px);
       background-size: 72px 72px;
       pointer-events: none;
       z-index: 0;
@@ -179,13 +179,13 @@ interface StackingCard {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.25);
+      background: rgba(24, 62, 51, 0.1);
+      border: 1px solid rgba(24, 62, 51, 0.25);
       padding: 0.35rem 0.85rem;
       border-radius: 999px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
-      color: #93c5fd;
+      color: var(--text-primary);
       margin-bottom: 0.8rem;
     }
 
@@ -193,8 +193,8 @@ interface StackingCard {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #3b82f6;
-      box-shadow: 0 0 8px #3b82f6;
+      background: var(--accent-forest);
+      box-shadow: 0 0 8px var(--accent-forest);
       animation: pulse 2s infinite;
     }
 
@@ -206,14 +206,14 @@ interface StackingCard {
     .header-title {
       font-size: 2.6rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
       letter-spacing: -0.02em;
       margin-bottom: 0.6rem;
     }
 
     .header-desc {
       font-size: 1.05rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       max-width: 720px;
       line-height: 1.6;
     }
@@ -231,16 +231,16 @@ interface StackingCard {
     /* Individual Sticky Stacking Card */
     .stacked-system-card {
       position: sticky;
-      background: rgba(13, 13, 18, 0.96);
+      background: var(--bg-surface);
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
-      border: 1px solid rgba(255, 255, 255, 0.11);
+      border: 1px solid rgba(24, 62, 51, 0.11);
       border-radius: 24px;
       padding: 2.5rem 3rem;
       display: flex;
       flex-direction: column;
       gap: 1.8rem;
-      box-shadow: 0 -15px 45px rgba(0, 0, 0, 0.85), 0 35px 85px rgba(0, 0, 0, 0.95);
+      box-shadow: 0 -15px 45px rgba(24, 62, 51, 0.160), 0 35px 85px rgba(24, 62, 51, 0.160);
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease, box-shadow 0.35s ease;
       will-change: transform, filter;
       transform-origin: center top;
@@ -250,7 +250,7 @@ interface StackingCard {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.07);
       padding-bottom: 1.2rem;
     }
 
@@ -264,31 +264,31 @@ interface StackingCard {
       font-family: 'JetBrains Mono', monospace;
       font-size: 1.1rem;
       font-weight: 800;
-      color: #3b82f6;
+      color: var(--text-primary);
     }
 
     .card-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       letter-spacing: 0.08em;
     }
 
     .repo-pill {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(24, 62, 51, 0.05);
+      border: 1px solid rgba(24, 62, 51, 0.1);
       padding: 0.3rem 0.75rem;
       border-radius: 999px;
-      color: #93c5fd;
+      color: var(--text-primary);
       text-decoration: none;
       transition: all 0.2s ease;
     }
 
     .repo-pill:hover {
-      background: rgba(59, 130, 246, 0.15);
-      border-color: rgba(59, 130, 246, 0.4);
+      background: rgba(24, 62, 51, 0.15);
+      border-color: rgba(24, 62, 51, 0.4);
     }
 
     /* Main Card Grid */
@@ -308,19 +308,19 @@ interface StackingCard {
     .card-title {
       font-size: 2rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
       letter-spacing: -0.02em;
     }
 
     .card-subtitle {
       font-size: 0.95rem;
       font-family: 'JetBrains Mono', monospace;
-      color: #38bdf8;
+      color: var(--text-primary);
     }
 
     .card-overview {
       font-size: 0.95rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.65;
     }
 
@@ -332,8 +332,8 @@ interface StackingCard {
     }
 
     .metric-box {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(24, 62, 51, 0.03);
+      border: 1px solid rgba(24, 62, 51, 0.06);
       border-radius: 12px;
       padding: 1rem;
       display: flex;
@@ -344,19 +344,19 @@ interface StackingCard {
 
     .metric-box:hover {
       transform: translateY(-2px);
-      border-color: rgba(255, 255, 255, 0.15);
+      border-color: rgba(24, 62, 51, 0.15);
     }
 
     .metric-val {
       font-family: 'JetBrains Mono', monospace;
       font-size: 1.4rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
     }
 
     .metric-lbl {
       font-size: 0.75rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
 
     .card-pills {
@@ -369,11 +369,11 @@ interface StackingCard {
     .pill-chip {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(24, 62, 51, 0.05);
+      border: 1px solid rgba(24, 62, 51, 0.08);
       padding: 0.25rem 0.65rem;
       border-radius: 6px;
-      color: #cbd5e1;
+      color: var(--text-primary);
     }
 
     /* Right Column: Layer 5 Floating UI Props (1.35x Velocity Parallax) */
@@ -386,11 +386,11 @@ interface StackingCard {
     }
 
     .architecture-flow-box {
-      background: #050508;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--bg-base);
+      border: 1px solid rgba(24, 62, 51, 0.08);
       border-radius: 14px;
       padding: 1.2rem;
-      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+      box-shadow: inset 0 2px 10px rgba(24, 62, 51, 0.110);
     }
 
     .flow-header {
@@ -399,7 +399,7 @@ interface StackingCard {
       gap: 0.5rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
-      color: #38bdf8;
+      color: var(--text-primary);
       margin-bottom: 0.6rem;
     }
 
@@ -407,20 +407,20 @@ interface StackingCard {
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      background: #38bdf8;
+      background: var(--accent-forest);
     }
 
     .flow-text {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
-      color: #94a3b8;
+      color: var(--text-primary);
       line-height: 1.5;
       overflow-x: auto;
     }
 
     .code-preview-box {
-      background: #050508;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--bg-base);
+      border: 1px solid rgba(24, 62, 51, 0.08);
       border-radius: 14px;
       overflow: hidden;
     }
@@ -430,8 +430,8 @@ interface StackingCard {
       align-items: center;
       justify-content: space-between;
       padding: 0.6rem 1rem;
-      background: rgba(255, 255, 255, 0.02);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(24, 62, 51, 0.02);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
     }
 
     .terminal-dots {
@@ -445,21 +445,21 @@ interface StackingCard {
       height: 8px;
       border-radius: 50%;
     }
-    .dot-icon.red { background: #ef4444; }
-    .dot-icon.yellow { background: #f59e0b; }
-    .dot-icon.green { background: #10b981; }
+    .dot-icon.red { background: var(--accent-forest); }
+    .dot-icon.yellow { background: var(--accent-forest); }
+    .dot-icon.green { background: var(--accent-forest); }
 
     .file-name {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
 
     .live-pill {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.62rem;
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.1);
+      color: var(--text-primary);
+      background: rgba(24, 62, 51, 0.1);
       padding: 0.15rem 0.45rem;
       border-radius: 4px;
     }
@@ -468,7 +468,7 @@ interface StackingCard {
       padding: 1rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.74rem;
-      color: #e2e8f0;
+      color: var(--text-primary);
       line-height: 1.6;
       overflow-x: auto;
       max-height: 160px;
@@ -479,7 +479,7 @@ interface StackingCard {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      border-top: 1px solid rgba(24, 62, 51, 0.07);
       padding-top: 1.2rem;
       flex-wrap: wrap;
       gap: 1rem;
@@ -488,18 +488,18 @@ interface StackingCard {
     .stack-indicator {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
 
     .deepdive-link {
-      color: #3b82f6;
+      color: var(--text-primary);
       font-size: 0.85rem;
       font-weight: 700;
       text-decoration: none;
     }
 
     .deepdive-link:hover {
-      color: #60a5fa;
+      color: var(--text-primary);
     }
 
     @media (max-width: 1024px) {

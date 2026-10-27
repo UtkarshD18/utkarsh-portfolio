@@ -1,160 +1,90 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GithubService } from '../../core/services/github.service';
 
 @Component({
   selector: 'app-activity-stats',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="activity-section">
-      <!-- Header -->
+    <section class="activity-section" aria-labelledby="github-title">
       <div class="activity-header">
-        <span class="activity-kicker">[ 02 · VERIFIED ACTIVITY &amp; REPOSITORIES ]</span>
-        <h2 class="activity-title">Live GitHub Contributions &amp; Coding Profiles</h2>
-        <p class="activity-desc">
-          Live snapshot mapped directly from GitHub and verified DSA profiles on LeetCode &amp; Naukri Code360.
-        </p>
+        <h2 id="github-title" class="activity-title">GitHub Activity &amp; Coding Profiles</h2>
+        <p class="activity-desc">Public repositories and recent activity fetched from GitHub. Refreshes every ten minutes while this page is open.</p>
       </div>
-
       <div class="activity-grid">
-        <!-- 1. Live GitHub Contributions Card -->
-        <div class="stats-card liquid-glass">
+        <div class="stats-card liquid-glass" [attr.aria-busy]="github.loading()">
           <div class="card-top">
             <div class="card-brand">
-              <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-              </svg>
               <div>
-                <a href="https://github.com/UtkarshD18" target="_blank" class="brand-link">
-                  GitHub · UtkarshD18 ↗
-                </a>
-                <span class="user-handle">github.com/UtkarshD18</span>
+                <a href="https://github.com/UtkarshD18" target="_blank" rel="noopener noreferrer" class="brand-link">GitHub · UtkarshD18 ↗</a>
+                <span class="user-handle">Public GitHub API</span>
               </div>
             </div>
-            <a href="https://github.com/UtkarshD18?tab=repositories" target="_blank" class="total-badge">
-              11 Public Repositories
-            </a>
+            @if (github.profile(); as profile) {
+              <a href="https://github.com/UtkarshD18?tab=repositories" target="_blank" rel="noopener noreferrer" class="total-badge">{{ profile.public_repos }} Public Repositories</a>
+            }
           </div>
-
-          <!-- Live GitHub Contribution Heatmap SVG -->
-          <div class="gh-chart-container">
-            <div class="chart-scroll">
-              <img
-                src="https://ghchart.rshah.org/3b82f6/UtkarshD18"
-                alt="UtkarshD18 GitHub Contributions Graph"
-                class="gh-live-svg"
-                loading="lazy"
-              />
-            </div>
-            <span class="chart-caption">LIVE SYNCHRONIZED COMMITS VIA GITHUB GRAPHQL API</span>
+          <div class="refresh-status" aria-live="polite">
+            @if (github.loading()) { <p>Fetching GitHub data…</p> }
+            @if (github.error()) { <p role="status">{{ github.error() }} {{ github.updatedAt() ? 'Showing the last successful fetch.' : '' }}</p> }
+            @if (github.updatedAt(); as updatedAt) { <p>Last fetched {{ updatedAt | date:'medium' }}. GitHub activity may be delayed.</p> }
+            <button type="button" class="total-badge refresh-btn" (click)="github.refresh()" [disabled]="github.loading()">Refresh GitHub data</button>
+            <small>Refresh requests are limited to once per minute.</small>
           </div>
-
-          <!-- Verified Repositories Quick Links -->
           <div class="github-metrics-row">
-            <a href="https://github.com/UtkarshD18/B1G-CRM" target="_blank" class="metric-item">
-              <span class="val">B1G-CRM</span>
-              <span class="lbl">Multi-Agent CRM · 208K+ LoC</span>
-            </a>
-            <a href="https://github.com/UtkarshD18/bogEcom" target="_blank" class="metric-item">
-              <span class="val">BogEcom</span>
-              <span class="lbl">5,000+ MAU E-Commerce</span>
-            </a>
-            <a href="https://github.com/UtkarshD18/MediaForge" target="_blank" class="metric-item">
-              <span class="val">MediaForge</span>
-              <span class="lbl">FFmpeg Transcoding Daemon</span>
-            </a>
-            <a href="https://github.com/UtkarshD18/DS-visualizer" target="_blank" class="metric-item">
-              <span class="val">DS-Visualizer</span>
-              <span class="lbl">VS Code Extension API</span>
-            </a>
+            @for (repo of github.repositories(); track repo.id) {
+              <a [href]="repo.html_url" target="_blank" rel="noopener noreferrer" class="metric-item">
+                <span class="val">{{ repo.name }}</span>
+                <span class="lbl">{{ repo.description || 'View repository on GitHub' }}</span>
+                <span class="lbl">{{ repo.language || 'Repository' }} · Last pushed {{ repo.pushed_at | date:'mediumDate' }}</span>
+              </a>
+            }
+          </div>
+          <div class="recent-submissions">
+            <h3 class="sub-header">Recent public activity</h3>
+            @for (event of github.events(); track event.id) {
+              <a class="activity-event" [href]="'https://github.com/' + event.repo.name" target="_blank" rel="noopener noreferrer">
+                <span>{{ github.eventLabel(event.type) }} · {{ event.repo.name }}</span>
+                <time [attr.datetime]="event.created_at">{{ event.created_at | date:'medium' }}</time>
+              </a>
+            } @empty {
+              @if (github.updatedAt()) { <p>No recent public activity returned by GitHub.</p> }
+            }
           </div>
         </div>
-
-        <!-- 2. Coding Profiles: LeetCode & Naukri Code360 -->
         <div class="stats-card liquid-glass">
           <div class="card-top">
-            <div class="card-brand">
-              <div class="leetcode-icon">DSA</div>
-              <div>
-                <a href="https://leetcode.com/u/UtkarshD18/" target="_blank" class="brand-link">
-                  LeetCode &amp; Naukri Code360 ↗
-                </a>
-                <span class="user-handle">LeetCode · Naukri Code360</span>
-              </div>
+            <div>
+              <a href="https://leetcode.com/u/UtkarshD18/" target="_blank" rel="noopener noreferrer" class="brand-link">LeetCode ↗</a>
+              <span class="user-handle">Coding practice</span>
             </div>
-            <a href="https://leetcode.com/u/UtkarshD18/" target="_blank" class="streak-badge">
-              Verified Profiles
-            </a>
+            <span class="streak-badge">From resume · not a live counter</span>
           </div>
-
-          <!-- Problems Solved Progress Circle -->
           <div class="leetcode-breakdown">
-            <div class="solved-circle-container">
-              <div class="total-solved-num">100+</div>
-              <div class="total-solved-label">DSA Solved</div>
-            </div>
-
-            <div class="profile-details">
-              <div class="profile-row">
-                <span class="prof-name">Data Structures &amp; Algorithms:</span>
-                <span class="prof-val">100+ Problems Across Platforms</span>
-              </div>
-              <div class="profile-row">
-                <span class="prof-name">Core Focus:</span>
-                <span class="prof-val">Trees, Graphs, Dynamic Programming, Heaps</span>
-              </div>
-              <div class="profile-row">
-                <span class="prof-name">CS Fundamentals:</span>
-                <span class="prof-val">DBMS, Operating Systems, Computer Networks</span>
-              </div>
-            </div>
+            <div class="solved-circle-container"><div class="total-solved-num">100+</div><div class="total-solved-label">DSA problems</div></div>
+            <p class="activity-desc">Problems solved across LeetCode and Naukri Code360, as listed in my resume.</p>
           </div>
-
-          <!-- Algorithmic Patterns Solved -->
-          <div class="recent-submissions">
-            <span class="sub-header">PROVEN ALGORITHMIC COMPETENCIES</span>
-            <div class="sub-list">
-              <div class="sub-row">
-                <div class="sub-main">
-                  <span class="sub-title">StateGraph Multi-Agent Routing &amp; Triage</span>
-                  <span class="diff-pill pill-medium">LangGraph</span>
-                </div>
-                <span class="speed-badge">98% Accuracy</span>
-              </div>
-
-              <div class="sub-row">
-                <div class="sub-main">
-                  <span class="sub-title">pgvector Cosine Distance Search</span>
-                  <span class="diff-pill pill-hard">PostgreSQL</span>
-                </div>
-                <span class="speed-badge">Sub-Second RAG</span>
-              </div>
-
-              <div class="sub-row">
-                <div class="sub-main">
-                  <span class="sub-title">Tree-sitter AST Multi-Language Parsing</span>
-                  <span class="diff-pill pill-easy">TypeScript</span>
-                </div>
-                <span class="speed-badge">69 Test Suites</span>
-              </div>
-
-              <div class="sub-row">
-                <div class="sub-main">
-                  <span class="sub-title">Idempotent Two-Way Lead Sync Engine</span>
-                  <span class="diff-pill pill-medium">Python REST</span>
-                </div>
-                <span class="speed-badge">0 Duplicates</span>
-              </div>
-            </div>
+          <div class="profile-details">
+            <h3>Computer science foundations</h3>
+            <p class="activity-desc">Data structures and algorithms, object-oriented programming, DBMS, operating systems, computer networks, multithreading and concurrency.</p>
+            <a href="/assets/Utkarsh_Dwivedi_Resume.pdf" target="_blank" class="brand-link">View resume ↗</a>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   `,
   styles: [`
+    .refresh-status { display: flex; flex-direction: column; align-items: flex-start; gap: .65rem; color: var(--text-secondary); font-size: .8rem; }
+    .refresh-btn { cursor: pointer; }
+    .refresh-btn:disabled { opacity: .6; cursor: wait; }
+    .activity-event { display: flex; flex-direction: column; gap: .3rem; padding: .7rem 0; color: var(--text-primary); text-decoration: none; border-bottom: 1px solid var(--border-subtle); font-size: .85rem; overflow-wrap: anywhere; }
+    .activity-event time { color: var(--text-secondary); font-size: .75rem; }
+    .metric-item { min-width: 0; overflow-wrap: anywhere; }
+
     .activity-section {
       padding: 5rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
     }
     .activity-header {
       margin-bottom: 3rem;
@@ -162,7 +92,7 @@ import { CommonModule } from '@angular/common';
     .activity-kicker {
       font-family: 'JetBrains Mono', monospace;
       font-size: clamp(0.65rem, 2.5vw, 0.75rem);
-      color: #3b82f6;
+      color: var(--text-primary);
       letter-spacing: 0.12em;
       margin-bottom: 0.6rem;
       display: inline-block;
@@ -171,13 +101,13 @@ import { CommonModule } from '@angular/common';
     .activity-title {
       font-size: clamp(1.8rem, 5vw, 2.3rem);
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
       margin-bottom: 0.8rem;
       letter-spacing: -0.02em;
     }
     .activity-desc {
       font-size: 1rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       max-width: 680px;
     }
 
@@ -186,13 +116,14 @@ import { CommonModule } from '@angular/common';
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 2rem;
+      align-items: start;
     }
     .stats-card {
       border-radius: 16px;
       padding: 2.4rem;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 1.8rem;
     }
     .card-top {
@@ -210,37 +141,37 @@ import { CommonModule } from '@angular/common';
     .brand-link {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
       text-decoration: none;
       display: block;
       transition: color 0.2s ease;
     }
     .brand-link:hover {
-      color: #3b82f6;
+      color: var(--text-primary);
     }
     .user-handle {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
     .total-badge, .streak-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(24, 62, 51, 0.05);
+      border: 1px solid rgba(24, 62, 51, 0.12);
       padding: 0.35rem 0.8rem;
       border-radius: 999px;
-      color: #f5f5f7;
+      color: var(--text-primary);
       text-decoration: none;
       transition: all 0.2s ease;
     }
     .total-badge:hover, .streak-badge:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #ffffff;
+      background: rgba(24, 62, 51, 0.12);
+      color: var(--text-primary);
     }
     .streak-badge {
-      border-color: rgba(59, 130, 246, 0.4);
-      color: #3b82f6;
+      border-color: rgba(24, 62, 51, 0.4);
+      color: var(--text-primary);
     }
 
     /* Live GitHub Chart */
@@ -248,10 +179,10 @@ import { CommonModule } from '@angular/common';
       display: flex;
       flex-direction: column;
       gap: 0.8rem;
-      background: rgba(0, 0, 0, 0.35);
+      background: var(--bg-surface);
       padding: 1.2rem;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(24, 62, 51, 0.06);
     }
     .chart-scroll {
       overflow-x: auto;
@@ -267,7 +198,7 @@ import { CommonModule } from '@angular/common';
     .chart-caption {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
-      color: #5c5c6d;
+      color: var(--text-secondary);
       letter-spacing: 0.12em;
     }
 
@@ -276,7 +207,7 @@ import { CommonModule } from '@angular/common';
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid rgba(24, 62, 51, 0.08);
       padding-top: 1.4rem;
     }
     .metric-item {
@@ -286,31 +217,31 @@ import { CommonModule } from '@angular/common';
       text-decoration: none;
       padding: 0.6rem;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      background: rgba(24, 62, 51, 0.02);
+      border: 1px solid rgba(24, 62, 51, 0.04);
       transition: all 0.2s ease;
     }
     .metric-item:hover {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(24, 62, 51, 0.06);
       transform: translateY(-2px);
     }
     .metric-item .val {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.95rem;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .metric-item .lbl {
       font-size: 0.72rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
 
     /* LeetCode & Code360 */
     .leetcode-icon {
       width: 32px;
       height: 32px;
-      background: #3b82f6;
-      color: #ffffff;
+      background: var(--accent-forest);
+      color: var(--palette-ivory);
       border-radius: 6px;
       font-weight: 900;
       font-size: 0.75rem;
@@ -329,8 +260,8 @@ import { CommonModule } from '@angular/common';
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      border: 3px solid #3b82f6;
-      background: rgba(59, 130, 246, 0.05);
+      border: 3px solid var(--accent-forest);
+      background: rgba(24, 62, 51, 0.05);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -340,12 +271,12 @@ import { CommonModule } from '@angular/common';
       font-family: 'JetBrains Mono', monospace;
       font-size: 1.6rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
       line-height: 1;
     }
     .total-solved-label {
       font-size: 0.65rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       margin-top: 0.2rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -363,24 +294,24 @@ import { CommonModule } from '@angular/common';
     .prof-name {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
     .prof-val {
       font-size: 0.85rem;
-      color: #f5f5f7;
+      color: var(--text-primary);
       font-weight: 600;
     }
 
     /* Submissions / Competencies */
     .recent-submissions {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid rgba(24, 62, 51, 0.08);
       padding-top: 1.2rem;
     }
     .sub-header {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
       letter-spacing: 0.15em;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       margin-bottom: 0.8rem;
       display: block;
     }
@@ -394,7 +325,7 @@ import { CommonModule } from '@angular/common';
       justify-content: space-between;
       align-items: center;
       padding: 0.4rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.03);
     }
     .sub-main {
       display: flex;
@@ -403,7 +334,7 @@ import { CommonModule } from '@angular/common';
     }
     .sub-title {
       font-size: 0.82rem;
-      color: #f5f5f7;
+      color: var(--text-primary);
       font-weight: 500;
     }
     .diff-pill {
@@ -412,13 +343,13 @@ import { CommonModule } from '@angular/common';
       padding: 0.1rem 0.45rem;
       border-radius: 4px;
     }
-    .pill-easy { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
-    .pill-medium { background: rgba(0, 230, 118, 0.15); color: #00e676; }
-    .pill-hard { background: rgba(255, 192, 30, 0.15); color: #ffc01e; }
+    .pill-easy { background: rgba(24, 62, 51, 0.15); color: var(--text-primary); }
+    .pill-medium { background: rgba(24, 62, 51, 0.15); color: var(--text-primary); }
+    .pill-hard { background: rgba(24, 62, 51, 0.15); color: var(--text-primary); }
     .speed-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
-      color: #3b82f6;
+      color: var(--text-primary);
     }
 
     @media (max-width: 1024px) {
@@ -453,4 +384,4 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class ActivityStatsComponent {}
+export class ActivityStatsComponent { readonly github = inject(GithubService); }

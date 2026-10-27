@@ -13,11 +13,11 @@ import { RouterModule } from '@angular/router';
           <div class="footer-brand">
             <span class="brand-title">UTKARSH DWIVEDI</span>
             <p class="footer-tagline">
-              B.Tech CSE student (2022–2026) building low-latency systems, Java 21 Spring Boot backends, and multi-tenant web architectures.
+              B.Tech CSE (2022–2026). Projects in multi-agent AI, backend services, full-stack web applications, and media processing.
             </p>
             <div class="status-indicator">
               <span class="pulse-dot"></span>
-              <span>Available for Software Engineering roles &amp; distributed platforms.</span>
+              <span>Explore my work or get in touch.</span>
             </div>
           </div>
 
@@ -32,7 +32,7 @@ import { RouterModule } from '@angular/router';
             </div>
 
             <div class="nav-group">
-              <span class="group-title">VERIFIED PROFILES</span>
+            <span class="group-title">PROFILES</span>
               <a href="https://github.com/UtkarshD18" target="_blank" class="footer-link">GitHub · UtkarshD18 ↗</a>
               <a href="https://www.linkedin.com/in/utkarsh-dwivedi-01489524b/" target="_blank" class="footer-link">LinkedIn Profile ↗</a>
               <a href="https://leetcode.com/u/UtkarshD18/" target="_blank" class="footer-link">LeetCode Profile ↗</a>
@@ -43,17 +43,17 @@ import { RouterModule } from '@angular/router';
 
         <div class="footer-bottom">
           <span>© 2026 Utkarsh Dwivedi. All rights reserved.</span>
-          <span>Engineered with Angular 18, WebAssembly, and Clean Architecture.</span>
+          <span>Built with Angular.</span>
         </div>
       </div>
     </footer>
   `,
   styles: [`
     .footer {
-      background: #050507;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--bg-surface);
+      border-top: 1px solid rgba(24, 62, 51, 0.08);
       padding: 5rem 0 3rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
     .footer-container {
       max-width: 1240px;
@@ -65,7 +65,7 @@ import { RouterModule } from '@angular/router';
       justify-content: space-between;
       align-items: flex-start;
       padding-bottom: 3.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
       flex-wrap: wrap;
       gap: 3rem;
     }
@@ -79,7 +79,7 @@ import { RouterModule } from '@angular/router';
       font-size: 1.4rem;
       font-weight: 900;
       letter-spacing: 0.15em;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .footer-tagline {
       font-size: 0.95rem;
@@ -91,14 +91,14 @@ import { RouterModule } from '@angular/router';
       gap: 0.6rem;
       margin-top: 0.8rem;
       font-size: 0.8rem;
-      color: #f5f5f7;
+      color: var(--text-primary);
     }
     .pulse-dot {
       width: 6px;
       height: 6px;
-      background: #00e676;
+      background: var(--accent-forest);
       border-radius: 50%;
-      box-shadow: 0 0 8px #00e676;
+      box-shadow: 0 0 8px var(--accent-forest);
       animation: pulse 2s infinite;
     }
     @keyframes pulse {
@@ -119,24 +119,24 @@ import { RouterModule } from '@angular/router';
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
       letter-spacing: 0.15em;
-      color: #ffffff;
+      color: var(--text-primary);
       margin-bottom: 0.4rem;
     }
     .footer-link {
-      color: #8e8e9f;
+      color: var(--text-secondary);
       text-decoration: none;
       font-size: 0.85rem;
       transition: color 0.2s ease;
     }
     .footer-link:hover {
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .footer-bottom {
       display: flex;
       justify-content: space-between;
       padding-top: 2rem;
       font-size: 0.8rem;
-      color: #5c5c6d;
+      color: var(--text-secondary);
       flex-wrap: wrap;
       gap: 1rem;
     }

@@ -49,10 +49,10 @@ import { RouterModule } from '@angular/router';
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(7, 7, 9, 0.85);
+      background: var(--bg-surface);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.08);
       padding: 1.1rem 0;
       transition: all 0.3s ease;
     }
@@ -69,19 +69,19 @@ import { RouterModule } from '@angular/router';
       align-items: center;
       gap: 0.9rem;
       text-decoration: none;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .brand-mon {
       font-size: 1.1rem;
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-primary);
+      border: 1px solid rgba(24, 62, 51, 0.2);
       width: 32px;
       height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 6px;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(24, 62, 51, 0.03);
     }
     .brand-text {
       display: flex;
@@ -95,7 +95,7 @@ import { RouterModule } from '@angular/router';
     .brand-sub {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
     .nav-links {
       display: flex;
@@ -104,7 +104,7 @@ import { RouterModule } from '@angular/router';
     }
     .nav-item {
       text-decoration: none;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       font-size: 0.85rem;
       display: flex;
       align-items: center;
@@ -112,46 +112,46 @@ import { RouterModule } from '@angular/router';
       transition: color 0.2s ease;
     }
     .nav-item:hover, .nav-item.active {
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .item-index {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: #3b82f6;
+      color: var(--text-primary);
     }
     .resume-link {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8rem;
-      color: #e5e5d8;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-primary);
+      background: rgba(24, 62, 51, 0.05);
+      border: 1px solid rgba(24, 62, 51, 0.12);
       padding: 0.35rem 0.75rem;
       border-radius: 6px;
       transition: all 0.2s ease;
     }
     .resume-link:hover {
-      background: #ffffff;
-      color: #000000;
+      background: var(--bg-surface);
+      color: var(--text-primary);
     }
     .duel-link {
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.3);
+      background: rgba(24, 62, 51, 0.1);
+      border: 1px solid rgba(24, 62, 51, 0.3);
       padding: 0.35rem 0.8rem;
       border-radius: 6px;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .duel-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
-      background: #3b82f6;
-      color: #ffffff;
+      background: var(--accent-forest);
+      color: var(--palette-ivory);
       padding: 0.1rem 0.35rem;
       border-radius: 3px;
       font-weight: 700;
     }
     .contact-cta {
       text-decoration: none;
-      color: #ffffff;
+      color: var(--text-primary);
       font-size: 0.8rem;
       font-family: 'JetBrains Mono', monospace;
       padding: 0.45rem 1.1rem;
@@ -159,7 +159,7 @@ import { RouterModule } from '@angular/router';
       transition: all 0.2s ease;
     }
     .contact-cta:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(24, 62, 51, 0.15);
       transform: translateY(-1px);
     }
 

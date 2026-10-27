@@ -39,7 +39,7 @@ import { PreloaderService } from '../../core/services/preloader.service';
       </div>
 
       <div class="footer-copy">
-        © 2026 UTKARSH · LOW-LATENCY SYSTEMS · NATIONAL ATHLETE · OBSERVER
+        © 2026 UTKARSH · SOFTWARE &amp; AI PROJECTS
       </div>
     </footer>
   `,

@@ -4,8 +4,6 @@ import { RouterModule } from '@angular/router';
 import { NavigationComponent } from '../../components/navigation/navigation.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ActivityStatsComponent } from '../../components/activity-stats/activity-stats.component';
-import { StackingShowcaseComponent } from '../../components/stacking-showcase/stacking-showcase.component';
-import { HowIBuildComponent } from '../../components/how-i-build/how-i-build.component';
 
 interface ProjectPreview {
   number: string;
@@ -18,13 +16,6 @@ interface ProjectPreview {
   status: string;
 }
 
-interface BuildLogItem {
-  date: string;
-  project: string;
-  badge: string;
-  summary: string;
-}
-
 @Component({
   selector: 'app-portfolio',
   standalone: true,
@@ -33,9 +24,7 @@ interface BuildLogItem {
     RouterModule,
     NavigationComponent,
     FooterComponent,
-    ActivityStatsComponent,
-    StackingShowcaseComponent,
-    HowIBuildComponent
+    ActivityStatsComponent
   ],
   template: `
     <div class="page-viewport">
@@ -54,11 +43,11 @@ interface BuildLogItem {
           </h1>
 
           <p class="hero-tagline">
-            Building backend systems, distributed architectures &amp; AI tooling.
+            Building multi-agent AI systems, backend services &amp; web applications.
           </p>
 
           <p class="hero-subtext">
-            I like understanding how systems work under the hood — from database isolation and Linux internals to LLM orchestration, local model inference, and low-latency developer tooling.
+            My work spans LangGraph and LangChain routing, PostgreSQL pgvector document retrieval, full-stack web applications, and Python media processing tools.
           </p>
 
           <!-- Hero Action CTAs (Magnetic Hover Interaction) -->
@@ -67,7 +56,7 @@ interface BuildLogItem {
               <span>View Selected Work →</span>
             </a>
             <a href="https://github.com/UtkarshD18" target="_blank" class="secondary-btn magnetic-btn liquid-glass">
-              <span>GitHub (11 Repos) ↗</span>
+              <span>GitHub ↗</span>
             </a>
             <a href="/assets/Utkarsh_Dwivedi_Resume.pdf" target="_blank" class="secondary-btn resume-btn magnetic-btn liquid-glass">
               <span>Resume (PDF) 📄</span>
@@ -86,7 +75,7 @@ interface BuildLogItem {
               (mouseleave)="onMouseLeave(mBox1)"
             >
               <span class="metric-val">-45%</span>
-              <span class="metric-label">Prompt Token Overhead (LangGraph)</span>
+              <span class="metric-label">Synthesis Prompt Token Reduction</span>
             </div>
 
             <div 
@@ -123,16 +112,16 @@ interface BuildLogItem {
       </main>
 
       <!-- 2. Sticky 4-Step Methodology (portfolio-scroll-design spec) -->
-      <app-how-i-build></app-how-i-build>
+
 
       <!-- 3. Currently Building & Exploring (Technical Trajectory) -->
       <section class="trajectory-section">
         <div class="content-container">
           <div class="section-top">
-            <span class="section-tag">[ 01 · ACTIVE ENGINEERING TRAJECTORY ]</span>
-            <h2 class="section-title">What I’m Building &amp; Exploring</h2>
+            <span class="section-tag">[ 01 · TECHNICAL EXPERIENCE ]</span>
+            <h2 class="section-title">Areas I’ve Worked In</h2>
             <p class="section-desc">
-              Focus areas where I actively spend time designing, benchmarking, and shipping code.
+              Experience and technologies documented in my resume.
             </p>
           </div>
 
@@ -147,12 +136,12 @@ interface BuildLogItem {
                 <span class="track-index">01</span>
                 <span class="track-tag">AI ENGINEERING &amp; TOOLING</span>
               </div>
-              <h3 class="track-title">LLM Orchestration &amp; Inference</h3>
+              <h3 class="track-title">LLM Orchestration &amp; Retrieval</h3>
               <p class="track-desc">
-                StateGraph-based multi-agent routing (LangGraph/LangChain), semantic RAG with PostgreSQL pgvector cosine search, local model inference with Ollama, and deterministic fallback bridges.
+                StateGraph-based multi-agent routing with LangGraph and LangChain, PostgreSQL pgvector document search, conversation context limits, and fallback routing.
               </p>
               <div class="track-chips">
-                <span>LangGraph</span><span>pgvector</span><span>Ollama</span><span>FastAPI</span><span>Context Truncation</span>
+                <span>LangGraph</span><span>pgvector</span><span>LangChain</span><span>RAG</span><span>Context Truncation</span>
               </div>
             </div>
 
@@ -168,10 +157,10 @@ interface BuildLogItem {
               </div>
               <h3 class="track-title">Systems &amp; Data Boundaries</h3>
               <p class="track-desc">
-                Controller-service layer separation, thread-isolated background daemons, SQLite FIFO job queues, Unix domain sockets, and cryptographic JWT RBAC auth.
+                Thread-isolated background daemons, SQLite FIFO job queues, Unix domain sockets, REST APIs, JWT authentication, and role-based access control.
               </p>
               <div class="track-chips">
-                <span>Node.js</span><span>Python</span><span>Spring Boot</span><span>PostgreSQL</span><span>Linux / POSIX</span>
+                <span>Node.js</span><span>Python</span><span>SQLite</span><span>PostgreSQL</span><span>Unix Sockets</span>
               </div>
             </div>
 
@@ -187,10 +176,10 @@ interface BuildLogItem {
               </div>
               <h3 class="track-title">Algorithms &amp; Core Systems</h3>
               <p class="track-desc">
-                100+ verified DSA problems solved across LeetCode &amp; Naukri Code360. Deep focus on Tree/Graph algorithms, Dynamic Programming, DBMS ACID properties, and Operating Systems.
+                100+ DSA problems solved across LeetCode and Naukri Code360, alongside a foundation in OOP, DBMS, operating systems, and computer networks.
               </p>
               <div class="track-chips">
-                <span>C++</span><span>Java</span><span>Data Structures</span><span>DBMS</span><span>OS Internals</span>
+                <span>C++</span><span>Java</span><span>Data Structures</span><span>DBMS</span><span>Operating Systems</span>
               </div>
             </div>
           </div>
@@ -204,7 +193,7 @@ interface BuildLogItem {
             <span class="section-tag">[ 02 · PRODUCTION CODEBASES &amp; CASE STUDIES ]</span>
             <h2 class="section-title">Selected Engineering Projects</h2>
             <p class="section-desc">
-              Real codebases with architectural deep-dives, verifiable repositories, and genuine screenshots.
+              Projects and contributions documented in my resume. Explore the project summaries and available repositories.
             </p>
           </div>
 
@@ -228,8 +217,8 @@ interface BuildLogItem {
                   }
                 </div>
                 <div class="card-footer">
-                  <a [routerLink]="project.routeLink" class="card-link magnetic-btn">
-                    <span>Explore Architecture &amp; Code →</span>
+                  <a routerLink="/work" [fragment]="project.routeLink.split('#')[1]" class="card-link magnetic-btn">
+                    <span>View Project →</span>
                   </a>
                 </div>
               </div>
@@ -239,40 +228,7 @@ interface BuildLogItem {
       </section>
 
       <!-- 4. Architectural Systems Deck (Physical Card Stacking Physics) -->
-      <app-stacking-showcase></app-stacking-showcase>
 
-      <!-- 5. Engineering Build Log (Chronological Changelog) -->
-      <section class="buildlog-section">
-        <div class="content-container">
-          <div class="section-top">
-            <span class="section-tag">[ 03 · CHRONOLOGICAL BUILD LOG ]</span>
-            <h2 class="section-title">Recent Engineering Changelog</h2>
-            <p class="section-desc">
-              Concrete milestones, refactorings, and architectural improvements shipped across projects.
-            </p>
-          </div>
-
-          <div class="buildlog-timeline">
-            @for (item of buildLogs; track item.summary) {
-              <div 
-                class="log-item spotlight-card"
-                #lItem
-                (mousemove)="onMouseMove($event, lItem)"
-                (mouseleave)="onMouseLeave(lItem)"
-              >
-                <div class="log-date-col">
-                  <span class="log-date">{{ item.date }}</span>
-                  <span class="log-badge">{{ item.badge }}</span>
-                </div>
-                <div class="log-content-col">
-                  <h4 class="log-proj-title">{{ item.project }}</h4>
-                  <p class="log-summary-text">{{ item.summary }}</p>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-      </section>
 
       <!-- 5. Live Activity & GitHub Stats -->
       <div class="content-container">
@@ -287,27 +243,27 @@ interface BuildLogItem {
     .page-viewport {
       min-height: 100vh;
       background: transparent;
-      color: #f5f5f7;
+      color: var(--text-primary);
     }
     .hero-stage {
       padding: 6.5rem 0 5rem;
-      background: #080a0f;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--bg-base);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
     }
     .trajectory-section {
       padding: 6rem 0;
-      background: #0a0d13;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--bg-surface);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
     }
     .featured-section {
       padding: 6rem 0;
-      background: #0d1118;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--bg-base);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
     }
     .buildlog-section {
       padding: 6rem 0;
-      background: #080a0e;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--bg-surface);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
     }
     .hero-container, .content-container {
       max-width: 1240px;
@@ -322,15 +278,15 @@ interface BuildLogItem {
       border-radius: 999px;
       font-size: 0.75rem;
       font-family: 'JetBrains Mono', monospace;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       margin-bottom: 2rem;
     }
     .status-dot {
       width: 6px;
       height: 6px;
-      background: #00e676;
+      background: var(--accent-forest);
       border-radius: 50%;
-      box-shadow: 0 0 8px #00e676;
+      box-shadow: 0 0 8px var(--accent-forest);
       animation: pulse 2s infinite;
     }
     @keyframes pulse {
@@ -343,20 +299,20 @@ interface BuildLogItem {
       line-height: 1.08;
       letter-spacing: -0.03em;
       margin-bottom: 1rem;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .hero-tagline {
       font-size: 1.8rem;
       font-family: 'Instrument Serif', serif;
       font-style: italic;
-      color: #e5e5d8;
+      color: var(--text-primary);
       margin-bottom: 1.6rem;
       max-width: 900px;
       line-height: 1.3;
     }
     .hero-subtext {
       font-size: 1.15rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       max-width: 780px;
       line-height: 1.7;
       margin-bottom: 2.8rem;
@@ -369,32 +325,32 @@ interface BuildLogItem {
       margin-bottom: 4rem;
     }
     .primary-btn {
-      background: #ffffff;
-      color: #000000;
+      background: var(--accent-forest);
+      color: var(--palette-ivory);
       padding: 0.85rem 1.8rem;
       border-radius: 999px;
       font-size: 0.85rem;
       font-weight: 700;
       text-decoration: none;
-      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 20px rgba(24, 62, 51, 0.055);
     }
     .primary-btn:hover {
-      background: #e5e5d8;
+      background: var(--accent-forest);
     }
     .secondary-btn {
       padding: 0.85rem 1.6rem;
       border-radius: 999px;
       font-size: 0.85rem;
       font-weight: 600;
-      color: #ffffff;
+      color: var(--text-primary);
       text-decoration: none;
     }
     .secondary-btn:hover {
-      border-color: rgba(255, 255, 255, 0.3);
+      border-color: rgba(24, 62, 51, 0.3);
     }
     .resume-btn {
-      border-color: rgba(59, 130, 246, 0.4);
-      color: #93c5fd;
+      border-color: rgba(24, 62, 51, 0.4);
+      color: var(--text-primary);
     }
     .metrics-ribbon {
       display: grid;
@@ -412,11 +368,11 @@ interface BuildLogItem {
       font-size: 2rem;
       font-weight: 800;
       font-family: 'JetBrains Mono', monospace;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .metric-label {
       font-size: 0.8rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.4;
     }
 
@@ -427,7 +383,7 @@ interface BuildLogItem {
     .section-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: clamp(0.65rem, 2.5vw, 0.75rem);
-      color: #3b82f6;
+      color: var(--text-primary);
       letter-spacing: 0.12em;
       margin-bottom: 0.6rem;
       display: inline-block;
@@ -436,13 +392,13 @@ interface BuildLogItem {
     .section-title {
       font-size: 2.4rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
       margin-bottom: 0.8rem;
       letter-spacing: -0.02em;
     }
     .section-desc {
       font-size: 1rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       max-width: 680px;
       line-height: 1.6;
     }
@@ -450,7 +406,7 @@ interface BuildLogItem {
     /* Trajectory Section */
     .trajectory-section, .featured-section, .buildlog-section, .philosophy-section {
       padding: 5rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
     }
     .trajectory-grid {
       display: grid;
@@ -472,22 +428,22 @@ interface BuildLogItem {
       font-size: 0.75rem;
     }
     .track-index {
-      color: #3b82f6;
+      color: var(--text-primary);
       font-weight: 700;
     }
     .track-tag {
-      color: #8e8e9f;
+      color: var(--text-secondary);
       font-size: 0.68rem;
       letter-spacing: 0.1em;
     }
     .track-title {
       font-size: 1.35rem;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .track-desc {
       font-size: 0.9rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.6;
     }
     .track-chips {
@@ -497,13 +453,13 @@ interface BuildLogItem {
       margin-top: auto;
     }
     .track-chips span {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(24, 62, 51, 0.05);
+      border: 1px solid rgba(24, 62, 51, 0.08);
       padding: 0.3rem 0.65rem;
       border-radius: 6px;
       font-size: 0.72rem;
       font-family: 'JetBrains Mono', monospace;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
 
     /* Featured Projects */
@@ -527,27 +483,27 @@ interface BuildLogItem {
     .category-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
-      color: #3b82f6;
+      color: var(--text-primary);
       letter-spacing: 0.08em;
     }
     .status-tag {
       font-size: 0.68rem;
       font-family: 'JetBrains Mono', monospace;
-      background: rgba(0, 230, 118, 0.1);
-      color: #00e676;
-      border: 1px solid rgba(0, 230, 118, 0.2);
+      background: rgba(24, 62, 51, 0.1);
+      color: var(--text-primary);
+      border: 1px solid rgba(24, 62, 51, 0.2);
       padding: 0.2rem 0.6rem;
       border-radius: 999px;
     }
     .card-title {
       font-size: 1.5rem;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
       line-height: 1.3;
     }
     .card-desc {
       font-size: 0.92rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.6;
     }
     .card-pills {
@@ -556,13 +512,13 @@ interface BuildLogItem {
       gap: 0.5rem;
     }
     .pill {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(24, 62, 51, 0.05);
+      border: 1px solid rgba(24, 62, 51, 0.08);
       padding: 0.3rem 0.7rem;
       border-radius: 6px;
       font-size: 0.72rem;
       font-family: 'JetBrains Mono', monospace;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
     .card-footer {
       margin-top: auto;
@@ -571,14 +527,14 @@ interface BuildLogItem {
     .card-link {
       font-size: 0.85rem;
       font-weight: 600;
-      color: #3b82f6;
+      color: var(--text-primary);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
     }
     .card-link:hover {
-      color: #60a5fa;
+      color: var(--text-primary);
     }
 
     /* Build Log */
@@ -603,14 +559,14 @@ interface BuildLogItem {
     .log-date {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
     .log-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
-      background: rgba(59, 130, 246, 0.1);
-      color: #93c5fd;
-      border: 1px solid rgba(59, 130, 246, 0.2);
+      background: rgba(24, 62, 51, 0.1);
+      color: var(--text-primary);
+      border: 1px solid rgba(24, 62, 51, 0.2);
       padding: 0.2rem 0.55rem;
       border-radius: 6px;
       width: fit-content;
@@ -618,12 +574,12 @@ interface BuildLogItem {
     .log-proj-title {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
       margin-bottom: 0.3rem;
     }
     .log-summary-text {
       font-size: 0.88rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.5;
     }
 
@@ -644,16 +600,16 @@ interface BuildLogItem {
       font-family: 'JetBrains Mono', monospace;
       font-size: 1.5rem;
       font-weight: 800;
-      color: rgba(255, 255, 255, 0.15);
+      color: var(--text-secondary);
     }
     .principle-card h4 {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .principle-card p {
       font-size: 0.85rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.6;
     }
 
@@ -685,31 +641,31 @@ export class PortfolioComponent {
       number: '01',
       title: 'B1GCRM Multi-Agent Architecture',
       category: 'MULTI-AGENT AI & CRM',
-      description: 'Modernized multi-agent customer platform replacing sequential prompts with a StateGraph architecture, reducing token overhead by 45% with pgvector semantic triage.',
+      description: 'Modernized multi-agent customer platform replacing sequential prompts with a StateGraph architecture, reducing synthesis prompt token size by 45%. Includes PostgreSQL pgvector document retrieval.',
       tags: ['LangGraph', 'PostgreSQL', 'pgvector', 'React', 'Node.js'],
-      repoUrl: 'https://github.com/UtkarshD18/B1GCRM',
+      repoUrl: 'https://github.com/UtkarshD18/B1G-CRM',
       routeLink: '/work#b1gcrm',
-      status: 'VERIFIED REPO'
+      status: 'PROJECT'
     },
     {
       number: '02',
       title: 'MediaForge Video & Asset Daemon',
       category: 'SYSTEMS & BACKGROUND WORKERS',
-      description: 'High-throughput media ingestion and short-form video assembly engine running in an isolated background process under 73 MB RAM with SQLite job queues.',
-      tags: ['TypeScript', 'Node.js', 'FFmpeg', 'SQLite FIFO', 'POSIX IPC'],
+      description: 'Python media transcoding daemon with FFmpeg, SQLite FIFO job queues, Unix domain sockets, and a PySide6 interface. Peak RAM under 73 MB in the resume’s stress test.',
+      tags: ['Python', 'FFmpeg', 'SQLite', 'PySide6', 'Unix Sockets'],
       repoUrl: 'https://github.com/UtkarshD18/MediaForge',
       routeLink: '/work#mediaforge',
-      status: 'VERIFIED REPO'
+      status: 'PROJECT'
     },
     {
       number: '03',
       title: 'BogEcom Production Commerce Platform',
-      category: 'ENTERPRISE NEXT.JS 14 & MERN',
-      description: 'Production e-commerce platform with dual Bearer/httpOnly JWT authorization, Role-Based Access Control (RBAC), and automated GitHub Actions CI/CD.',
-      tags: ['Next.js 14', 'Node.js', 'PostgreSQL', 'MongoDB', 'JWT RBAC'],
+      category: 'NEXT.JS & MERN',
+      description: 'Production e-commerce platform with payment integrations, JWT authentication, role-based access control, and GitHub Actions CI/CD.',
+      tags: ['Next.js', 'Node.js', 'MongoDB', 'Firebase', 'GCP'],
       repoUrl: 'https://github.com/UtkarshD18/bogEcom',
       routeLink: '/work#bogecom',
-      status: 'VERIFIED REPO'
+      status: 'PROJECT'
     },
     {
       number: '04',
@@ -719,30 +675,10 @@ export class PortfolioComponent {
       tags: ['Python', 'REST APIs', 'Airtable API', 'Trello API', 'Idempotency'],
       repoUrl: 'https://github.com/UtkarshD18',
       routeLink: '/work#airtable-trello',
-      status: 'VERIFIED REPO'
+      status: 'PROJECT'
     }
   ];
 
-  buildLogs: BuildLogItem[] = [
-    {
-      date: 'AUG 2026',
-      project: 'MediaForge',
-      badge: 'RELEASE v0.1.0',
-      summary: 'Shipped isolated background daemon with SQLite FIFO queue and POSIX pipe messaging; capped daemon heap at 73 MB.'
-    },
-    {
-      date: 'JUL 2026',
-      project: 'B1GCRM',
-      badge: 'ARCHITECTURE REFACTOR',
-      summary: 'Re-architected prompt chaining into StateGraph-based LangGraph router with pgvector semantic similarity caching, cutting token overhead by 45%.'
-    },
-    {
-      date: 'JUN 2026',
-      project: 'BogEcom',
-      badge: 'TRANSACTION ISOLATION',
-      summary: 'Implemented ACID-compliant order booking with pessimistic row locks to eliminate race conditions under concurrent load testing.'
-    }
-  ];
 
   onMouseMove(e: MouseEvent, target: HTMLElement): void {
     if (typeof window === 'undefined' || window.innerWidth < 768) return;

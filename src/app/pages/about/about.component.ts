@@ -30,10 +30,10 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
               <span class="card-badge">ENGINEERING PERSPECTIVE</span>
               <h3>Going Deeper Than the Framework</h3>
               <p>
-                I'm a Computer Science engineer who enjoys understanding how software works under the hood. I started with full-stack web applications and gradually moved toward the deeper layers — system architecture, database optimization, Linux internals, and developer infrastructure.
+                My experience includes multi-agent AI systems, full-stack web applications, and Python systems projects. During my IT internship at Healthyonegram, I worked on B1GCRM and BogEcom.
               </p>
               <p>
-                These days, I focus on building systems around LLMs (StateGraph-based multi-agent routing, PostgreSQL pgvector RAG semantic search, and local inference tooling) where AI provides deterministic, measurable utility rather than generic chat gimmicks.
+                My resume documents StateGraph-based routing with LangGraph and LangChain, PostgreSQL pgvector retrieval, and backend engineering with Python, Node.js, and REST APIs.
               </p>
               <div class="resume-cta-row">
                 <a href="/assets/Utkarsh_Dwivedi_Resume.pdf" target="_blank" class="primary-btn">
@@ -69,11 +69,11 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
                   <span class="edu-title">Central Public Sr. Sec. School, Udaipur</span>
                   <span class="edu-date">2020</span>
                 </div>
-                <span class="edu-degree">Class X (CBSE) · 87%</span>
+                <span class="edu-degree">Class X · 87%</span>
               </div>
 
               <div class="certs-box">
-                <span class="cert-title">VERIFIED CERTIFICATIONS:</span>
+                <span class="cert-title">CERTIFICATES LISTED IN MY RESUME:</span>
                 <p>• <b>Leadership and Team Effectiveness</b> — NPTEL, Jan–Apr 2025 (ID: NPTEL25MG38S114740245)</p>
                 <p>• <b>IBM Python 101 for Data Science</b> — Jul 2025 (ID: f789e8af3738466393e53ab329fd8373)</p>
               </div>
@@ -86,7 +86,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
               <span class="section-tag">[ 02 · TECHNICAL STACK ]</span>
               <h2 class="section-title">Technologies &amp; Tools I Use</h2>
               <p class="section-desc">
-                Concrete tools and environments I have built and benchmarked production codebases with.
+                Technologies documented in my resume.
               </p>
             </div>
 
@@ -110,7 +110,6 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
                   <span class="tag">LangChain</span>
                   <span class="tag">StateGraph Routing</span>
                   <span class="tag">PostgreSQL (pgvector)</span>
-                  <span class="tag">Local Ollama Models</span>
                   <span class="tag">Semantic RAG Search</span>
                   <span class="tag">Fallback Bridges</span>
                 </div>
@@ -121,7 +120,6 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
                 <div class="skill-tags">
                   <span class="tag">Node.js</span>
                   <span class="tag">Express.js</span>
-                  <span class="tag">Spring Boot</span>
                   <span class="tag">REST APIs</span>
                   <span class="tag">Unix Domain Sockets</span>
                   <span class="tag">Thread Isolation</span>
@@ -136,10 +134,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
                   <span class="tag">PostgreSQL</span>
                   <span class="tag">MongoDB</span>
                   <span class="tag">SQLite (FIFO Queue)</span>
-                  <span class="tag">Redis</span>
-                  <span class="tag">Docker</span>
                   <span class="tag">Git &amp; GitHub</span>
-                  <span class="tag">Linux / Fedora</span>
                   <span class="tag">GitHub Actions CI/CD</span>
                 </div>
               </div>
@@ -158,7 +153,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     .page-viewport {
       min-height: 100vh;
       background: transparent;
-      color: #f5f5f7;
+      color: var(--text-primary);
     }
     .about-stage {
       padding: 5rem 0 10rem;
@@ -174,7 +169,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     .page-kicker {
       font-family: 'JetBrains Mono', monospace;
       font-size: clamp(0.65rem, 2.5vw, 0.75rem);
-      color: #3b82f6;
+      color: var(--text-primary);
       letter-spacing: 0.12em;
       margin-bottom: 0.6rem;
       display: inline-block;
@@ -184,12 +179,12 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       font-size: 3.6rem;
       font-weight: 800;
       letter-spacing: -0.03em;
-      color: #ffffff;
+      color: var(--text-primary);
       margin-bottom: 0.8rem;
     }
     .page-subtitle {
       font-size: 1.15rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       max-width: 780px;
       line-height: 1.7;
     }
@@ -211,17 +206,17 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     .card-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
-      color: #3b82f6;
+      color: var(--text-primary);
       letter-spacing: 0.12em;
     }
     .narrative-card h3 {
       font-size: 1.55rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .narrative-card p {
       font-size: 0.95rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.75;
     }
     .resume-cta-row {
@@ -231,8 +226,8 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       flex-wrap: wrap;
     }
     .primary-btn {
-      background: #ffffff;
-      color: #000000;
+      background: var(--bg-surface);
+      color: var(--text-primary);
       padding: 0.75rem 1.4rem;
       border-radius: 999px;
       font-size: 0.82rem;
@@ -241,7 +236,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       transition: all 0.2s ease;
     }
     .primary-btn:hover {
-      background: #e5e5d8;
+      background: var(--bg-surface);
       transform: translateY(-2px);
     }
     .secondary-btn {
@@ -249,7 +244,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       border-radius: 999px;
       font-size: 0.82rem;
       font-weight: 600;
-      color: #ffffff;
+      color: var(--text-primary);
       text-decoration: none;
       transition: all 0.2s ease;
     }
@@ -263,7 +258,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       flex-direction: column;
       gap: 0.2rem;
       padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.05);
     }
     .edu-header {
       display: flex;
@@ -272,17 +267,17 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     }
     .edu-title {
       font-weight: 700;
-      color: #f5f5f7;
+      color: var(--text-primary);
       font-size: 0.95rem;
     }
     .edu-date {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: #3b82f6;
+      color: var(--text-primary);
     }
     .edu-degree {
       font-size: 0.85rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
     .certs-box {
       margin-top: 0.6rem;
@@ -293,12 +288,12 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     .cert-title {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
-      color: #3b82f6;
+      color: var(--text-primary);
       letter-spacing: 0.1em;
     }
     .certs-box p {
       font-size: 0.82rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.5;
     }
 
@@ -312,7 +307,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     .section-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: clamp(0.65rem, 2.5vw, 0.75rem);
-      color: #3b82f6;
+      color: var(--text-primary);
       letter-spacing: 0.12em;
       margin-bottom: 0.6rem;
       display: inline-block;
@@ -321,12 +316,12 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     .section-title {
       font-size: 2.2rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
       margin-bottom: 0.6rem;
     }
     .section-desc {
       font-size: 0.95rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
     .skills-grid {
       display: grid;
@@ -343,7 +338,7 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
     .skill-box h4 {
       font-size: 1.15rem;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .skill-tags {
       display: flex;
@@ -351,13 +346,13 @@ import { ActivityStatsComponent } from '../../components/activity-stats/activity
       gap: 0.5rem;
     }
     .tag {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(24, 62, 51, 0.04);
+      border: 1px solid rgba(24, 62, 51, 0.08);
       padding: 0.35rem 0.8rem;
       border-radius: 6px;
       font-size: 0.78rem;
       font-family: 'JetBrains Mono', monospace;
-      color: #f5f5f7;
+      color: var(--text-primary);
     }
 
     @media (max-width: 1024px) {

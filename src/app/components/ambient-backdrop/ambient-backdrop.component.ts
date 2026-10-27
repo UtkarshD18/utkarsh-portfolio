@@ -32,7 +32,7 @@ import { CommonModule } from '@angular/common';
     .editorial-backdrop {
       position: absolute;
       inset: 0;
-      background-color: #09090c;
+      background-color: var(--bg-base);
     }
 
     /* Architectural Precision Grid */
@@ -40,8 +40,8 @@ import { CommonModule } from '@angular/common';
       position: absolute;
       inset: 0;
       background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+        linear-gradient(to right, rgba(24, 62, 51, 0.022) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(24, 62, 51, 0.022) 1px, transparent 1px);
       background-size: 64px 64px;
       mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 20%, transparent 85%);
       -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 20%, transparent 85%);
@@ -54,7 +54,7 @@ import { CommonModule } from '@angular/common';
       left: 20%;
       right: 20%;
       height: 45vh;
-      background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.04) 0%, transparent 75%);
+      background: radial-gradient(ellipse at 50% 0%, rgba(24, 62, 51, 0.04) 0%, transparent 75%);
       filter: blur(40px);
     }
 
@@ -62,7 +62,7 @@ import { CommonModule } from '@angular/common';
     .matte-vignette {
       position: absolute;
       inset: 0;
-      box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.85);
+      box-shadow: inset 0 0 120px rgba(24, 62, 51, 0.025);
     }
   `]
 })

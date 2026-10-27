@@ -27,10 +27,10 @@ import { FooterComponent } from '../../components/footer/footer.component';
               <div class="timezone-card liquid-glass">
                 <div class="tz-header">
                   <span class="tz-dot"></span>
-                  <span class="tz-title">LOCATION &amp; AVAILABILITY</span>
+                  <span class="tz-title">TIME ZONE</span>
                 </div>
-                <div class="tz-time">Jaipur / New Delhi, India · IST (UTC+5:30)</div>
-                <div class="tz-status">Available for on-site &amp; remote engineering opportunities.</div>
+                <div class="tz-time">India Standard Time · UTC+5:30</div>
+                <div class="tz-status">Use the form below for opportunities and project inquiries.</div>
               </div>
 
               <!-- Direct Contact Channels with Real Links from Resume -->
@@ -59,13 +59,18 @@ import { FooterComponent } from '../../components/footer/footer.component';
               @if (isSubmitted()) {
                 <div class="success-message">
                   <div class="success-icon">✓</div>
-                  <h3>Message Dispatched</h3>
-                  <p>Thank you for reaching out, {{ formData.name }}. I'll get back to you shortly at {{ formData.email }}.</p>
+                  <h3>Submission Accepted</h3>
+                  <p>Thank you, {{ formData.name }}. The email service accepted your message. Your reply address is {{ formData.email }}.</p>
                   <button class="reset-btn liquid-glass" (click)="resetForm()">Send Another Message</button>
                 </div>
               } @else {
-                <form (ngSubmit)="submitMessage()" class="contact-form">
+                <form #contactForm="ngForm" (ngSubmit)="contactForm.valid && submitMessage()" class="contact-form">
                   <h3 class="form-title">Send a Message</h3>
+                  <p class="delivery-note">Messages are processed by FormSubmit and addressed to utkarshdwivedi.182&#64;gmail.com.</p>
+                  <div class="honeypot" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" [(ngModel)]="website" tabindex="-1" autocomplete="off" /></div>
+                  @if (submissionError()) {
+                    <div class="form-error" role="alert"><p>{{ submissionError() }}</p><a [href]="emailFallback()">Open your email app instead ↗</a></div>
+                  }
 
                   <div class="form-group">
                     <label for="name">Your Name</label>
@@ -74,6 +79,8 @@ import { FooterComponent } from '../../components/footer/footer.component';
                       id="name"
                       [(ngModel)]="formData.name"
                       name="name"
+                      maxlength="100"
+                      autocomplete="name"
                       placeholder="e.g. Alex Morgan"
                       required
                     />
@@ -86,6 +93,9 @@ import { FooterComponent } from '../../components/footer/footer.component';
                       id="email"
                       [(ngModel)]="formData.email"
                       name="email"
+                      maxlength="254"
+                      autocomplete="email"
+                      email
                       placeholder="e.g. alex@company.com"
                       required
                     />
@@ -107,6 +117,8 @@ import { FooterComponent } from '../../components/footer/footer.component';
                       id="message"
                       [(ngModel)]="formData.message"
                       name="message"
+                      minlength="10"
+                      maxlength="6000"
                       rows="5"
                       placeholder="Share your opportunity, role requirements, or question..."
                       required
@@ -116,9 +128,9 @@ import { FooterComponent } from '../../components/footer/footer.component';
                   <button
                     type="submit"
                     class="submit-btn"
-                    [disabled]="isSubmitting() || !formData.name || !formData.email || !formData.message"
+                    [disabled]="isSubmitting() || contactForm.invalid"
                   >
-                    <span>{{ isSubmitting() ? 'Dispatching Message...' : 'Send Message →' }}</span>
+                    <span>{{ isSubmitting() ? 'Sending Message…' : 'Send Message →' }}</span>
                   </button>
                 </form>
               }
@@ -131,10 +143,15 @@ import { FooterComponent } from '../../components/footer/footer.component';
     </div>
   `,
   styles: [`
+    .delivery-note { color: var(--text-secondary); font-size: .8rem; overflow-wrap: anywhere; }
+    .honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .form-error { padding: 1rem; border: 1px solid var(--accent-forest); border-radius: 8px; color: var(--text-primary); }
+    .form-error a { color: inherit; display: inline-block; margin-top: .5rem; text-decoration: underline; }
+
     .page-viewport {
       min-height: 100vh;
       background: transparent;
-      color: #f5f5f7;
+      color: var(--text-primary);
     }
     .contact-stage {
       padding: 6rem 0 8rem;
@@ -162,7 +179,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
     .page-kicker {
       font-family: 'JetBrains Mono', monospace;
       font-size: clamp(0.65rem, 2.5vw, 0.75rem);
-      color: #3b82f6;
+      color: var(--text-primary);
       letter-spacing: 0.12em;
       margin-bottom: 0.6rem;
       display: inline-block;
@@ -172,13 +189,13 @@ import { FooterComponent } from '../../components/footer/footer.component';
       font-size: 3.2rem;
       font-weight: 800;
       letter-spacing: -0.03em;
-      color: #ffffff;
+      color: var(--text-primary);
       margin-bottom: 1.2rem;
       line-height: 1.15;
     }
     .page-desc {
       font-size: 1.05rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.75;
       margin-bottom: 2.5rem;
     }
@@ -202,24 +219,24 @@ import { FooterComponent } from '../../components/footer/footer.component';
     .tz-dot {
       width: 6px;
       height: 6px;
-      background: #00e676;
+      background: var(--accent-forest);
       border-radius: 50%;
-      box-shadow: 0 0 8px #00e676;
+      box-shadow: 0 0 8px var(--accent-forest);
     }
     .tz-title {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
-      color: #3b82f6;
+      color: var(--text-primary);
       letter-spacing: 0.1em;
     }
     .tz-time {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .tz-status {
       font-size: 0.82rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
 
     /* Direct Channels */
@@ -236,11 +253,11 @@ import { FooterComponent } from '../../components/footer/footer.component';
     .channel-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       letter-spacing: 0.12em;
     }
     .channel-val {
-      color: #f5f5f7;
+      color: var(--text-primary);
       text-decoration: none;
       font-size: 0.95rem;
       font-weight: 500;
@@ -248,7 +265,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
       word-break: break-all;
     }
     .channel-val:hover {
-      color: #3b82f6;
+      color: var(--text-primary);
     }
 
     /* Right Form Container */
@@ -259,7 +276,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
     .form-title {
       font-size: 1.6rem;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
       margin-bottom: 2rem;
     }
     .contact-form {
@@ -275,17 +292,17 @@ import { FooterComponent } from '../../components/footer/footer.component';
     .form-group label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       letter-spacing: 0.1em;
     }
     .form-group input,
     .form-group select,
     .form-group textarea {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(24, 62, 51, 0.03);
+      border: 1px solid rgba(24, 62, 51, 0.1);
       border-radius: 8px;
       padding: 0.85rem 1rem;
-      color: #ffffff;
+      color: var(--text-primary);
       font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
       font-size: 0.95rem;
       outline: none;
@@ -296,17 +313,17 @@ import { FooterComponent } from '../../components/footer/footer.component';
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
-      border-color: #3b82f6;
-      background: rgba(255, 255, 255, 0.06);
-      box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+      border-color: var(--accent-forest);
+      background: rgba(24, 62, 51, 0.06);
+      box-shadow: 0 0 15px rgba(24, 62, 51, 0.044);
     }
     .form-group select option {
-      background: #09090d;
-      color: #ffffff;
+      background: var(--bg-base);
+      color: var(--text-primary);
     }
     .submit-btn {
-      background: #ffffff;
-      color: #000000;
+      background: var(--accent-forest);
+      color: var(--palette-ivory);
       border: none;
       padding: 0.9rem;
       border-radius: 8px;
@@ -318,7 +335,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
       width: 100%;
     }
     .submit-btn:hover:not(:disabled) {
-      background: #e5e5d8;
+      background: var(--accent-forest);
       transform: translateY(-2px);
     }
     .submit-btn:disabled {
@@ -339,21 +356,21 @@ import { FooterComponent } from '../../components/footer/footer.component';
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: rgba(0, 230, 118, 0.15);
-      color: #00e676;
+      background: rgba(24, 62, 51, 0.15);
+      color: var(--text-primary);
       font-size: 1.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(0, 230, 118, 0.3);
+      border: 1px solid rgba(24, 62, 51, 0.3);
     }
     .success-message h3 {
       font-size: 1.4rem;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
     }
     .success-message p {
-      color: #8e8e9f;
+      color: var(--text-secondary);
       max-width: 420px;
       line-height: 1.65;
     }
@@ -361,7 +378,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
       margin-top: 1rem;
       padding: 0.6rem 1.4rem;
       border-radius: 999px;
-      color: #ffffff;
+      color: var(--text-primary);
       font-size: 0.8rem;
       cursor: pointer;
     }
@@ -391,44 +408,50 @@ export class ContactComponent {
   readonly isSubmitting = signal<boolean>(false);
   readonly isSubmitted = signal<boolean>(false);
 
+  readonly submissionError = signal('');
+  website = '';
+
   async submitMessage(): Promise<void> {
-    if (!this.formData.name || !this.formData.email || !this.formData.message) return;
+    if (this.isSubmitting() || this.website) return;
+    const name = this.formData.name.trim();
+    const email = this.formData.email.trim();
+    const message = this.formData.message.trim();
+    if (!name || name.length > 100 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254 || message.length < 10 || message.length > 6000) {
+      this.submissionError.set('Please enter your name, a valid email, and a message of 10–6,000 characters.');
+      return;
+    }
     this.isSubmitting.set(true);
-
+    this.submissionError.set('');
     try {
-      // Asynchronous API delivery to inbox (utkarshdwivedi.182@gmail.com)
-      const res = await fetch('https://formspree.io/f/mqaeveoq', {
+      const response = await fetch('https://formsubmit.co/ajax/utkarshdwivedi.182@gmail.com', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name: this.formData.name,
-          email: this.formData.email,
-          inquiryType: this.formData.projectType,
-          message: this.formData.message,
-          _subject: `[Portfolio Inquiry] ${this.formData.projectType.toUpperCase()} from ${this.formData.name}`
-        })
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        signal: AbortSignal.timeout(20_000),
+        body: JSON.stringify({ name, email, message, inquiryType: this.formData.projectType,
+          _subject: `[Portfolio Inquiry] ${this.formData.projectType} from ${name}`,
+          _template: 'table', _honey: this.website, _url: window.location.href })
       });
-
-      if (res.ok) {
-        this.isSubmitted.set(true);
-      } else {
-        this.fallbackMailto();
+      const result = await response.json();
+      if (!response.ok || !(result.success === true || result.success === 'true')) {
+        throw new Error('The email service could not accept this message. Please try again or email me directly.');
       }
-    } catch {
-      this.fallbackMailto();
+      if (/activat|confirm.*email/i.test(String(result.message ?? ''))) {
+        this.submissionError.set('Email delivery is awaiting inbox activation by the site owner. Please use the direct email link for now.');
+        return;
+      }
+      this.isSubmitted.set(true);
+    } catch (error) {
+      this.submissionError.set(error instanceof Error && error.message.startsWith('The email service')
+        ? error.message : 'Your message could not be confirmed. Please retry or use the direct email link.');
     } finally {
       this.isSubmitting.set(false);
     }
   }
 
-  private fallbackMailto(): void {
-    this.isSubmitted.set(true);
-    const subject = encodeURIComponent(`[Portfolio Inquiry] ${this.formData.projectType.toUpperCase()} — ${this.formData.name}`);
-    const body = encodeURIComponent(`Hi Utkarsh,\n\nSender: ${this.formData.name}\nEmail: ${this.formData.email}\nInquiry: ${this.formData.projectType}\n\nMessage:\n${this.formData.message}\n`);
-    window.location.href = `mailto:utkarshdwivedi.182@gmail.com?subject=${subject}&body=${body}`;
+  emailFallback(): string {
+    const subject = encodeURIComponent(`[Portfolio Inquiry] ${this.formData.projectType} — ${this.formData.name}`);
+    const body = encodeURIComponent(`Sender: ${this.formData.name}\nReply to: ${this.formData.email}\n\n${this.formData.message}`);
+    return `mailto:utkarshdwivedi.182@gmail.com?subject=${subject}&body=${body}`;
   }
 
   resetForm(): void {
@@ -439,5 +462,7 @@ export class ContactComponent {
       message: ''
     };
     this.isSubmitted.set(false);
+    this.submissionError.set('');
+    this.website = '';
   }
 }

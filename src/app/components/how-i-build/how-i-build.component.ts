@@ -95,7 +95,7 @@ interface BuildStep {
       padding: 8rem 0 10rem;
       position: relative;
       background: transparent;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
     }
 
     .section-container {
@@ -123,7 +123,7 @@ interface BuildStep {
       gap: 0.5rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: #38bdf8;
+      color: var(--text-primary);
       letter-spacing: 0.08em;
       font-weight: 700;
     }
@@ -132,8 +132,8 @@ interface BuildStep {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #38bdf8;
-      box-shadow: 0 0 8px #38bdf8;
+      background: var(--accent-forest);
+      box-shadow: 0 0 8px var(--accent-forest);
       animation: pulse 2s infinite;
     }
 
@@ -145,14 +145,14 @@ interface BuildStep {
     .pinned-heading {
       font-size: 2.8rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
       line-height: 1.15;
       letter-spacing: -0.02em;
     }
 
     .pinned-subtext {
       font-size: 1rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.65;
     }
 
@@ -170,34 +170,34 @@ interface BuildStep {
       padding: 0.6rem 1rem;
       border-radius: 8px;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(24, 62, 51, 0.02);
+      border: 1px solid rgba(24, 62, 51, 0.05);
       transition: all 0.25s ease;
       position: relative;
       overflow: hidden;
     }
 
     .step-nav-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(24, 62, 51, 0.05);
+      border-color: rgba(24, 62, 51, 0.12);
     }
 
     .step-nav-item.is-active {
-      background: rgba(56, 189, 248, 0.08);
-      border-color: #38bdf8;
+      background: rgba(24, 62, 51, 0.08);
+      border-color: var(--accent-forest);
     }
 
     .step-idx {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8rem;
       font-weight: 800;
-      color: #38bdf8;
+      color: var(--text-primary);
     }
 
     .step-lbl {
       font-size: 0.85rem;
       font-weight: 600;
-      color: #cbd5e1;
+      color: var(--text-primary);
     }
 
     .step-bar {
@@ -206,7 +206,7 @@ interface BuildStep {
       left: 0;
       height: 2px;
       width: 0%;
-      background: #38bdf8;
+      background: var(--accent-forest);
       transition: width 0.3s ease;
     }
 
@@ -222,20 +222,20 @@ interface BuildStep {
     }
 
     .step-card {
-      background: rgba(14, 14, 20, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--bg-surface);
+      border: 1px solid rgba(24, 62, 51, 0.08);
       border-radius: 20px;
       padding: 2.2rem;
       display: flex;
       flex-direction: column;
       gap: 1.2rem;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 20px 50px rgba(24, 62, 51, 0.132);
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .step-card.is-active {
-      border-color: #38bdf8;
-      box-shadow: 0 0 35px rgba(56, 189, 248, 0.15), 0 20px 50px rgba(0, 0, 0, 0.8);
+      border-color: var(--accent-forest);
+      box-shadow: 0 0 35px rgba(24, 62, 51, 0.033), 0 20px 50px rgba(24, 62, 51, 0.160);
       transform: translateY(-4px);
     }
 
@@ -255,24 +255,24 @@ interface BuildStep {
       font-family: 'JetBrains Mono', monospace;
       font-size: 1.1rem;
       font-weight: 800;
-      color: #38bdf8;
+      color: var(--text-primary);
     }
 
     .badge-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(24, 62, 51, 0.05);
+      border: 1px solid rgba(24, 62, 51, 0.08);
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
 
     .phase-pill {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.1);
+      color: var(--text-primary);
+      background: rgba(24, 62, 51, 0.1);
       padding: 0.2rem 0.6rem;
       border-radius: 999px;
       font-weight: 700;
@@ -281,25 +281,25 @@ interface BuildStep {
     .step-card-title {
       font-size: 1.6rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
       letter-spacing: -0.01em;
     }
 
     .step-card-tagline {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.85rem;
-      color: #38bdf8;
+      color: var(--text-primary);
     }
 
     .step-card-desc {
       font-size: 0.92rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
       line-height: 1.65;
     }
 
     .code-terminal {
-      background: #060608;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--bg-base);
+      border: 1px solid rgba(24, 62, 51, 0.08);
       border-radius: 12px;
       overflow: hidden;
       margin-top: 0.5rem;
@@ -310,8 +310,8 @@ interface BuildStep {
       align-items: center;
       gap: 0.8rem;
       padding: 0.6rem 1rem;
-      background: rgba(255, 255, 255, 0.02);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(24, 62, 51, 0.02);
+      border-bottom: 1px solid rgba(24, 62, 51, 0.06);
     }
 
     .dots {
@@ -324,21 +324,21 @@ interface BuildStep {
       height: 8px;
       border-radius: 50%;
     }
-    .d.red { background: #ef4444; }
-    .d.yellow { background: #f59e0b; }
-    .d.green { background: #10b981; }
+    .d.red { background: var(--accent-forest); }
+    .d.yellow { background: var(--accent-forest); }
+    .d.green { background: var(--accent-forest); }
 
     .term-title {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
-      color: #8e8e9f;
+      color: var(--text-secondary);
     }
 
     .term-code {
       padding: 1rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.74rem;
-      color: #e2e8f0;
+      color: var(--text-primary);
       line-height: 1.6;
       overflow-x: auto;
     }
